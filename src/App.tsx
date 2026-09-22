@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect, Suspense, lazy } from "react";
 import { PortfolioProvider, usePortfolio } from "./context/PortfolioContext";
-import { getSectionFromPath, scrollToSection, isStandaloneRoute } from "./utils/scroll";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -41,12 +40,20 @@ function ScrollToTop({ currentPath }: { currentPath: string }) {
   }, []);
 
   useLayoutEffect(() => {
-    // Only reset to top when entering standalone full-screen pages (/admin, /invoice-maker)
-    if (isStandaloneRoute(currentPath)) {
+    // Reset scroll immediately when path changes
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [currentPath]);
+
+  useEffect(() => {
+    // Secondary frame check to guarantee top scroll position after layout renders
+    const frame = requestAnimationFrame(() => {
       window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
-    }
+    });
+    return () => cancelAnimationFrame(frame);
   }, [currentPath]);
 
   return null;
@@ -58,55 +65,6 @@ function MainPortfolio() {
   const isLight = theme === "light";
 
   const isChatbotEnabled = siteSettings.enableChatbot !== false && (siteSettings.enableChatbot as any) !== "false";
-
-  // 1. Initial Page Load & Refresh: Restore section without changing the root "/" URL
-  useEffect(() => {
-    const currentPath = window.location.pathname;
-    if (!isStandaloneRoute(currentPath)) {
-      let targetSection = "hero";
-      // If user had a legacy section path like /about, normalize visible URL to "/" immediately
-      if (currentPath !== "/") {
-        const directSection = getSectionFromPath(currentPath);
-        if (directSection && directSection !== "hero") {
-          targetSection = directSection;
-        }
-        window.history.replaceState({ section: targetSection }, "", "/");
-      } else {
-        // Look up saved session storage or history state for refresh restoration
-        try {
-          const saved = sessionStorage.getItem("portfolio_active_section");
-          if (saved) targetSection = saved;
-        } catch {}
-        if (targetSection === "hero" && window.history.state?.section) {
-          targetSection = window.history.state.section;
-        }
-      }
-
-      if (targetSection && targetSection !== "hero") {
-        const timer = setTimeout(() => {
-          scrollToSection(targetSection, 0, 600, 80, "smooth");
-          window.dispatchEvent(
-            new CustomEvent("portfolio:sectionchange", { detail: { section: targetSection } })
-          );
-        }, 120);
-        return () => clearTimeout(timer);
-      }
-    }
-  }, []);
-
-  // 2. Browser Back / Forward (popstate): Smoothly restore and scroll to target section while URL stays "/"
-  useEffect(() => {
-    const handlePopState = (e: PopStateEvent) => {
-      const currentPath = window.location.pathname;
-      if (!isStandaloneRoute(currentPath)) {
-        const sectionId = e.state?.section || "hero";
-        scrollToSection(sectionId, 0, 600, 80, "smooth");
-      }
-    };
-
-    window.addEventListener("popstate", handlePopState);
-    return () => window.removeEventListener("popstate", handlePopState);
-  }, []);
 
   return (
     <div

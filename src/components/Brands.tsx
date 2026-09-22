@@ -9,7 +9,7 @@ export default function Brands() {
   const brands = portfolioData.selectedBrands;
 
   return (
-    <section id="brands" className={`py-16 relative overflow-hidden ${
+    <section className={`py-16 relative overflow-hidden ${
       isLight ? "bg-transparent border-y border-zinc-200/80" : "bg-[#030303] border-y border-white/5"
     }`}>
       {/* Absolute faint lighting */}

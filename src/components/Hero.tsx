@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { ArrowDown, Award, Zap, Paintbrush, Play } from "lucide-react";
 import { usePortfolio } from "../context/PortfolioContext";
-import { scrollToSection, navigateToSection } from "../utils/scroll";
+import { scrollToSection } from "../utils/scroll";
 import FormattedText from "./FormattedText";
 import defaultHeaderImage from "../assets/images/Rashed Header Image.webp";
 
@@ -56,9 +56,9 @@ export default function Hero() {
   const lastName = nameParts.slice(1).join(" ") || "Pervej";
 
   const primaryCtaText = info.primaryCtaText || "Explore My Work";
-  const primaryCtaLink = info.primaryCtaLink || "projects";
+  const primaryCtaLink = info.primaryCtaLink || "#projects";
   const secondaryCtaText = info.secondaryCtaText || "Get In Touch";
-  const secondaryCtaLink = info.secondaryCtaLink || "contact";
+  const secondaryCtaLink = info.secondaryCtaLink || "#contact";
 
   const experienceYears = info.experienceYears || "6+";
   const yearsLabel = info.yearsLabel || "Years Experience";
@@ -74,9 +74,10 @@ export default function Hero() {
   const bioText = info.heroBio || "Senior Visualizer with 6+ years of premium experience. Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.";
 
   const handleCtaClick = (e: React.MouseEvent<HTMLAnchorElement>, link: string) => {
-    e.preventDefault();
-    const sectionId = link.replace(/^#/, "").replace(/^\//, "") || "hero";
-    navigateToSection(sectionId);
+    if (link.startsWith("#")) {
+      e.preventDefault();
+      scrollToSection(link);
+    }
   };
 
   return (
@@ -156,7 +157,7 @@ export default function Hero() {
             className="flex flex-wrap items-center gap-4 mb-14"
           >
             <a
-              href="/"
+              href={primaryCtaLink}
               onClick={(e) => handleCtaClick(e, primaryCtaLink)}
               className="btn-keep-white group relative px-8 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs uppercase tracking-widest font-semibold transition-all duration-300 shadow-lg shadow-purple-600/25 active:scale-95 flex items-center gap-2 border border-purple-400/30 overflow-hidden cursor-pointer"
             >
@@ -165,7 +166,7 @@ export default function Hero() {
               <FormattedText content={primaryCtaText} />
             </a>
             <a
-              href="/"
+              href={secondaryCtaLink}
               onClick={(e) => handleCtaClick(e, secondaryCtaLink)}
               className={`px-8 py-4 rounded-xl text-xs uppercase tracking-widest font-semibold transition-all duration-300 active:scale-95 cursor-pointer ${
                 isLight
