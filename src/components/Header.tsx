@@ -211,13 +211,20 @@ export default function Header() {
 
       <header
         id="main-navbar"
-        className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white/75 backdrop-blur-xl transition-colors duration-200 dark:border-white/10 dark:bg-[#121614]/65"
+        className={`fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white/75 backdrop-blur-xl transition-all duration-300 dark:border-white/10 dark:bg-[#121614]/65 liquid-glass-nav ${
+          isScrolled ? "liquid-glass-nav-scrolled" : ""
+        }`}
         style={{
-          WebkitBackdropFilter: 'blur(24px)',
-          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+          backdropFilter: 'blur(24px) saturate(180%)',
+          WebkitTransform: 'translateZ(0)',
+          transform: 'translateZ(0)',
+          isolation: 'isolate',
         }}
       >
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className={`max-w-7xl mx-auto px-6 transition-all duration-300 flex items-center justify-between ${
+          isScrolled ? "py-3.5" : "py-4.5"
+        }`}>
           {/* Logo */}
           <a
             id="navbar-logo-link"
