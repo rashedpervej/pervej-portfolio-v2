@@ -446,8 +446,11 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           }
           break;
         case "educationCertifications":
-          if (Array.isArray(content) && content.length > 0) {
+        case "education_certifications":
+          if (Array.isArray(content)) {
             resolvedData.educationCertifications = content;
+          } else if (content && Array.isArray(content.items)) {
+            resolvedData.educationCertifications = content.items;
           }
           break;
         default:
@@ -466,7 +469,6 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   // Helper: check section visibility
   const isSectionVisible = useCallback((key: string): boolean => {
-    if (key === "educationCertifications" || key === "education_certifications") return false;
     const section = sections.find((s) => s.key === key);
     if (!section) return true;
     return section.is_visible === true || (section.is_visible as any) === "true";

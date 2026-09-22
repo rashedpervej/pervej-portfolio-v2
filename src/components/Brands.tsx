@@ -9,7 +9,7 @@ export default function Brands() {
   const brands = portfolioData.selectedBrands;
 
   return (
-    <section id="brands" className={`py-16 relative overflow-hidden ${
+    <section id="brands" className={`py-7 sm:py-8 md:py-10 lg:py-12 relative overflow-hidden ${
       isLight ? "bg-transparent border-y border-zinc-200/80" : "bg-[#030303] border-y border-white/5"
     }`}>
       {/* Absolute faint lighting */}
@@ -24,7 +24,7 @@ export default function Brands() {
         transition={{ duration: 0.6 }}
         className="max-w-7xl mx-auto px-6 relative z-10"
       >
-        <p className={`font-mono text-[10px] uppercase tracking-[0.25em] text-center mb-8 ${
+        <p className={`font-mono text-[10px] uppercase tracking-[0.25em] text-center mb-4 sm:mb-6 ${
           isLight ? "text-zinc-500 font-semibold" : "text-zinc-500"
         }`}>
           SELECTED BRANDS & COLLABORATORS
@@ -58,7 +58,7 @@ export default function Brands() {
         </div>
 
         {/* Static Grid on Mobile, nicely structured */}
-        <div className={`grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 mt-12 pt-8 border-t ${
+        <div className={`grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 mt-8 sm:mt-10 pt-6 sm:pt-8 border-t ${
           isLight ? "border-zinc-200/80" : "border-white/5"
         }`}>
           {brands.slice(0, 11).map((brand, i) => (

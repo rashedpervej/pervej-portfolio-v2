@@ -19,7 +19,7 @@ export default function Experience() {
   };
 
   return (
-    <section id="experience" className={`py-24 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#030303]"}`}>
+    <section id="experience" className={`py-8 sm:py-10 md:py-12 lg:py-14 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#030303]"}`}>
       {/* Decorative Orb */}
       <div className={`absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full blur-[130px] pointer-events-none ${
         isLight ? "bg-purple-200/25" : "bg-purple-950/10"
@@ -32,7 +32,7 @@ export default function Experience() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col items-start mb-16 text-left"
+          className="flex flex-col items-start mb-8 sm:mb-10 lg:mb-12 text-left"
         >
           <h2 className={`font-display font-bold text-3xl sm:text-5xl tracking-tight ${isLight ? "text-zinc-950" : "text-white"}`}>
             Work Experience & <br />

@@ -222,7 +222,7 @@ export default function Header() {
           isolation: 'isolate',
         }}
       >
-        <div className={`max-w-7xl mx-auto px-6 transition-all duration-300 flex items-center justify-between ${
+        <div className={`max-w-7xl mx-auto px-4 sm:px-6 transition-all duration-300 flex items-center justify-between ${
           isScrolled ? "py-3.5" : "py-4.5"
         }`}>
           {/* Logo */}
@@ -230,10 +230,10 @@ export default function Header() {
             id="navbar-logo-link"
             href="#hero"
             onClick={(e) => handleNavClick(e, "#hero")}
-            className="flex items-center gap-2 group"
+            className="flex items-center gap-2 group shrink-0"
           >
             <span
-              className={`font-display font-extrabold text-xl tracking-tight flex items-center gap-0.5 transition-colors duration-300 ${
+              className={`font-display font-extrabold text-lg sm:text-xl tracking-tight flex items-center gap-0.5 transition-colors duration-300 ${
                 isLight ? "text-zinc-900 group-hover:text-purple-600" : "text-white"
               }`}
             >
@@ -274,18 +274,20 @@ export default function Header() {
             })}
           </nav>
 
-          {/* Action Buttons: Theme Toggle & CV Download */}
-          <div className="hidden md:flex items-center gap-3.5">
-            {/* Apple-style Liquid Glass Theme Toggle */}
-            <ThemeToggle />
+          {/* Action Controls: Theme Toggle (desktop/tablet), Download CV (all screens), Hamburger (mobile) */}
+          <div className="flex items-center gap-2 sm:gap-3.5 shrink-0">
+            {/* Apple-style Liquid Glass Theme Toggle - Desktop & Tablet only */}
+            <div className="hidden md:flex items-center">
+              <ThemeToggle />
+            </div>
 
-            {/* Download CV Button */}
+            {/* Download CV Button - Permanently visible across ALL screen sizes (Mobile, Tablet, Desktop) */}
             <button
               id="navbar-cv-download-btn"
               onClick={downloadCV}
               disabled={isDownloading}
               aria-label="Download Curriculum Vitae"
-              className={`group relative inline-flex items-center gap-2 px-4.5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 ease-out overflow-hidden active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer ${
+              className={`group relative inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4.5 py-2 sm:py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 ease-out overflow-hidden active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap shrink-0 ${
                 isLight
                   ? "bg-white/65 hover:bg-white/90 border border-white/90 hover:border-purple-400/40 text-purple-950 shadow-[0_4px_16px_rgba(100,100,160,0.08),inset_0_1px_1px_rgba(255,255,255,0.95)] hover:shadow-[0_8px_24px_rgba(168,85,247,0.18)]"
                   : "bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 hover:shadow-[0_0_15px_rgba(168,85,247,0.15)] hover:brightness-110 text-white"
@@ -294,7 +296,7 @@ export default function Header() {
               {/* Glossy Shine Sweep Overlay */}
               <span className="absolute inset-0 pointer-events-none -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12" />
 
-              <span className="relative z-10 inline-flex items-center gap-2">
+              <span className="relative z-10 inline-flex items-center gap-1.5 sm:gap-2">
                 {isDownloading ? (
                   <div className="w-3.5 h-3.5 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
                 ) : (
@@ -302,26 +304,23 @@ export default function Header() {
                     isLight ? "text-purple-600" : "text-purple-400"
                   }`} />
                 )}
-                {isDownloading ? "Downloading..." : "Download CV"}
+                <span>{isDownloading ? "Downloading..." : "Download CV"}</span>
               </span>
             </button>
-          </div>
 
-          {/* Mobile Menu Trigger & Toggle */}
-          <div className="flex md:hidden items-center gap-2">
-            <ThemeToggle compact />
+            {/* Mobile Menu Trigger Toggle - Mobile only */}
             <button
               id="navbar-mobile-menu-toggle"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={mobileMenuOpen}
-              className={`p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl transition-all duration-300 cursor-pointer ${
+              className={`md:hidden p-2 sm:p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] flex items-center justify-center rounded-xl transition-all duration-300 cursor-pointer shrink-0 ${
                 isLight
                   ? "text-zinc-700 hover:text-zinc-950 bg-white/50 border border-white/80 shadow-xs"
                   : "text-zinc-300 hover:text-white"
               }`}
             >
-              {mobileMenuOpen ? <X className="w-5.5 h-5.5" /> : <Menu className="w-5.5 h-5.5" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 sm:w-5.5 sm:h-5.5" /> : <Menu className="w-5 h-5 sm:w-5.5 sm:h-5.5" />}
             </button>
           </div>
         </div>
@@ -369,7 +368,7 @@ export default function Header() {
                   );
                 })}
 
-                {/* Mobile Bottom Bar with Theme Toggle and CV Download */}
+                {/* Mobile Bottom Bar with Theme Toggle */}
                 <div className={`pt-4 border-t flex flex-col gap-3 ${isLight ? "border-zinc-200/80" : "border-white/5"}`}>
                   <div className="flex items-center justify-between py-1">
                     <span className={`text-xs uppercase tracking-widest font-mono ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
@@ -377,28 +376,6 @@ export default function Header() {
                     </span>
                     <ThemeToggle />
                   </div>
-
-                  <button
-                    id="navbar-mobile-cv-download-btn"
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      downloadCV();
-                    }}
-                    disabled={isDownloading}
-                    className="group relative flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-500 hover:brightness-110 text-sm font-semibold text-white transition-all duration-300 ease-out overflow-hidden cursor-pointer shadow-md hover:shadow-purple-500/25 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {/* Glossy Shine Sweep Overlay */}
-                    <span className="absolute inset-0 pointer-events-none -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent -skew-x-12" />
-
-                    <span className="relative z-10 inline-flex items-center gap-2">
-                      {isDownloading ? (
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      ) : (
-                        <Download className="w-4 h-4" />
-                      )}
-                      {isDownloading ? "Downloading..." : "Download CV"}
-                    </span>
-                  </button>
                 </div>
               </div>
             </motion.div>

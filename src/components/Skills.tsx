@@ -232,7 +232,7 @@ export default function Skills() {
   };
 
   return (
-    <section ref={sectionRef} id="skills" className={`py-24 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#030303]"}`}>
+    <section ref={sectionRef} id="skills" className={`py-8 sm:py-10 md:py-12 lg:py-14 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#030303]"}`}>
       {/* Decorative Blur elements */}
       <div className={`absolute bottom-0 right-0 w-80 h-80 rounded-full blur-[130px] pointer-events-none ${
         isLight ? "bg-purple-200/25" : "bg-purple-950/10"
@@ -245,7 +245,7 @@ export default function Skills() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col items-start mb-16 text-left"
+          className="flex flex-col items-start mb-8 sm:mb-10 lg:mb-12 text-left"
         >
           <h2 className={`font-display font-bold text-3xl sm:text-5xl tracking-tight ${isLight ? "text-zinc-950" : "text-white"}`}>
             Craftsmanship & <br />

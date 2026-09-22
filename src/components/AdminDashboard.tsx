@@ -664,19 +664,30 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
               <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest px-3.5">Edit Page Sections</span>
             </div>
 
-            {["hero", "about", "experience", "projects", "skills", "services", "brands", "testimonials", "contact"].map((sec) => (
+            {[
+              { key: "hero", label: "Hero" },
+              { key: "about", label: "About" },
+              { key: "educationCertifications", label: "Education & Certs" },
+              { key: "experience", label: "Experience" },
+              { key: "projects", label: "Projects" },
+              { key: "skills", label: "Skills" },
+              { key: "services", label: "Services" },
+              { key: "brands", label: "Brands" },
+              { key: "testimonials", label: "Testimonials" },
+              { key: "contact", label: "Contact" },
+            ].map((item) => (
               <button
-                key={sec}
-                onClick={() => setActiveTab(sec)}
-                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all capitalize ${
-                  activeTab === sec
+                key={item.key}
+                onClick={() => setActiveTab(item.key)}
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+                  activeTab === item.key
                     ? "bg-[#16161a] text-purple-400 border-l-2 border-purple-500 pl-3"
                     : "text-zinc-400 hover:bg-zinc-900/60 hover:text-zinc-200"
                 }`}
               >
                 <span className="flex items-center gap-2.5">
                   <span className="w-1.5 h-1.5 bg-zinc-600 rounded-full" />
-                  {sec}
+                  {item.label}
                 </span>
                 <ChevronRight className="w-3.5 h-3.5 opacity-40" />
               </button>
@@ -978,7 +989,7 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
             </div>
           ) : (
             sections
-              .filter((s) => !["personal_info", "site_settings", "seo", "footer", "navigation", "educationCertifications", "education_certifications"].includes(s.key))
+              .filter((s) => !["personal_info", "site_settings", "seo", "footer", "navigation"].includes(s.key))
               .map((sec, idx, arr) => (
                 <div
                   key={sec.id}
@@ -989,7 +1000,9 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
                       {(idx + 1).toString().padStart(2, '0')}
                     </span>
                     <div>
-                      <h4 className="text-sm font-semibold text-white capitalize">{sec.name || sec.key}</h4>
+                      <h4 className="text-sm font-semibold text-white capitalize">
+                        {sec.name || (sec.key === "educationCertifications" || sec.key === "education_certifications" ? "Education & Certifications" : sec.key)}
+                      </h4>
                       <p className="text-[10px] text-zinc-500 font-mono uppercase mt-0.5">Key: {sec.key}</p>
                     </div>
                   </div>

@@ -82,7 +82,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className={`relative min-h-screen flex items-center justify-center pt-32 pb-20 overflow-hidden ${
+      className={`relative min-h-screen flex items-center justify-center pt-24 sm:pt-28 lg:pt-32 pb-14 sm:pb-16 lg:pb-20 overflow-hidden ${
         isLight ? "bg-transparent" : "bg-[#030303]"
       }`}
     >
@@ -153,7 +153,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-wrap items-center gap-4 mb-14"
+            className="flex flex-wrap items-center gap-4 mb-8 sm:mb-10 lg:mb-12"
           >
             <a
               href="/"

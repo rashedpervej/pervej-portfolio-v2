@@ -335,7 +335,7 @@ export default function Projects() {
     : projects.filter((proj) => proj.category.toLowerCase().includes(selectedCategory.toLowerCase()) || selectedCategory.toLowerCase().includes(proj.category.toLowerCase()));
 
   return (
-    <section id="projects" className={`py-24 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#050508]"}`}>
+    <section id="projects" className={`py-9 sm:py-11 md:py-13 lg:py-16 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#050508]"}`}>
       {/* Background radial highlight */}
       <div className={`absolute top-1/2 right-1/4 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[150px] pointer-events-none ${
         isLight ? "bg-purple-200/25" : "bg-purple-950/5"
@@ -348,7 +348,7 @@ export default function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16"
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-10 lg:mb-12"
         >
           <div className="flex flex-col items-start text-left">
             <h2 className={`font-display font-bold text-3xl sm:text-5xl tracking-tight ${isLight ? "text-zinc-950" : "text-white"}`}>
@@ -419,7 +419,7 @@ export default function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className={`mt-16 relative overflow-hidden rounded-2xl md:rounded-[24px] transition-colors duration-300 flex flex-col sm:flex-row items-center justify-between min-h-[120px] gap-6 p-6 sm:py-5 sm:px-6 md:px-8 group ${
+          className={`mt-8 sm:mt-10 md:mt-12 lg:mt-14 relative overflow-hidden rounded-2xl md:rounded-[24px] transition-colors duration-300 flex flex-col sm:flex-row items-center justify-between min-h-[120px] gap-6 p-6 sm:py-5 sm:px-6 md:px-8 group ${
             isLight
               ? "bg-white/90 border border-purple-200/90 shadow-[0_16px_40px_rgba(168,85,247,0.1)] backdrop-blur-xl"
               : "bg-[#0c0d16]/90 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-xl"

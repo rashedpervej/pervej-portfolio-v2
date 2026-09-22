@@ -7,7 +7,7 @@ export default function Footer() {
   const info = portfolioData.personalInfo;
 
   return (
-    <footer className={`border-t py-12 relative overflow-hidden text-xs sm:text-sm ${
+    <footer className={`border-t py-8 sm:py-10 lg:py-12 relative overflow-hidden text-xs sm:text-sm ${
       isLight ? "bg-transparent border-zinc-200/80 text-zinc-600" : "bg-[#050508] border-white/5 text-zinc-400"
     }`}>
       <div className="max-w-7xl mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">

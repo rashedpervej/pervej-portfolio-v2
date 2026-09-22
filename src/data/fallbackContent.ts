@@ -101,6 +101,76 @@ export const FALLBACK_SECTIONS: SectionRecord[] = [
     "order_index": 1
   },
   {
+    "id": "b3e9401f-ed52-44f2-95f3-5e72d244c9aa",
+    "key": "educationCertifications",
+    "name": "Education & Certifications",
+    "type": "collection",
+    "fields_schema": [
+      {
+        "name": "title",
+        "type": "text"
+      },
+      {
+        "name": "institution",
+        "type": "text"
+      },
+      {
+        "name": "period",
+        "type": "text"
+      },
+      {
+        "name": "credentialUrl",
+        "type": "text"
+      }
+    ],
+    "published_content": [
+      {
+        "title": "BSS in Economics",
+        "institution": "National University, Bangladesh",
+        "period": "2013 – 2017"
+      },
+      {
+        "title": "Foundations of User Experience (UX) Design",
+        "institution": "Coursera | Google",
+        "period": "2023"
+      },
+      {
+        "title": "Color for Design and Art",
+        "institution": "Coursera | California Institute of the Arts",
+        "period": "2022"
+      },
+      {
+        "title": "Digital Marketing Certification",
+        "institution": "LEDP, Government of Bangladesh",
+        "period": "2020"
+      }
+    ],
+    "draft_content": [
+      {
+        "title": "BSS in Economics",
+        "institution": "National University, Bangladesh",
+        "period": "2013 – 2017"
+      },
+      {
+        "title": "Foundations of User Experience (UX) Design",
+        "institution": "Coursera | Google",
+        "period": "2023"
+      },
+      {
+        "title": "Color for Design and Art",
+        "institution": "Coursera | California Institute of the Arts",
+        "period": "2022"
+      },
+      {
+        "title": "Digital Marketing Certification",
+        "institution": "LEDP, Government of Bangladesh",
+        "period": "2020"
+      }
+    ],
+    "is_visible": true,
+    "order_index": 2
+  },
+  {
     "id": "e00bce95-c8e9-4cb4-93b3-09d3fd50e148",
     "key": "experience",
     "name": "Experience Section",

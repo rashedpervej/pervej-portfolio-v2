@@ -392,6 +392,34 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
         };
       case "about":
         return { aboutSummary: "", aboutDetail: "", location: "" };
+      case "educationCertifications":
+      case "education_certifications":
+        return portfolioData?.educationCertifications || [
+          {
+            title: "BSS in Economics",
+            institution: "National University, Bangladesh",
+            period: "2013 – 2017",
+            credentialUrl: "",
+          },
+          {
+            title: "Foundations of User Experience (UX) Design",
+            institution: "Coursera | Google",
+            period: "2023",
+            credentialUrl: "",
+          },
+          {
+            title: "Color for Design and Art",
+            institution: "Coursera | California Institute of the Arts",
+            period: "2022",
+            credentialUrl: "",
+          },
+          {
+            title: "Digital Marketing Certification",
+            institution: "LEDP, Government of Bangladesh",
+            period: "2020",
+            credentialUrl: "",
+          }
+        ];
       case "experience":
         return [];
       case "projects":
@@ -468,13 +496,15 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
     setIsLoading(true);
     setToast(null);
 
+    const sectionName = sectionRecord?.name || (sectionKey === "educationCertifications" || sectionKey === "education_certifications" ? "Education & Certifications" : sectionKey.charAt(0).toUpperCase() + sectionKey.slice(1));
+
     // Update local sections state so preview reflects immediately
     setSections((prev) => {
       const idx = prev.findIndex((s) => s.key === sectionKey);
       const recordToSave: SectionRecord = {
         id: sectionRecord?.id || `local-${sectionKey}`,
         key: sectionKey,
-        name: sectionRecord?.name || sectionKey.charAt(0).toUpperCase() + sectionKey.slice(1),
+        name: sectionName,
         type: Array.isArray(contentToSave) ? "collection" : "single",
         fields_schema: sectionRecord?.fields_schema || [],
         published_content: sectionRecord?.published_content || null,
@@ -510,7 +540,7 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
         .from("sections")
         .upsert({
           key: sectionKey,
-          name: sectionRecord?.name || sectionKey.charAt(0).toUpperCase() + sectionKey.slice(1),
+          name: sectionName,
           type: Array.isArray(contentToSave) ? "collection" : "single",
           draft_content: contentToSave,
           published_content: sectionRecord?.published_content ?? null,
@@ -548,6 +578,7 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
     setToast(null);
 
     const now = new Date();
+    const sectionName = sectionRecord?.name || (sectionKey === "educationCertifications" || sectionKey === "education_certifications" ? "Education & Certifications" : sectionKey.charAt(0).toUpperCase() + sectionKey.slice(1));
 
     // Update local sections state so published content reflects immediately
     setSections((prev) => {
@@ -555,7 +586,7 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
       const recordToSave: SectionRecord = {
         id: sectionRecord?.id || `local-${sectionKey}`,
         key: sectionKey,
-        name: sectionRecord?.name || sectionKey.charAt(0).toUpperCase() + sectionKey.slice(1),
+        name: sectionName,
         type: Array.isArray(draftContent) ? "collection" : "single",
         fields_schema: sectionRecord?.fields_schema || [],
         published_content: draftContent,
@@ -580,7 +611,7 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
         setToast({
           type: "success",
           title: "Published Live Successfully!",
-          message: `${sectionRecord?.name || sectionKey.toUpperCase()} section changes are now live across your website.`,
+          message: `${sectionName} section changes are now live across your website.`,
         });
         setTimeout(() => setPublishSuccess(false), 2500);
       }, 600);
@@ -592,7 +623,7 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
         .from("sections")
         .upsert({
           key: sectionKey,
-          name: sectionRecord?.name || sectionKey.charAt(0).toUpperCase() + sectionKey.slice(1),
+          name: sectionName,
           type: Array.isArray(draftContent) ? "collection" : "single",
           draft_content: draftContent,
           published_content: draftContent,
@@ -608,7 +639,7 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
       setToast({
         type: "success",
         title: "Published Live Successfully!",
-        message: `${sectionRecord?.name || sectionKey.toUpperCase()} section changes are now live across your website.`,
+        message: `${sectionName} section changes are now live across your website.`,
       });
       setTimeout(() => setPublishSuccess(false), 2500);
     } catch (err: any) {
@@ -1032,7 +1063,7 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
                         {item.title || item.role || item.name || item.quote || `Row #${idx + 1}`}
                       </h4>
                       <p className="text-xs text-zinc-500 truncate">
-                        {item.company || item.category || item.logoText || item.author || "No metadata details"}
+                        {item.institution ? `${item.institution}${item.period ? ` • ${item.period}` : ""}` : (item.company || item.category || item.logoText || item.author || "No metadata details")}
                       </p>
                     </div>
                   </div>
@@ -1435,6 +1466,66 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
       );
     }
 
+    if (sectionKey === "educationCertifications" || sectionKey === "education_certifications") {
+      return (
+        <div className="space-y-4">
+          <div>
+            <label className="block text-[10px] text-zinc-400 uppercase tracking-wider mb-1">
+              Degree / Certification Title <span className="text-purple-400">*</span>
+            </label>
+            <input
+              type="text"
+              name="title"
+              required
+              defaultValue={item.title || ""}
+              placeholder="e.g. BSS in Economics or Foundations of User Experience (UX) Design"
+              className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 text-zinc-200 text-xs rounded-lg outline-none focus:border-purple-500/50"
+            />
+          </div>
+          <div>
+            <label className="block text-[10px] text-zinc-400 uppercase tracking-wider mb-1">
+              Institution / Platform / Issuer <span className="text-purple-400">*</span>
+            </label>
+            <input
+              type="text"
+              name="institution"
+              required
+              defaultValue={item.institution || ""}
+              placeholder="e.g. Coursera | Google or National University, Bangladesh"
+              className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 text-zinc-200 text-xs rounded-lg outline-none focus:border-purple-500/50"
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-[10px] text-zinc-400 uppercase tracking-wider mb-1">
+                Period / Year <span className="text-purple-400">*</span>
+              </label>
+              <input
+                type="text"
+                name="period"
+                required
+                defaultValue={item.period || ""}
+                placeholder="e.g. 2023 or 2013 – 2017"
+                className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 text-zinc-200 text-xs rounded-lg outline-none focus:border-purple-500/50"
+              />
+            </div>
+            <div>
+              <label className="block text-[10px] text-zinc-400 uppercase tracking-wider mb-1">
+                Credential URL (Optional)
+              </label>
+              <input
+                type="url"
+                name="credentialUrl"
+                defaultValue={item.credentialUrl || ""}
+                placeholder="https://coursera.org/verify/..."
+                className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 text-zinc-200 text-xs rounded-lg outline-none focus:border-purple-500/50"
+              />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     if (sectionKey === "testimonials") {
       return (
         <div className="space-y-4">
@@ -1586,8 +1677,8 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
       <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 bg-[#121214] border border-zinc-800 rounded-2xl p-6 shadow-xl">
         <div className="space-y-1">
           <div className="flex items-center gap-3">
-            <h2 className="text-xl font-bold text-white capitalize tracking-tight flex items-center gap-2">
-              {sectionRecord?.name || sectionKey} Section
+            <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+              {sectionRecord?.name || (sectionKey === "educationCertifications" || sectionKey === "education_certifications" ? "Education & Certifications" : sectionKey.charAt(0).toUpperCase() + sectionKey.slice(1))} Section
             </h2>
             <button
               onClick={async () => {
