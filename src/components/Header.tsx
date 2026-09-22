@@ -211,35 +211,13 @@ export default function Header() {
 
       <header
         id="main-navbar"
+        className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white/75 backdrop-blur-xl transition-colors duration-200 dark:border-white/10 dark:bg-[#121614]/65"
         style={{
-          isolation: "isolate",
-          WebkitBackdropFilter: isScrolled
-            ? "blur(24px) saturate(180%)"
-            : "blur(20px) saturate(170%)",
-          backdropFilter: isScrolled
-            ? "blur(24px) saturate(180%)"
-            : "blur(20px) saturate(170%)",
-          backgroundColor: isLight
-            ? isScrolled
-              ? "rgba(248, 249, 252, 0.85)"
-              : "rgba(255, 255, 255, 0.75)"
-            : isScrolled
-              ? "rgba(9, 10, 15, 0.88)"
-              : "rgba(9, 10, 15, 0.75)",
-          WebkitTransform: "translateZ(0)",
-          transform: "translateZ(0)",
+          WebkitBackdropFilter: 'blur(24px)',
+          backdropFilter: 'blur(24px)',
         }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 isolate navbar-frosted-base ${
-          isLight
-            ? isScrolled
-              ? "py-3.5 navbar-frosted-light-scrolled border-b border-zinc-200/80 shadow-[0_10px_30px_-4px_rgba(99,102,241,0.08)]"
-              : "py-5 navbar-frosted-light-unscrolled border-b border-white/60 shadow-[0_4px_20px_-2px_rgba(100,100,160,0.05)]"
-            : isScrolled
-              ? "py-4 navbar-frosted-dark-scrolled border-b border-white/10 shadow-[0_10px_30px_-4px_rgba(0,0,0,0.8)]"
-              : "py-6 navbar-frosted-dark-unscrolled border-b border-white/5 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.5)]"
-        }`}
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           {/* Logo */}
           <a
             id="navbar-logo-link"
@@ -351,20 +329,10 @@ export default function Header() {
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
               style={{
-                isolation: "isolate",
-                WebkitBackdropFilter: "blur(24px) saturate(180%)",
-                backdropFilter: "blur(24px) saturate(180%)",
-                backgroundColor: isLight
-                  ? "rgba(248, 249, 252, 0.92)"
-                  : "rgba(9, 10, 15, 0.95)",
-                WebkitTransform: "translateZ(0)",
-                transform: "translateZ(0)",
+                WebkitBackdropFilter: 'blur(24px)',
+                backdropFilter: 'blur(24px)',
               }}
-              className={`md:hidden border-b overflow-hidden isolate ${
-                isLight
-                  ? "navbar-mobile-menu-light border-zinc-200/85 shadow-2xl"
-                  : "navbar-mobile-menu-dark border-white/10 shadow-2xl"
-              }`}
+              className="md:hidden border-b border-black/5 bg-white/90 backdrop-blur-xl transition-colors duration-200 dark:border-white/10 dark:bg-[#121614]/90 overflow-hidden"
             >
               <div className="px-6 py-6 flex flex-col gap-5">
                 {/* Mobile Navigation Links */}
