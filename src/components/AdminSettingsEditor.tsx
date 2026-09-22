@@ -22,7 +22,9 @@ import {
   Activity,
   Copy,
   Server,
+  Share2,
 } from "lucide-react";
+import { AdminSocialShareEditor } from "./AdminSocialShareEditor";
 
 interface AdminSettingsEditorProps {
   isDemo?: boolean;
@@ -32,7 +34,7 @@ export default function AdminSettingsEditor({ isDemo = false }: AdminSettingsEdi
   const { siteSettings, setSiteSettings, refreshData } = usePortfolio();
 
   // Tab State
-  const [activeTab, setActiveTab] = useState<"general" | "cv" | "features" | "backup" | "health">("general");
+  const [activeTab, setActiveTab] = useState<"general" | "social" | "cv" | "features" | "backup" | "health">("general");
 
   // Health Check / Keep-Alive State
   const [healthData, setHealthData] = useState<any | null>(null);
@@ -338,6 +340,7 @@ export default function AdminSettingsEditor({ isDemo = false }: AdminSettingsEdi
 
   const tabs = [
     { id: "general", label: "General & SEO", icon: Globe },
+    { id: "social", label: "Social Share / OG", icon: Share2 },
     { id: "cv", label: "CV / Resume", icon: FileText },
     { id: "features", label: "Features & Code", icon: Bot },
     { id: "backup", label: "Backups & Data", icon: Shield },
@@ -515,8 +518,26 @@ export default function AdminSettingsEditor({ isDemo = false }: AdminSettingsEdi
                 placeholder="Concise bio for Google search results and link previews..."
               />
             </div>
+
+            {/* Quick jump banner to Social Share / Open Graph */}
+            <div className="pt-2 border-t border-zinc-800/80 flex items-center justify-between">
+              <span className="text-xs text-zinc-400">
+                Looking to customize Facebook, WhatsApp, LinkedIn, and X/Twitter share cards?
+              </span>
+              <button
+                type="button"
+                onClick={() => setActiveTab("social")}
+                className="flex items-center gap-1.5 text-xs text-purple-400 hover:text-purple-300 font-medium px-2.5 py-1.5 rounded-lg bg-purple-950/40 hover:bg-purple-950/70 border border-purple-800/50 transition-all"
+              >
+                <Share2 className="w-3.5 h-3.5" />
+                Configure Social Share / OG Card &rarr;
+              </button>
+            </div>
           </div>
         )}
+
+        {/* TAB: SOCIAL SHARE & OPEN GRAPH */}
+        {activeTab === "social" && <AdminSocialShareEditor isDemo={isDemo} />}
 
         {/* TAB 2: CV / RESUME */}
         {activeTab === "cv" && (

@@ -59,6 +59,10 @@ export interface SiteSettings {
   seoTitle?: string;
   seoDescription?: string;
   seoKeywords?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  ogUrl?: string;
   cvSource?: "upload" | "url";
   cvUrl?: string;
   cvFileName?: string;
@@ -247,7 +251,45 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       }
       themeMeta.setAttribute("content", baseColor);
     }
-  }, [siteSettings.seoTitle, siteSettings.seoDescription, siteSettings.seoKeywords, siteSettings.primaryColor]);
+
+    // Synchronize Global Open Graph (OG) & Twitter Card tags
+    const updateMetaTag = (selector: string, attrName: string, attrVal: string, content: string) => {
+      let el = document.querySelector(selector);
+      if (!el) {
+        el = document.createElement("meta");
+        el.setAttribute(attrName, attrVal);
+        document.head.appendChild(el);
+      }
+      el.setAttribute("content", content);
+    };
+
+    const ogTitle = siteSettings.ogTitle || siteSettings.seoTitle || "Rashed Pervej | Senior Visualizer Portfolio";
+    const ogDescription = siteSettings.ogDescription || siteSettings.seoDescription || "Award-winning portfolio of Rashed Pervej, Senior Visualizer & Graphic Designer specializing in brand identity, packaging, and motion graphics.";
+    const ogImage = siteSettings.ogImage || "https://pervej.pro.bd/og-image.jpg";
+    const ogUrl = siteSettings.ogUrl || "https://pervej.pro.bd/";
+
+    updateMetaTag('meta[property="og:title"]', "property", "og:title", ogTitle);
+    updateMetaTag('meta[property="og:description"]', "property", "og:description", ogDescription);
+    updateMetaTag('meta[property="og:image"]', "property", "og:image", ogImage);
+    updateMetaTag('meta[property="og:url"]', "property", "og:url", ogUrl);
+    updateMetaTag('meta[property="og:type"]', "property", "og:type", "website");
+    updateMetaTag('meta[property="og:site_name"]', "property", "og:site_name", "Rashed Pervej Portfolio");
+
+    updateMetaTag('meta[name="twitter:card"]', "name", "twitter:card", "summary_large_image");
+    updateMetaTag('meta[name="twitter:title"]', "name", "twitter:title", ogTitle);
+    updateMetaTag('meta[name="twitter:description"]', "name", "twitter:description", ogDescription);
+    updateMetaTag('meta[name="twitter:image"]', "name", "twitter:image", ogImage);
+    updateMetaTag('meta[name="twitter:url"]', "name", "twitter:url", ogUrl);
+  }, [
+    siteSettings.seoTitle,
+    siteSettings.seoDescription,
+    siteSettings.seoKeywords,
+    siteSettings.primaryColor,
+    siteSettings.ogTitle,
+    siteSettings.ogDescription,
+    siteSettings.ogImage,
+    siteSettings.ogUrl,
+  ]);
 
   // Load all sections and settings from Supabase
   const fetchData = useCallback(async () => {

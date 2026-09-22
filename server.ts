@@ -1,3 +1,4 @@
+import fs from "fs";
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
@@ -7,6 +8,7 @@ import contactHandler from "./api/contact";
 import { getLeads, updateLead, deleteLead } from "./api/leads";
 import healthHandler from "./api/health";
 import snapshotHandler from "./api/snapshot";
+import { injectSocialMeta } from "./api/socialMeta";
 
 // Load environment variables
 dotenv.config();
@@ -38,16 +40,56 @@ async function startServer() {
       server: { middlewareMode: true },
       appType: "spa",
     });
+
+    // Intercept HTML / crawler requests to inject live OG & Twitter meta tags
+    app.use(async (req, res, next) => {
+      const url = req.originalUrl;
+      // Skip API routes, Vite HMR, and requests for assets with extensions
+      if (req.method !== "GET" || url.startsWith("/api") || path.extname(url.split("?")[0])) {
+        return next();
+      }
+
+      const accept = req.headers.accept || "";
+      const userAgent = req.headers["user-agent"] || "";
+      const isCrawler = /facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|TelegramBot|Discordbot|Slackbot|Pinterest|Googlebot|bingbot|Applebot/i.test(userAgent);
+      const wantsHtml = accept.includes("text/html");
+
+      if (isCrawler || wantsHtml) {
+        try {
+          const indexPath = path.resolve(process.cwd(), "index.html");
+          if (fs.existsSync(indexPath)) {
+            let template = fs.readFileSync(indexPath, "utf-8");
+            template = await vite.transformIndexHtml(url, template);
+            const finalHtml = injectSocialMeta(template);
+            return res.status(200).set({ "Content-Type": "text/html" }).end(finalHtml);
+          }
+        } catch (e) {
+          console.error("Error transforming dev index.html with OG tags:", e);
+        }
+      }
+      next();
+    });
+
     app.use(vite.middlewares);
-    console.log("Vite development server middleware loaded.");
+    console.log("Vite development server middleware loaded with dynamic OG meta injection.");
   } else {
     // Production Mode
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
     app.get("*", (req, res) => {
+      try {
+        const indexHtmlPath = path.join(distPath, "index.html");
+        if (fs.existsSync(indexHtmlPath)) {
+          const rawHtml = fs.readFileSync(indexHtmlPath, "utf-8");
+          const finalHtml = injectSocialMeta(rawHtml);
+          return res.status(200).set({ "Content-Type": "text/html" }).send(finalHtml);
+        }
+      } catch (err) {
+        console.error("Error serving index.html with OG tags in production:", err);
+      }
       res.sendFile(path.join(distPath, "index.html"));
     });
-    console.log("Serving compiled static assets from dist/.");
+    console.log("Serving compiled static assets from dist/ with dynamic OG meta injection.");
   }
 
   app.listen(PORT, "0.0.0.0", () => {

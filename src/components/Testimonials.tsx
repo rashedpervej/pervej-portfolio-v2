@@ -40,7 +40,7 @@ export default function Testimonials() {
   if (!testimonials.length) return null;
 
   return (
-    <section id="testimonials" className={`py-9 sm:py-11 md:py-13 lg:py-16 relative overflow-hidden ${
+    <section id="testimonials" className={`py-6 sm:py-8 md:py-9 lg:py-10 relative overflow-hidden ${
       isLight ? "bg-transparent border-y border-zinc-200/80" : "bg-[#050508] border-y border-white/5"
     }`}>
       {/* Absolute glow */}
@@ -56,7 +56,7 @@ export default function Testimonials() {
         className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 text-center"
       >
         {/* Title */}
-        <div className="flex flex-col items-center mb-6 sm:mb-8 lg:mb-10">
+        <div className="flex flex-col items-center mb-4 sm:mb-5 lg:mb-6">
           <h2 className={`font-display font-bold text-3xl sm:text-5xl tracking-tight ${
             isLight ? "text-zinc-950" : "text-white"
           }`}>
@@ -122,7 +122,7 @@ export default function Testimonials() {
           </div>
 
           {/* Navigation Controls & Pagination Dots */}
-          <div className="flex items-center justify-center gap-4 mt-8 relative z-20">
+          <div className="flex items-center justify-center gap-4 mt-5 relative z-20">
             <button
               onClick={handlePrev}
               aria-label="Previous Testimonial"

@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "timestamp": 1788890863205,
-  "lastSyncIso": "2026-09-08T18:07:43.205Z",
+  "timestamp": 1790084508720,
+  "lastSyncIso": "2026-09-22T13:41:48.720Z",
   "source": "supabase_sync",
   "sections": [
     {
@@ -34,10 +34,10 @@
       "published_content": {
         "name": "Rashed<div><span style=\"color: rgb(212, 123, 255);\">Pervej</span></div>",
         "role": "Senior Visualizer",
-        "heroBio": "Senior Visualizer with <span style=\"color: rgb(193, 141, 236);\"><b></b></span><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><b>6+ years of premium experience</b></span>.</span> Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.",
+        "heroBio": "Senior Visualizer with <span style=\"color: rgb(193, 141, 236);\"><b>6<span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\">+</span></span></span></b></span><span style=\"color: rgb(193, 141, 236);\"><b><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"></span></span></b></span><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><b> years of premium experience</b></span>.</span> Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.",
         "headline": "Brand Identity | Motion Graphics | Packaging",
         "availability": "Available for Remote & Hybrid",
-        "portraitImage": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/9otfdzb767s-1784670718085.jpeg",
+        "portraitImage": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/zlw0sb7d6al-1790072232417.webp",
         "primaryCtaLink": "https://www.behance.net/rashedpervej",
         "primaryCtaText": "Explore My Work",
         "experienceYears": "6+",
@@ -47,10 +47,10 @@
       "draft_content": {
         "name": "Rashed<div><span style=\"color: rgb(212, 123, 255);\">Pervej</span></div>",
         "role": "Senior Visualizer",
-        "heroBio": "Senior Visualizer with <span style=\"color: rgb(193, 141, 236);\"><b></b></span><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><b>6+ years of premium experience</b></span>.</span> Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.",
+        "heroBio": "Senior Visualizer with <span style=\"color: rgb(193, 141, 236);\"><b>6<span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\">+</span></span></span></b></span><span style=\"color: rgb(193, 141, 236);\"><b><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"></span></span></b></span><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><b> years of premium experience</b></span>.</span> Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.",
         "headline": "Brand Identity | Motion Graphics | Packaging",
         "availability": "Available for Remote & Hybrid",
-        "portraitImage": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/9otfdzb767s-1784670718085.jpeg",
+        "portraitImage": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/zlw0sb7d6al-1790072232417.webp",
         "primaryCtaLink": "https://www.behance.net/rashedpervej",
         "primaryCtaText": "Explore My Work",
         "experienceYears": "6+",
@@ -843,6 +843,84 @@
       "order_index": 7
     },
     {
+      "id": "68b757af-7b49-42fb-95b4-a896110221a2",
+      "key": "educationCertifications",
+      "name": "Education & Certifications",
+      "type": "collection",
+      "fields_schema": [
+        {
+          "name": "title",
+          "type": "text"
+        },
+        {
+          "name": "institution",
+          "type": "text"
+        },
+        {
+          "name": "period",
+          "type": "text"
+        },
+        {
+          "name": "credentialUrl",
+          "type": "text"
+        }
+      ],
+      "published_content": [
+        {
+          "title": "BSS in Economics",
+          "period": " ",
+          "institution": "National University, Bangladesh",
+          "credentialUrl": ""
+        },
+        {
+          "title": "Foundations of User Experience (UX) Design",
+          "period": " ",
+          "institution": "Coursera | Google",
+          "credentialUrl": ""
+        },
+        {
+          "title": "Color for Design and Art",
+          "period": " ",
+          "institution": "Coursera | California Institute of the Arts",
+          "credentialUrl": ""
+        },
+        {
+          "title": "Digital Marketing Certification",
+          "period": " ",
+          "institution": "LEDP, Government of Bangladesh",
+          "credentialUrl": ""
+        }
+      ],
+      "draft_content": [
+        {
+          "title": "BSS in Economics",
+          "period": " ",
+          "institution": "National University, Bangladesh",
+          "credentialUrl": ""
+        },
+        {
+          "title": "Foundations of User Experience (UX) Design",
+          "period": " ",
+          "institution": "Coursera | Google",
+          "credentialUrl": ""
+        },
+        {
+          "title": "Color for Design and Art",
+          "period": " ",
+          "institution": "Coursera | California Institute of the Arts",
+          "credentialUrl": ""
+        },
+        {
+          "title": "Digital Marketing Certification",
+          "period": " ",
+          "institution": "LEDP, Government of Bangladesh",
+          "credentialUrl": ""
+        }
+      ],
+      "is_visible": true,
+      "order_index": 8
+    },
+    {
       "id": "17ad89d3-42a1-46d9-b7fa-2ad3e2349ed0",
       "key": "contact",
       "name": "Contact Details Section",
@@ -891,6 +969,7 @@
     "seoTitle": "Rashed Pervej | Senior Visualizer Portfolio",
     "seoDescription": "Portfolio of Rashed Pervej, Senior Visualizer specializing in Brand Identity, Packaging, and Motion Design.",
     "seoKeywords": "portfolio, designer, visualizer, packaging, branding, motion graphics, bangladesh",
+    "backgroundStyle": "liquid",
     "cvSource": "url",
     "cvUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/cv/Rashed%20Pervej_Resume_Jul26.pdf",
     "cvFileName": "Rashed Pervej_Resume_Jul26.pdf",
@@ -915,72 +994,11 @@
       "showFilterMarketing": true,
       "showProjectDuration": false,
       "showFilterInternational": true
-    }
-  },
-  "faqs": [
-    {
-      "id": "9e5331d3-394c-4708-be84-8bec862e4f79",
-      "question": "What is your current role and company?",
-      "answer": "I am currently working as a Senior Visualizer at Go Nature BD in Bangladesh, leading the creative team, managing brand identity, and packaging designs.",
-      "keywords": [
-        "role",
-        "job",
-        "company",
-        "current"
-      ],
-      "category": "general",
-      "status": "published"
     },
-    {
-      "id": "40692b12-822b-42a6-b942-cfbf10bad3eb",
-      "question": "How many years of experience do you have?",
-      "answer": "I have over 6 years of professional graphic design and visualization experience across leading tech platforms, corporate entities, and international clients.",
-      "keywords": [
-        "experience",
-        "years",
-        "how long"
-      ],
-      "category": "general",
-      "status": "published"
-    },
-    {
-      "id": "2814eefc-aee4-4871-93b0-025e99fc271b",
-      "question": "What creative tools are you proficient in?",
-      "answer": "I am highly proficient in Adobe Photoshop, Adobe Illustrator, Adobe After Effects, Canva, CapCut, WordPress, and AI-Assisted Design.",
-      "keywords": [
-        "tools",
-        "software",
-        "photoshop",
-        "illustrator",
-        "after effects"
-      ],
-      "category": "technical",
-      "status": "published"
-    },
-    {
-      "id": "c64a08f1-ef65-479e-9bd3-6e5ab9766186",
-      "question": "Where are you located and are you open to remote work?",
-      "answer": "I am based in Jashore, Bangladesh, and I am fully open to OnSite, Remote, and Hybrid roles.",
-      "keywords": [
-        "location",
-        "remote",
-        "hybrid",
-        "where"
-      ],
-      "category": "general",
-      "status": "published"
-    },
-    {
-      "id": "a5577aa1-8928-42b1-ae06-a196275b8d3f",
-      "question": "Can you describe your experience at Chaldal Ltd.?",
-      "answer": "At Chaldal Ltd., I worked as a Visual Graphic Designer for over 3 years (2020-2023), designing multi-channel digital & print marketing assets and leading a team of 3 designers.",
-      "keywords": [
-        "chaldal",
-        "past experience",
-        "history"
-      ],
-      "category": "general",
-      "status": "published"
-    }
-  ]
+    "defaultTheme": "dark",
+    "ogTitle": "Rashed Pervej | Senior Visualizer Portfolio",
+    "ogDescription": "Award-winning portfolio of Rashed Pervej, Senior Visualizer & Graphic Designer specializing in brand identity, packaging, and motion graphics.",
+    "ogImage": "https://pervej.pro.bd/og-image.jpg",
+    "ogUrl": "https://pervej.pro.bd/"
+  }
 }

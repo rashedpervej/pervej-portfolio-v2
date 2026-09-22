@@ -19,7 +19,7 @@ export default function Contact() {
   const behanceUrl = behance.startsWith('http') ? behance : `https://${behance}`;
 
   return (
-    <section id="contact" className={`py-10 sm:py-12 md:py-14 lg:py-18 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#030303]"}`}>
+    <section id="contact" className={`py-6 sm:py-8 md:py-9 lg:py-10 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#030303]"}`}>
       {/* Ambient background glow */}
       <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] blur-[140px] pointer-events-none rounded-full ${
         isLight ? "bg-purple-200/30" : "bg-purple-950/15"
@@ -32,7 +32,7 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col items-start mb-8 sm:mb-10 lg:mb-12 text-left"
+          className="flex flex-col items-start mb-5 sm:mb-6 lg:mb-8 text-left"
         >
           <h2 className={`font-display font-bold text-3xl sm:text-5xl tracking-tight ${isLight ? "text-zinc-950" : "text-white"}`}>
             Let's Collaborate on <br className="hidden sm:block" />
@@ -40,14 +40,14 @@ export default function Contact() {
               Your Next Brand Story
             </span>
           </h2>
-          <div className="w-12 h-[2px] bg-purple-500 mt-4 mb-6" />
+          <div className="w-12 h-[2px] bg-purple-500 mt-3 mb-4" />
           <h3 className={`font-display font-semibold text-lg sm:text-xl ${isLight ? "text-zinc-700" : "text-zinc-100"}`}>
             Direct Contact &amp; Credentials
           </h3>
         </motion.div>
 
         {/* 3 Equal Width Glassmorphism Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch mb-8 sm:mb-10 lg:mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch mb-5 sm:mb-6 lg:mb-7">
           {/* Card 1: Email */}
           <motion.a
             href={`mailto:${email}`}
@@ -146,7 +146,7 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, delay: 0.35 }}
-          className="relative flex items-center justify-center my-8 sm:my-10"
+          className="relative flex items-center justify-center my-5 sm:my-6"
         >
           <div className={`flex-grow border-t ${isLight ? "border-zinc-300/80" : "border-white/[0.08]"}`} />
           <span className={`shrink-0 px-6 font-mono text-xs uppercase tracking-[0.2em] font-medium ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
@@ -161,7 +161,7 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex items-center justify-center gap-4 mt-6 sm:mt-8"
+          className="flex items-center justify-center gap-4 mt-4 sm:mt-5"
         >
           {/* Behance Button */}
           <a

@@ -4,12 +4,14 @@ import { usePortfolio } from "../context/PortfolioContext";
 import AdminSectionEditor from "./AdminSectionEditor";
 import AdminFaqEditor from "./AdminFaqEditor";
 import AdminSettingsEditor from "./AdminSettingsEditor";
+import { AdminSocialShareEditor } from "./AdminSocialShareEditor";
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import {
   LayoutDashboard,
   Layers,
   HelpCircle,
   Settings,
+  Share2,
   LogOut,
   ChevronRight,
   Eye,
@@ -728,6 +730,21 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
             </button>
 
             <button
+              onClick={() => setActiveTab("social_share")}
+              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+                activeTab === "social_share"
+                  ? "bg-[#16161a] text-purple-400 border-l-2 border-purple-500 pl-3"
+                  : "text-zinc-400 hover:bg-zinc-900/60 hover:text-zinc-200"
+              }`}
+            >
+              <span className="flex items-center gap-2.5">
+                <Share2 className="w-4 h-4" />
+                Social Share / SEO
+              </span>
+              <ChevronRight className="w-3.5 h-3.5 opacity-40" />
+            </button>
+
+            <button
               onClick={() => setActiveTab("settings")}
               className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
                 activeTab === "settings"
@@ -805,9 +822,10 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
           {activeTab === "sections_order" && renderSectionsOrderManager()}
           {activeTab === "faqs" && <AdminFaqEditor isDemo={false} />}
           {activeTab === "settings" && <AdminSettingsEditor isDemo={false} />}
+          {activeTab === "social_share" && <AdminSocialShareEditor isDemo={false} />}
           {activeTab === "ai_analytics" && renderAIAnalyticsDashboard()}
           {activeTab === "leads" && renderLeadsManager()}
-          {!["overview", "sections_order", "faqs", "settings", "ai_analytics", "leads"].includes(activeTab) && (
+          {!["overview", "sections_order", "faqs", "settings", "social_share", "ai_analytics", "leads"].includes(activeTab) && (
             <AdminSectionEditor sectionKey={activeTab} isDemo={false} />
           )}
         </main>

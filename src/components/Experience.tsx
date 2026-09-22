@@ -19,7 +19,7 @@ export default function Experience() {
   };
 
   return (
-    <section id="experience" className={`py-8 sm:py-10 md:py-12 lg:py-14 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#030303]"}`}>
+    <section id="experience" className={`py-6 sm:py-8 md:py-9 lg:py-10 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#030303]"}`}>
       {/* Decorative Orb */}
       <div className={`absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full blur-[130px] pointer-events-none ${
         isLight ? "bg-purple-200/25" : "bg-purple-950/10"
@@ -32,7 +32,7 @@ export default function Experience() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col items-start mb-8 sm:mb-10 lg:mb-12 text-left"
+          className="flex flex-col items-start mb-5 sm:mb-6 lg:mb-8 text-left"
         >
           <h2 className={`font-display font-bold text-3xl sm:text-5xl tracking-tight ${isLight ? "text-zinc-950" : "text-white"}`}>
             Work Experience & <br />
@@ -44,7 +44,7 @@ export default function Experience() {
         </motion.div>
 
         {/* Timeline container */}
-        <div className={`relative max-w-4xl mx-auto pl-4 sm:pl-8 border-l space-y-8 ${
+        <div className={`relative max-w-4xl mx-auto pl-4 sm:pl-8 border-l space-y-6 ${
           isLight ? "border-purple-200/80" : "border-zinc-800"
         }`}>
           {experiences.map((item, index) => {

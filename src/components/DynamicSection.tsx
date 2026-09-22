@@ -87,7 +87,7 @@ export default function DynamicSection({ section, isPreview = false }: DynamicSe
   };
 
   return (
-    <section id={section.key} className={`py-8 sm:py-10 md:py-12 lg:py-14 relative border-t ${isLight ? "border-zinc-200/80 bg-transparent" : "border-zinc-900"}`}>
+    <section id={section.key} className={`py-6 sm:py-8 md:py-9 lg:py-10 relative border-t ${isLight ? "border-zinc-200/80 bg-transparent" : "border-zinc-900"}`}>
       {/* Decorative Gradient Background glow */}
       {!isLight && (
         <div className="absolute inset-0 bg-gradient-to-b from-[#030303] via-purple-950/5 to-[#030303] pointer-events-none" />
@@ -100,7 +100,7 @@ export default function DynamicSection({ section, isPreview = false }: DynamicSe
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-8 sm:mb-10 lg:mb-12"
+          className="mb-5 sm:mb-6 lg:mb-8"
         >
           <div className="flex items-center gap-2 mb-2">
             <span className={`font-mono text-xs tracking-widest uppercase ${isLight ? "text-purple-600 font-semibold" : "text-purple-400"}`}>

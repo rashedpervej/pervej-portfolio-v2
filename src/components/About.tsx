@@ -30,7 +30,7 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className={`py-8 sm:py-10 md:py-12 lg:py-14 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#050508]"}`}>
+    <section id="about" className={`py-6 sm:py-8 md:py-9 lg:py-10 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#050508]"}`}>
       {/* Decorative Orbs */}
       <div className={`absolute top-1/2 right-0 -translate-y-1/2 w-72 h-72 rounded-full blur-[100px] pointer-events-none ${
         isLight ? "bg-purple-200/30" : "bg-purple-900/5"
@@ -43,7 +43,7 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col items-start mb-8 sm:mb-10 lg:mb-12 text-left"
+          className="flex flex-col items-start mb-5 sm:mb-6 lg:mb-8 text-left"
         >
           <h2 className={`font-display font-bold text-3xl sm:text-5xl tracking-tight ${isLight ? "text-zinc-950" : "text-white"}`}>
             Creative Strategy & <br />
@@ -54,7 +54,7 @@ export default function About() {
           <div className="w-12 h-[2px] bg-purple-500 mt-4" />
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
           {/* Left Side: Summary & Details */}
           <motion.div
             initial={{ opacity: 0, y: 25 }}

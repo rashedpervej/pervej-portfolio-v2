@@ -232,7 +232,7 @@ export default function Skills() {
   };
 
   return (
-    <section ref={sectionRef} id="skills" className={`py-8 sm:py-10 md:py-12 lg:py-14 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#030303]"}`}>
+    <section ref={sectionRef} id="skills" className={`py-6 sm:py-8 md:py-9 lg:py-10 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#030303]"}`}>
       {/* Decorative Blur elements */}
       <div className={`absolute bottom-0 right-0 w-80 h-80 rounded-full blur-[130px] pointer-events-none ${
         isLight ? "bg-purple-200/25" : "bg-purple-950/10"
@@ -245,7 +245,7 @@ export default function Skills() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col items-start mb-8 sm:mb-10 lg:mb-12 text-left"
+          className="flex flex-col items-start mb-5 sm:mb-6 lg:mb-8 text-left"
         >
           <h2 className={`font-display font-bold text-3xl sm:text-5xl tracking-tight ${isLight ? "text-zinc-950" : "text-white"}`}>
             Craftsmanship & <br />
@@ -257,7 +257,7 @@ export default function Skills() {
         </motion.div>
 
         {/* Competencies Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           
           {/* Left Column: Core Competencies */}
           <div className={`lg:col-span-5 p-6 rounded-2xl transition-all duration-300 ${
@@ -310,13 +310,13 @@ export default function Skills() {
           </div>
 
           {/* Right Column: Creative Tools */}
-          <div className="lg:col-span-7 space-y-6">
+          <div className="lg:col-span-7 space-y-5">
             <div className={`p-6 rounded-2xl text-left transition-all duration-300 ${
               isLight
                 ? "bg-white/65 border border-white/90 shadow-[0_12px_32px_rgba(100,100,160,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-xl"
                 : "bg-[#07070a]/80 border border-white/[0.04] backdrop-blur-sm"
             }`}>
-              <h3 className={`font-display font-bold text-xs uppercase tracking-widest mb-8 flex items-center ${
+              <h3 className={`font-display font-bold text-xs uppercase tracking-widest mb-5 sm:mb-6 flex items-center ${
                 isLight ? "text-zinc-700" : "text-zinc-300"
               }`}>
                 CREATIVE TOOLS & SOFTWARE PROFICIENCY
