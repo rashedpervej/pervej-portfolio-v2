@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { ArrowDown, Award, Zap, Paintbrush, Play } from "lucide-react";
 import { usePortfolio } from "../context/PortfolioContext";
-import { scrollToSection } from "../utils/scroll";
+import { scrollToSection, navigateToSection } from "../utils/scroll";
 import FormattedText from "./FormattedText";
 import defaultHeaderImage from "../assets/images/Rashed Header Image.webp";
 
@@ -56,9 +56,9 @@ export default function Hero() {
   const lastName = nameParts.slice(1).join(" ") || "Pervej";
 
   const primaryCtaText = info.primaryCtaText || "Explore My Work";
-  const primaryCtaLink = info.primaryCtaLink || "#projects";
+  const primaryCtaLink = info.primaryCtaLink || "/projects";
   const secondaryCtaText = info.secondaryCtaText || "Get In Touch";
-  const secondaryCtaLink = info.secondaryCtaLink || "#contact";
+  const secondaryCtaLink = info.secondaryCtaLink || "/contact";
 
   const experienceYears = info.experienceYears || "6+";
   const yearsLabel = info.yearsLabel || "Years Experience";
@@ -74,9 +74,9 @@ export default function Hero() {
   const bioText = info.heroBio || "Senior Visualizer with 6+ years of premium experience. Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.";
 
   const handleCtaClick = (e: React.MouseEvent<HTMLAnchorElement>, link: string) => {
-    if (link.startsWith("#")) {
+    if (link.startsWith("#") || link.startsWith("/")) {
       e.preventDefault();
-      scrollToSection(link);
+      navigateToSection(link);
     }
   };
 

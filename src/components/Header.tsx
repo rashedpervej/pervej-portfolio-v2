@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Menu, X, Download } from "lucide-react";
 import { usePortfolio } from "../context/PortfolioContext";
-import { scrollToSection } from "../utils/scroll";
+import { 
+  navigateToSection, 
+  isProgrammaticScrollActive, 
+  isStandaloneRoute, 
+  getPathFromSection 
+} from "../utils/scroll";
 import { supabase, isSupabaseConfigured } from "../lib/supabase";
 import defaultResumePdf from "../assets/CV/Rashed Pervej _ Resume _ Jul 26.pdf";
 import ThemeToggle from "./ThemeToggle";
@@ -14,15 +19,16 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState("hero");
   const { portfolioData, siteSettings, trackEvent, isSectionVisible, theme } = usePortfolio();
   const isLight = theme === "light";
+  const replaceUrlTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const allNavItems = [
-    { label: "Home", href: "#hero", id: "hero" },
-    { label: "About", href: "#about", id: "about" },
-    { label: "Experience", href: "#experience", id: "experience" },
-    { label: "Skills", href: "#skills", id: "skills" },
-    { label: "Services", href: "#services", id: "services" },
-    { label: "Projects", href: "#projects", id: "projects" },
-    { label: "Contact", href: "#contact", id: "contact" }
+    { label: "Home", href: "/", id: "hero" },
+    { label: "About", href: "/about", id: "about" },
+    { label: "Experience", href: "/experience", id: "experience" },
+    { label: "Skills", href: "/skills", id: "skills" },
+    { label: "Services", href: "/services", id: "services" },
+    { label: "Projects", href: "/projects", id: "projects" },
+    { label: "Contact", href: "/contact", id: "contact" }
   ];
 
   const navItems = allNavItems.filter((item) => isSectionVisible(item.id));
@@ -45,27 +51,53 @@ export default function Header() {
 
       // Determine active section based on scroll position
       const scrollPos = window.scrollY + 100;
+      let currentActive = "hero";
       for (const item of navItems) {
         const el = document.getElementById(item.id);
         if (el) {
           const top = el.offsetTop;
           const height = el.offsetHeight;
           if (scrollPos >= top && scrollPos < top + height) {
-            setActiveSection(item.id);
+            currentActive = item.id;
             break;
           }
         }
+      }
+      setActiveSection(currentActive);
+
+      // Debounced URL sync on natural manual scroll (does not affect programmatic navigation or back/forward)
+      if (
+        !isProgrammaticScrollActive() && 
+        typeof window !== "undefined" && 
+        !isStandaloneRoute(window.location.pathname)
+      ) {
+        if (replaceUrlTimer.current) {
+          clearTimeout(replaceUrlTimer.current);
+        }
+        replaceUrlTimer.current = setTimeout(() => {
+          if (!isProgrammaticScrollActive() && !isStandaloneRoute(window.location.pathname)) {
+            const cleanPath = getPathFromSection(currentActive);
+            if (window.location.pathname !== cleanPath) {
+              window.history.replaceState({ section: currentActive }, "", cleanPath);
+            }
+          }
+        }, 350);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
     handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (replaceUrlTimer.current) {
+        clearTimeout(replaceUrlTimer.current);
+      }
+    };
+  }, [navItems]);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isMobile = false) => {
     e.preventDefault();
-    scrollToSection(href);
+    navigateToSection(href, { delay: isMobile ? 220 : 0 });
   };
 
   const [isDownloading, setIsDownloading] = useState(false);
@@ -223,8 +255,8 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
           <a
-            href="#hero"
-            onClick={(e) => handleNavClick(e, "#hero")}
+            href="/"
+            onClick={(e) => handleNavClick(e, "/")}
             className="flex items-center gap-2 group"
           >
             <span
@@ -342,7 +374,7 @@ export default function Header() {
                       href={item.href}
                       onClick={(e) => {
                         setMobileMenuOpen(false);
-                        handleNavClick(e, item.href);
+                        handleNavClick(e, item.href, true);
                       }}
                       className={`font-display font-medium text-lg flex items-center justify-between transition-colors ${
                         isActive

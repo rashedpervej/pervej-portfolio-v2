@@ -128,7 +128,7 @@ Would you like to discuss a design project or collaborate? You can reach him dir
     });
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-3.8-flash",
       contents: contents,
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
@@ -140,7 +140,12 @@ Would you like to discuss a design project or collaborate? You can reach him dir
     const totalTokens = response.usageMetadata?.totalTokenCount || null;
     res.status(200).json({ text: response.text, tokenUsage: totalTokens });
   } catch (error: any) {
-    console.warn("Gemini API Status (using local fallback response):", error?.message || error);
+    // Gracefully handle Gemini API limits or temporary service unavailabilities
+    // by serving the portfolio's conversational fallback engine without throwing errors.
+    const statusCode = error?.status || error?.code || 500;
+    if (process.env.NODE_ENV !== "production") {
+      console.log(`[AI Chat] Gemini API unavailable (${statusCode}); using portfolio conversational fallback.`);
+    }
     
     // Safe keyword matching fallback engine for Rashed's portfolio chatbot
     const { message, history } = req.body;

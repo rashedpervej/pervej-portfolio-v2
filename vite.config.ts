@@ -20,12 +20,6 @@ export default defineConfig(() => {
         output: {
           manualChunks(id) {
             if (id.includes('node_modules')) {
-              if (id.includes('jspdf') || id.includes('html2canvas') || id.includes('html-to-image')) {
-                return 'vendor-pdf';
-              }
-              if (id.includes('recharts') || id.includes('d3-')) {
-                return 'vendor-charts';
-              }
               if (id.includes('@supabase')) {
                 return 'vendor-supabase';
               }
