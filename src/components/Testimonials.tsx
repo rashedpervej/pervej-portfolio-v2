@@ -40,7 +40,7 @@ export default function Testimonials() {
   if (!testimonials.length) return null;
 
   return (
-    <section className={`py-24 relative overflow-hidden ${
+    <section id="testimonials" className={`py-24 relative overflow-hidden ${
       isLight ? "bg-transparent border-y border-zinc-200/80" : "bg-[#050508] border-y border-white/5"
     }`}>
       {/* Absolute glow */}

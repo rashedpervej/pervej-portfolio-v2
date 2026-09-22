@@ -210,19 +210,39 @@ export default function Header() {
       </div>
 
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+        id="main-navbar"
+        style={{
+          isolation: "isolate",
+          WebkitBackdropFilter: isScrolled
+            ? "blur(24px) saturate(180%)"
+            : "blur(20px) saturate(170%)",
+          backdropFilter: isScrolled
+            ? "blur(24px) saturate(180%)"
+            : "blur(20px) saturate(170%)",
+          backgroundColor: isLight
+            ? isScrolled
+              ? "rgba(248, 249, 252, 0.85)"
+              : "rgba(255, 255, 255, 0.75)"
+            : isScrolled
+              ? "rgba(9, 10, 15, 0.88)"
+              : "rgba(9, 10, 15, 0.75)",
+          WebkitTransform: "translateZ(0)",
+          transform: "translateZ(0)",
+        }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 isolate navbar-frosted-base ${
           isLight
             ? isScrolled
-              ? "py-3.5 liquid-glass-nav"
-              : "py-5 bg-white/35 backdrop-blur-md border-b border-white/50"
+              ? "py-3.5 navbar-frosted-light-scrolled border-b border-zinc-200/80 shadow-[0_10px_30px_-4px_rgba(99,102,241,0.08)]"
+              : "py-5 navbar-frosted-light-unscrolled border-b border-white/60 shadow-[0_4px_20px_-2px_rgba(100,100,160,0.05)]"
             : isScrolled
-              ? "py-4 bg-[#030303]/85 backdrop-blur-md border-b border-white/5"
-              : "py-6 bg-transparent"
+              ? "py-4 navbar-frosted-dark-scrolled border-b border-white/10 shadow-[0_10px_30px_-4px_rgba(0,0,0,0.8)]"
+              : "py-6 navbar-frosted-dark-unscrolled border-b border-white/5 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.5)]"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
           <a
+            id="navbar-logo-link"
             href="#hero"
             onClick={(e) => handleNavClick(e, "#hero")}
             className="flex items-center gap-2 group"
@@ -237,12 +257,13 @@ export default function Header() {
           </a>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav id="desktop-navbar-nav" className="hidden md:flex items-center gap-8">
             {navItems.map((item, index) => {
               const isActive = activeSection === item.id;
               return (
                 <a
                   key={index}
+                  id={`navbar-link-${item.id}`}
                   href={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
                   className={`font-sans text-xs uppercase tracking-widest transition-all duration-300 relative py-1 ${
@@ -275,6 +296,7 @@ export default function Header() {
 
             {/* Download CV Button */}
             <button
+              id="navbar-cv-download-btn"
               onClick={downloadCV}
               disabled={isDownloading}
               aria-label="Download Curriculum Vitae"
@@ -304,6 +326,7 @@ export default function Header() {
           <div className="flex md:hidden items-center gap-2">
             <ThemeToggle compact />
             <button
+              id="navbar-mobile-menu-toggle"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={mobileMenuOpen}
@@ -322,14 +345,25 @@ export default function Header() {
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
+              id="navbar-mobile-menu"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className={`md:hidden border-b overflow-hidden ${
+              style={{
+                isolation: "isolate",
+                WebkitBackdropFilter: "blur(24px) saturate(180%)",
+                backdropFilter: "blur(24px) saturate(180%)",
+                backgroundColor: isLight
+                  ? "rgba(248, 249, 252, 0.92)"
+                  : "rgba(9, 10, 15, 0.95)",
+                WebkitTransform: "translateZ(0)",
+                transform: "translateZ(0)",
+              }}
+              className={`md:hidden border-b overflow-hidden isolate ${
                 isLight
-                  ? "bg-[#f8f9fc]/88 backdrop-blur-2xl saturate-[180%] border-white/85 shadow-2xl"
-                  : "border-white/10 bg-[#050508]/98 backdrop-blur-lg"
+                  ? "navbar-mobile-menu-light border-zinc-200/85 shadow-2xl"
+                  : "navbar-mobile-menu-dark border-white/10 shadow-2xl"
               }`}
             >
               <div className="px-6 py-6 flex flex-col gap-5">
@@ -370,6 +404,7 @@ export default function Header() {
                   </div>
 
                   <button
+                    id="navbar-mobile-cv-download-btn"
                     onClick={() => {
                       setMobileMenuOpen(false);
                       downloadCV();
