@@ -3,6 +3,7 @@ import brandHeaderImage from "./assets/images/brand-header.webp";
 import packagingHeaderImage from "./assets/images/packeging-header.webp";
 import motionHeaderImage from "./assets/images/motion-header.webp";
 import mentorHeaderImage from "./assets/images/mentor-header.webp";
+import { DEFAULT_BRAND_SVGS } from "./utils/brandLogos";
 
 export interface Project {
   id: string;
@@ -33,8 +34,11 @@ export interface Experience {
 
 export interface Brand {
   name: string;
-  logoText: string;
+  brandName?: string;
+  logoUrl?: string;
+  logoText?: string;
   market?: string;
+  country?: string;
 }
 
 export interface Service {
@@ -163,17 +167,17 @@ export const portfolioData = {
     ]
   },
   selectedBrands: [
-    { name: "Chaldal", logoText: "Chaldal Ltd.", market: "Bangladesh" },
-    { name: "Sheba", logoText: "Sheba Platform Ltd.", market: "Bangladesh" },
-    { name: "Go Nature", logoText: "Go Nature BD", market: "Bangladesh" },
-    { name: "Basumati Group", logoText: "Basumati Group", market: "Bangladesh" },
-    { name: "Heavens Group", logoText: "Heavens Group", market: "Bangladesh" },
-    { name: "Zettabyte Technology", logoText: "Zettabyte Technology Ltd.", market: "Bangladesh" },
-    { name: "Amiras Dental", logoText: "Amiras Dental", market: "Bangladesh" },
-    { name: "Dream Advice", logoText: "Dream Advice", market: "Belgium" },
-    { name: "Lake Powell Promotions", logoText: "Lake Powell Promotions", market: "USA" },
-    { name: "Page Party Bounce Co.", logoText: "Page Party Bounce Co.", market: "USA" },
-    { name: "Food Collection", logoText: "Food Collection Ltd.", market: "Bangladesh" }
+    { brandName: "Chaldal", name: "Chaldal", country: "Bangladesh", market: "Bangladesh", logoUrl: DEFAULT_BRAND_SVGS["chaldal"] },
+    { brandName: "Sheba", name: "Sheba", country: "Bangladesh", market: "Bangladesh", logoUrl: DEFAULT_BRAND_SVGS["sheba"] },
+    { brandName: "Go Nature", name: "Go Nature", country: "Bangladesh", market: "Bangladesh", logoUrl: DEFAULT_BRAND_SVGS["go nature"] },
+    { brandName: "Basumati Group", name: "Basumati Group", country: "Bangladesh", market: "Bangladesh", logoUrl: DEFAULT_BRAND_SVGS["basumati group"] },
+    { brandName: "Heavens Group", name: "Heavens Group", country: "Bangladesh", market: "Bangladesh", logoUrl: DEFAULT_BRAND_SVGS["heavens group"] },
+    { brandName: "Zettabyte Technology", name: "Zettabyte Technology", country: "Bangladesh", market: "Bangladesh", logoUrl: DEFAULT_BRAND_SVGS["zettabyte technology"] },
+    { brandName: "Amiras Dental", name: "Amiras Dental", country: "Bangladesh", market: "Bangladesh", logoUrl: DEFAULT_BRAND_SVGS["amiras dental"] },
+    { brandName: "Dream Advice", name: "Dream Advice", country: "Belgium", market: "Belgium", logoUrl: DEFAULT_BRAND_SVGS["dream advice"] },
+    { brandName: "Lake Powell Promotions", name: "Lake Powell Promotions", country: "USA", market: "USA", logoUrl: DEFAULT_BRAND_SVGS["lake powell promotions"] },
+    { brandName: "Page Party Bounce Co.", name: "Page Party Bounce Co.", country: "USA", market: "USA", logoUrl: DEFAULT_BRAND_SVGS["page party bounce co."] },
+    { brandName: "Food Collection", name: "Food Collection", country: "Bangladesh", market: "Bangladesh", logoUrl: DEFAULT_BRAND_SVGS["food collection"] }
   ] as Brand[],
   services: [
     {

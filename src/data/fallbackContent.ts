@@ -7,6 +7,7 @@
  */
 
 import { SectionRecord, SiteSettings } from "../context/PortfolioContext";
+import { DEFAULT_BRAND_SVGS } from "../utils/brandLogos";
 
 export interface FaqFallbackItem {
   id: string;
@@ -445,130 +446,174 @@ export const FALLBACK_SECTIONS: SectionRecord[] = [
     "type": "collection",
     "fields_schema": [
       {
-        "name": "name",
+        "name": "brandName",
         "type": "text"
       },
       {
-        "name": "logoText",
+        "name": "country",
         "type": "text"
       },
       {
-        "name": "market",
-        "type": "text"
+        "name": "logoUrl",
+        "type": "image"
       }
     ],
     "published_content": [
       {
         "name": "Chaldal",
+        "brandName": "Chaldal",
         "market": "Bangladesh",
-        "logoText": "Chaldal Ltd."
+        "country": "Bangladesh",
+        "logoUrl": DEFAULT_BRAND_SVGS["chaldal"]
       },
       {
         "name": "Sheba",
+        "brandName": "Sheba",
         "market": "Bangladesh",
-        "logoText": "Sheba Platform Ltd."
+        "country": "Bangladesh",
+        "logoUrl": DEFAULT_BRAND_SVGS["sheba"]
       },
       {
         "name": "Go Nature",
+        "brandName": "Go Nature",
         "market": "Bangladesh",
-        "logoText": "Go Nature BD"
+        "country": "Bangladesh",
+        "logoUrl": DEFAULT_BRAND_SVGS["go nature"]
       },
       {
         "name": "Basumati Group",
+        "brandName": "Basumati Group",
         "market": "Bangladesh",
-        "logoText": "Basumati Group"
+        "country": "Bangladesh",
+        "logoUrl": DEFAULT_BRAND_SVGS["basumati group"]
       },
       {
         "name": "Heavens Group",
+        "brandName": "Heavens Group",
         "market": "Bangladesh",
-        "logoText": "Heavens Group"
+        "country": "Bangladesh",
+        "logoUrl": DEFAULT_BRAND_SVGS["heavens group"]
       },
       {
         "name": "Zettabyte Technology",
+        "brandName": "Zettabyte Technology",
         "market": "Bangladesh",
-        "logoText": "Zettabyte Technology Ltd."
+        "country": "Bangladesh",
+        "logoUrl": DEFAULT_BRAND_SVGS["zettabyte technology"]
       },
       {
         "name": "Amiras Dental",
+        "brandName": "Amiras Dental",
         "market": "Bangladesh",
-        "logoText": "Amiras Dental"
+        "country": "Bangladesh",
+        "logoUrl": DEFAULT_BRAND_SVGS["amiras dental"]
       },
       {
         "name": "Dream Advice",
+        "brandName": "Dream Advice",
         "market": "Belgium",
-        "logoText": "Dream Advice"
+        "country": "Belgium",
+        "logoUrl": DEFAULT_BRAND_SVGS["dream advice"]
       },
       {
         "name": "Lake Powell Promotions",
+        "brandName": "Lake Powell Promotions",
         "market": "USA",
-        "logoText": "Lake Powell Promotions"
+        "country": "USA",
+        "logoUrl": DEFAULT_BRAND_SVGS["lake powell promotions"]
       },
       {
         "name": "Page Party Bounce Co.",
+        "brandName": "Page Party Bounce Co.",
         "market": "USA",
-        "logoText": "Page Party Bounce Co."
+        "country": "USA",
+        "logoUrl": DEFAULT_BRAND_SVGS["page party bounce co."]
       },
       {
         "name": "Food Collection",
+        "brandName": "Food Collection",
         "market": "Bangladesh",
-        "logoText": "Food Collection Ltd."
+        "country": "Bangladesh",
+        "logoUrl": DEFAULT_BRAND_SVGS["food collection"]
       }
     ],
     "draft_content": [
       {
         "name": "Chaldal",
+        "brandName": "Chaldal",
         "market": "Bangladesh",
-        "logoText": "Chaldal Ltd."
+        "country": "Bangladesh",
+        "logoUrl": DEFAULT_BRAND_SVGS["chaldal"]
       },
       {
         "name": "Sheba",
+        "brandName": "Sheba",
         "market": "Bangladesh",
-        "logoText": "Sheba Platform Ltd."
+        "country": "Bangladesh",
+        "logoUrl": DEFAULT_BRAND_SVGS["sheba"]
       },
       {
         "name": "Go Nature",
+        "brandName": "Go Nature",
         "market": "Bangladesh",
-        "logoText": "Go Nature BD"
+        "country": "Bangladesh",
+        "logoUrl": DEFAULT_BRAND_SVGS["go nature"]
       },
       {
         "name": "Basumati Group",
+        "brandName": "Basumati Group",
         "market": "Bangladesh",
-        "logoText": "Basumati Group"
+        "country": "Bangladesh",
+        "logoUrl": DEFAULT_BRAND_SVGS["basumati group"]
       },
       {
         "name": "Heavens Group",
+        "brandName": "Heavens Group",
         "market": "Bangladesh",
-        "logoText": "Heavens Group"
+        "country": "Bangladesh",
+        "logoUrl": DEFAULT_BRAND_SVGS["heavens group"]
       },
       {
         "name": "Zettabyte Technology",
+        "brandName": "Zettabyte Technology",
         "market": "Bangladesh",
-        "logoText": "Zettabyte Technology Ltd."
+        "country": "Bangladesh",
+        "logoUrl": DEFAULT_BRAND_SVGS["zettabyte technology"]
       },
       {
         "name": "Amiras Dental",
+        "brandName": "Amiras Dental",
         "market": "Bangladesh",
-        "logoText": "Amiras Dental"
+        "country": "Bangladesh",
+        "logoUrl": DEFAULT_BRAND_SVGS["amiras dental"]
       },
       {
         "name": "Dream Advice",
+        "brandName": "Dream Advice",
         "market": "Belgium",
-        "logoText": "Dream Advice"
+        "country": "Belgium",
+        "logoUrl": DEFAULT_BRAND_SVGS["dream advice"]
       },
       {
         "name": "Lake Powell Promotions",
+        "brandName": "Lake Powell Promotions",
         "market": "USA",
-        "logoText": "Lake Powell Promotions"
+        "country": "USA",
+        "logoUrl": DEFAULT_BRAND_SVGS["lake powell promotions"]
       },
       {
         "name": "Page Party Bounce Co.",
+        "brandName": "Page Party Bounce Co.",
         "market": "USA",
-        "logoText": "Page Party Bounce Co."
+        "country": "USA",
+        "logoUrl": DEFAULT_BRAND_SVGS["page party bounce co."]
       },
       {
         "name": "Food Collection",
+        "brandName": "Food Collection",
         "market": "Bangladesh",
-        "logoText": "Food Collection Ltd."
+        "country": "Bangladesh",
+        "logoUrl": DEFAULT_BRAND_SVGS["food collection"]
       }
     ],
     "is_visible": true,
@@ -987,6 +1032,7 @@ export const FALLBACK_SITE_SETTINGS: SiteSettings = {
   "primaryColor": "#a64dff",
   "customCss": "",
   "enableChatbot": false,
+  "marqueeSpeed": 25,
   "projectSettings": {
     "showYear": false,
     "showLiveUrl": false,

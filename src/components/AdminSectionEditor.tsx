@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { supabase, isSupabaseConfigured } from "../lib/supabase";
 import { usePortfolio, SectionRecord } from "../context/PortfolioContext";
-import { Save, Plus, Trash, ArrowUp, ArrowDown, Upload, CheckCircle, AlertCircle, Edit, ListOrdered, Eye, Send, EyeOff, LayoutGrid, ZoomIn, ZoomOut, RotateCcw, X, Loader2, Check, Clock, Sparkles, ChevronDown, ChevronUp } from "lucide-react";
+import { Save, Plus, Trash, ArrowUp, ArrowDown, Upload, CheckCircle, AlertCircle, Edit, ListOrdered, Eye, Send, EyeOff, LayoutGrid, ZoomIn, ZoomOut, RotateCcw, X, Loader2, Check, Clock, Sparkles, ChevronDown, ChevronUp, Gauge } from "lucide-react";
 import RichTextControl from "./RichTextControl";
 import defaultHeaderImage from "../assets/images/Rashed Header Image.webp";
 
@@ -258,7 +258,7 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
     if (isSubFormOpen && draftContent) {
       const isNew = selectedItemIndex === null;
       const currentItem = isNew ? {} : (draftContent[selectedItemIndex] || {});
-      setModalImage(currentItem.image || "");
+      setModalImage(currentItem.logoUrl || currentItem.image || "");
     } else {
       setModalImage("");
     }
@@ -1051,19 +1051,19 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    {item.image && (
+                    {(item.image || item.logoUrl) && (
                       <img
-                        src={item.image}
+                        src={item.logoUrl || item.image}
                         alt=""
-                        className="w-10 h-10 rounded-lg object-cover bg-zinc-900 border border-zinc-800 shrink-0"
+                        className="w-10 h-10 rounded-lg object-contain bg-zinc-900 border border-zinc-800 shrink-0 p-1"
                       />
                     )}
                     <div className="truncate">
                       <h4 className="text-sm font-semibold text-white truncate">
-                        {item.title || item.role || item.name || item.quote || `Row #${idx + 1}`}
+                        {item.brandName || item.title || item.role || item.name || item.quote || `Row #${idx + 1}`}
                       </h4>
                       <p className="text-xs text-zinc-500 truncate">
-                        {item.institution ? `${item.institution}${item.period ? ` • ${item.period}` : ""}` : (item.company || item.category || item.logoText || item.author || "No metadata details")}
+                        {item.country || item.market || (item.institution ? `${item.institution}${item.period ? ` • ${item.period}` : ""}` : (item.company || item.category || item.author || "No metadata details"))}
                       </p>
                     </div>
                   </div>
@@ -1140,6 +1140,17 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
       // Maintain image if updated via upload state
       if (sectionKey === "services" || sectionKey === "projects") {
         updatedRecord.image = modalImage;
+      }
+
+      if (sectionKey === "brands") {
+        const logo = modalImage || (formEl.elements.namedItem("logoUrl") as HTMLInputElement)?.value || updatedRecord.logoUrl || "";
+        updatedRecord.logoUrl = logo;
+        const bName = (formEl.elements.namedItem("brandName") as HTMLInputElement)?.value || (formEl.elements.namedItem("name") as HTMLInputElement)?.value || updatedRecord.brandName || updatedRecord.name || "";
+        updatedRecord.brandName = bName;
+        updatedRecord.name = bName;
+        const bCountry = (formEl.elements.namedItem("country") as HTMLInputElement)?.value || (formEl.elements.namedItem("market") as HTMLInputElement)?.value || updatedRecord.country || updatedRecord.market || "";
+        updatedRecord.country = bCountry;
+        updatedRecord.market = bCountry;
       }
 
       const updatedCollection = [...draftContent];
@@ -1450,17 +1461,98 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-[10px] text-zinc-400 uppercase tracking-wider mb-1">Brand Name</label>
-              <input type="text" name="name" required defaultValue={item.name || ""} className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 text-zinc-200 text-xs rounded-lg outline-none" />
+              <label className="block text-[10px] text-zinc-400 uppercase tracking-wider mb-1">
+                Brand Name <span className="text-purple-400">*</span>
+              </label>
+              <input
+                type="text"
+                name="brandName"
+                required
+                defaultValue={item.brandName || item.name || ""}
+                placeholder="e.g. Chaldal, Sheba, Basumati"
+                className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 text-zinc-200 text-xs rounded-lg outline-none focus:border-purple-500/50"
+              />
             </div>
             <div>
-              <label className="block text-[10px] text-zinc-400 uppercase tracking-wider mb-1">Display Logo Text</label>
-              <input type="text" name="logoText" required defaultValue={item.logoText || ""} className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 text-zinc-200 text-xs rounded-lg outline-none" />
+              <label className="block text-[10px] text-zinc-400 uppercase tracking-wider mb-1">
+                Market Location / Country
+              </label>
+              <input
+                type="text"
+                name="country"
+                defaultValue={item.country || item.market || ""}
+                placeholder="e.g. Bangladesh, USA, Belgium"
+                className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 text-zinc-200 text-xs rounded-lg outline-none focus:border-purple-500/50"
+              />
             </div>
           </div>
-          <div>
-            <label className="block text-[10px] text-zinc-400 uppercase tracking-wider mb-1">Market Location / Country</label>
-            <input type="text" name="market" defaultValue={item.market || ""} className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 text-zinc-200 text-xs rounded-lg outline-none" placeholder="Bangladesh, USA, Belgium" />
+
+          {/* Logo URL & Image Upload Field ("logoUrl") */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="block text-[10px] text-zinc-400 uppercase tracking-wider">
+                Brand Logo ("logoUrl")
+              </label>
+              <span className="text-[10px] text-zinc-500 font-mono">SVG, PNG, or WebP</span>
+            </div>
+
+            {/* Logo URL input */}
+            <input
+              type="text"
+              name="logoUrl"
+              value={modalImage}
+              onChange={(e) => setModalImage(e.target.value)}
+              placeholder="Paste logo image URL or upload file below..."
+              className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 text-zinc-200 text-xs rounded-lg outline-none focus:border-purple-500/50 font-mono text-[11px]"
+            />
+
+            {/* File Upload Button + Actions */}
+            <div className="flex items-center gap-3 pt-1">
+              <div className="relative">
+                <input
+                  type="file"
+                  accept="image/*,.svg"
+                  onChange={(e) => triggerImageUpload(e, (url) => setModalImage(url))}
+                  className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
+                />
+                <div className="px-3.5 py-2 bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-300 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 cursor-pointer">
+                  <Upload className="w-3.5 h-3.5" />
+                  Upload Logo File
+                </div>
+              </div>
+
+              {modalImage && (
+                <button
+                  type="button"
+                  onClick={() => setModalImage("")}
+                  className="px-2.5 py-2 text-zinc-400 hover:text-red-400 text-xs transition-colors"
+                >
+                  Clear Logo
+                </button>
+              )}
+            </div>
+
+            {/* Live Logo Preview Box */}
+            {modalImage && (
+              <div className="p-3 bg-[#0c0c0e] border border-zinc-800/80 rounded-xl flex items-center justify-between gap-4 mt-2">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-20 h-12 rounded-lg bg-zinc-900 border border-zinc-800 p-2 flex items-center justify-center overflow-hidden shrink-0">
+                    <img
+                      src={modalImage}
+                      alt="Brand Logo Preview"
+                      className="max-h-full max-w-full object-contain"
+                      onError={(e) => {
+                        (e.target as HTMLElement).style.display = "none";
+                      }}
+                    />
+                  </div>
+                  <div className="truncate">
+                    <p className="text-xs text-zinc-300 font-medium truncate">Logo Ready</p>
+                    <p className="text-[10px] text-zinc-500 font-mono">Rendered in Marquee</p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       );

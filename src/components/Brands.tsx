@@ -1,12 +1,19 @@
 import React from "react";
 import { usePortfolio } from "../context/PortfolioContext";
-import { Star } from "lucide-react";
 import { motion } from "motion/react";
+import { getDefaultBrandLogo } from "../utils/brandLogos";
 
 export default function Brands() {
-  const { portfolioData, theme } = usePortfolio();
+  const { portfolioData, siteSettings, theme } = usePortfolio();
   const isLight = theme === "light";
-  const brands = portfolioData.selectedBrands;
+  const brands = portfolioData.selectedBrands || [];
+  const marqueeSpeed = siteSettings?.marqueeSpeed ?? 25;
+
+  // Ensure seamless endless scroll without blank gaps or stutter by repeating items adequately into two exact halves
+  const baseBrands = brands.length > 0 ? brands : [];
+  const repeatCount = baseBrands.length > 0 ? Math.max(1, Math.ceil(8 / baseBrands.length)) : 1;
+  const singleHalf = Array(repeatCount).fill(baseBrands).flat();
+  const marqueeItems = [...singleHalf, ...singleHalf];
 
   return (
     <section id="brands" className={`py-5 sm:py-6 md:py-7 lg:py-8 relative overflow-hidden ${
@@ -30,38 +37,55 @@ export default function Brands() {
           SELECTED BRANDS & COLLABORATORS
         </p>
 
-        {/* Dynamic Horizontal Ticker Marquee */}
-        <div className="relative w-full overflow-hidden py-2">
-          <div className="flex gap-16 items-center animate-[marquee_25s_linear_infinite] whitespace-nowrap min-w-full">
-            {/* Duplicate array to create endless scroll */}
-            {[...brands, ...brands].map((brand, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-3 shrink-0 select-none group"
-              >
-                <Star className="w-3.5 h-3.5 text-purple-500 opacity-50 group-hover:rotate-45 transition-transform duration-300" />
-                <span className={`font-display font-medium text-lg sm:text-xl tracking-tight transition-colors duration-200 ${
-                  isLight ? "text-zinc-600 group-hover:text-zinc-950" : "text-zinc-400 group-hover:text-white"
-                }`}>
-                  {brand.logoText}
-                </span>
-                {brand.market && (
-                  <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded uppercase border ${
-                    isLight ? "bg-purple-100/80 text-purple-700 border-purple-200" : "bg-white/5 text-zinc-500 border-white/5"
-                  }`}>
-                    {brand.market}
-                  </span>
-                )}
-              </div>
-            ))}
+        {/* Dynamic Horizontal Ticker Marquee with Responsive Logo Sizing & Controlled Speed */}
+        <div className="relative w-full overflow-hidden py-3">
+          {/* Edge gradients for smooth fade in/out */}
+          <div className={`absolute left-0 top-0 bottom-0 w-12 sm:w-20 z-10 pointer-events-none ${
+            isLight
+              ? "bg-gradient-to-r from-stone-50/80 sm:from-white/90 to-transparent"
+              : "bg-gradient-to-r from-[#030303] to-transparent"
+          }`} />
+          <div className={`absolute right-0 top-0 bottom-0 w-12 sm:w-20 z-10 pointer-events-none ${
+            isLight
+              ? "bg-gradient-to-l from-stone-50/80 sm:from-white/90 to-transparent"
+              : "bg-gradient-to-l from-[#030303] to-transparent"
+          }`} />
+
+          <div
+            className="flex items-center animate-[marquee_25s_linear_infinite] whitespace-nowrap min-w-full hover:[animation-play-state:paused]"
+            style={{ animationDuration: `${marqueeSpeed}s` }}
+          >
+            {marqueeItems.map((brand, index) => {
+              const brandName = brand.brandName || brand.name || `Brand ${index + 1}`;
+              const logoSrc = brand.logoUrl || getDefaultBrandLogo(brandName);
+
+              return (
+                <div
+                  key={index}
+                  className="w-[30%] sm:w-[22%] lg:w-[18%] flex-shrink-0 flex items-center justify-center px-4 select-none group"
+                  title={brandName}
+                >
+                  <img
+                    src={logoSrc}
+                    alt={brandName}
+                    loading="lazy"
+                    className={`h-6 sm:h-7 md:h-8 w-auto max-w-[120px] sm:max-w-[140px] object-contain transition-all duration-300 filter grayscale opacity-45 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 ${
+                      isLight
+                        ? "brightness-95 contrast-125 group-hover:brightness-100 group-hover:drop-shadow-[0_2px_12px_rgba(168,85,247,0.35)]"
+                        : "brightness-110 contrast-100 group-hover:brightness-125 group-hover:drop-shadow-[0_0_14px_rgba(168,85,247,0.55)]"
+                    }`}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* Static Grid on Mobile, nicely structured */}
+        {/* Static Grid on Mobile, nicely structured: displaying only item.brandName and item.country */}
         <div className={`grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 mt-4 sm:mt-6 pt-4 sm:pt-6 border-t ${
           isLight ? "border-zinc-200/80" : "border-white/5"
         }`}>
-          {brands.slice(0, 11).map((brand, i) => (
+          {brands.map((brand, i) => (
             <div
               key={i}
               className={`p-4 rounded-xl text-center transition-all duration-300 group ${
@@ -73,19 +97,19 @@ export default function Brands() {
               <p className={`font-display font-medium text-xs sm:text-sm ${
                 isLight ? "text-zinc-800 group-hover:text-purple-700 font-semibold" : "text-zinc-300 group-hover:text-white"
               }`}>
-                {brand.name}
+                {brand.brandName || brand.name}
               </p>
               <span className={`text-[9px] font-mono uppercase tracking-widest mt-1 block ${
                 isLight ? "text-zinc-400" : "text-zinc-600"
               }`}>
-                {brand.market || "Local Client"}
+                {brand.country || brand.market || "Local Client"}
               </span>
             </div>
           ))}
         </div>
       </motion.div>
 
-      {/* Add Custom marquee keyframes if they are not inside Tailwind, we will inject a style tag */}
+      {/* Custom marquee keyframes */}
       <style>{`
         @keyframes marquee {
           0% {
@@ -94,9 +118,6 @@ export default function Brands() {
           100% {
             transform: translateX(-50%);
           }
-        }
-        .animate-marquee {
-          animation: marquee 25s linear infinite;
         }
       `}</style>
     </section>
