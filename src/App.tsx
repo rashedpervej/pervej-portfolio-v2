@@ -59,27 +59,48 @@ function MainPortfolio() {
 
   const isChatbotEnabled = siteSettings.enableChatbot !== false && (siteSettings.enableChatbot as any) !== "false";
 
-  // 1. Initial Page Load & Refresh: Restore section if URL is a clean path e.g. /about, /projects, /contact
+  // 1. Initial Page Load & Refresh: Restore section without changing the root "/" URL
   useEffect(() => {
     const currentPath = window.location.pathname;
     if (!isStandaloneRoute(currentPath)) {
-      const sectionId = getSectionFromPath(currentPath);
-      if (sectionId && sectionId !== "hero") {
+      let targetSection = "hero";
+      // If user had a legacy section path like /about, normalize visible URL to "/" immediately
+      if (currentPath !== "/") {
+        const directSection = getSectionFromPath(currentPath);
+        if (directSection && directSection !== "hero") {
+          targetSection = directSection;
+        }
+        window.history.replaceState({ section: targetSection }, "", "/");
+      } else {
+        // Look up saved session storage or history state for refresh restoration
+        try {
+          const saved = sessionStorage.getItem("portfolio_active_section");
+          if (saved) targetSection = saved;
+        } catch {}
+        if (targetSection === "hero" && window.history.state?.section) {
+          targetSection = window.history.state.section;
+        }
+      }
+
+      if (targetSection && targetSection !== "hero") {
         const timer = setTimeout(() => {
-          scrollToSection(sectionId, 0, 600, 80, "smooth");
+          scrollToSection(targetSection, 0, 600, 80, "smooth");
+          window.dispatchEvent(
+            new CustomEvent("portfolio:sectionchange", { detail: { section: targetSection } })
+          );
         }, 120);
         return () => clearTimeout(timer);
       }
     }
   }, []);
 
-  // 2. Browser Back / Forward (popstate): Smoothly restore and scroll to target section
+  // 2. Browser Back / Forward (popstate): Smoothly restore and scroll to target section while URL stays "/"
   useEffect(() => {
-    const handlePopState = () => {
+    const handlePopState = (e: PopStateEvent) => {
       const currentPath = window.location.pathname;
       if (!isStandaloneRoute(currentPath)) {
-        const sectionId = getSectionFromPath(currentPath);
-        scrollToSection(sectionId || "hero", 0, 600, 80, "smooth");
+        const sectionId = e.state?.section || "hero";
+        scrollToSection(sectionId, 0, 600, 80, "smooth");
       }
     };
 

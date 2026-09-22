@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Menu, X, Download } from "lucide-react";
 import { usePortfolio } from "../context/PortfolioContext";
 import { 
   navigateToSection, 
-  isProgrammaticScrollActive, 
-  isStandaloneRoute, 
-  getPathFromSection 
+  isProgrammaticScrollActive 
 } from "../utils/scroll";
 import { supabase, isSupabaseConfigured } from "../lib/supabase";
 import defaultResumePdf from "../assets/CV/Rashed Pervej _ Resume _ Jul 26.pdf";
@@ -16,88 +14,147 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [activeSection, setActiveSection] = useState("hero");
+  const [activeSection, setActiveSection] = useState<string>(() => {
+    try {
+      return sessionStorage.getItem("portfolio_active_section") || "hero";
+    } catch {
+      return "hero";
+    }
+  });
   const { portfolioData, siteSettings, trackEvent, isSectionVisible, theme } = usePortfolio();
   const isLight = theme === "light";
-  const replaceUrlTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const allNavItems = [
     { label: "Home", href: "/", id: "hero" },
-    { label: "About", href: "/about", id: "about" },
-    { label: "Experience", href: "/experience", id: "experience" },
-    { label: "Skills", href: "/skills", id: "skills" },
-    { label: "Services", href: "/services", id: "services" },
-    { label: "Projects", href: "/projects", id: "projects" },
-    { label: "Contact", href: "/contact", id: "contact" }
+    { label: "About", href: "/", id: "about" },
+    { label: "Experience", href: "/", id: "experience" },
+    { label: "Skills", href: "/", id: "skills" },
+    { label: "Services", href: "/", id: "services" },
+    { label: "Projects", href: "/", id: "projects" },
+    { label: "Contact", href: "/", id: "contact" }
   ];
 
   const navItems = allNavItems.filter((item) => isSectionVisible(item.id));
 
+  // Sync active section when History API or programmatic changes occur
+  useEffect(() => {
+    const handlePopState = (e: PopStateEvent) => {
+      const targetSection = e.state?.section || "hero";
+      setActiveSection(targetSection);
+    };
+
+    const handleSectionChange = (e: Event) => {
+      const customEvent = e as CustomEvent<{ section: string }>;
+      if (customEvent.detail?.section) {
+        setActiveSection(customEvent.detail.section);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    window.addEventListener("portfolio:sectionchange", handleSectionChange);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener("portfolio:sectionchange", handleSectionChange);
+    };
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
-      // Background toggle
+      // 1. Header glass background toggle
       if (window.scrollY > 20) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
       }
 
-      // Scroll progress indicator
+      // 2. Scroll progress indicator bar
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (totalHeight > 0) {
         const progress = (window.scrollY / totalHeight) * 100;
         setScrollProgress(progress);
       }
 
-      // Determine active section based on scroll position
-      const scrollPos = window.scrollY + 100;
-      let currentActive = "hero";
-      for (const item of navItems) {
-        const el = document.getElementById(item.id);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
-            currentActive = item.id;
-            break;
-          }
-        }
+      // 3. Do not overwrite active section while programmatic scroll animation is actively running
+      if (isProgrammaticScrollActive()) {
+        return;
       }
-      setActiveSection(currentActive);
 
-      // Debounced URL sync on natural manual scroll (does not affect programmatic navigation or back/forward)
-      if (
-        !isProgrammaticScrollActive() && 
-        typeof window !== "undefined" && 
-        !isStandaloneRoute(window.location.pathname)
-      ) {
-        if (replaceUrlTimer.current) {
-          clearTimeout(replaceUrlTimer.current);
-        }
-        replaceUrlTimer.current = setTimeout(() => {
-          if (!isProgrammaticScrollActive() && !isStandaloneRoute(window.location.pathname)) {
-            const cleanPath = getPathFromSection(currentActive);
-            if (window.location.pathname !== cleanPath) {
-              window.history.replaceState({ section: currentActive }, "", cleanPath);
+      // 4. Physical DOM positions calculation for active indicator
+      if (window.scrollY < 80) {
+        setActiveSection((prev) => {
+          if (prev !== "hero") {
+            try { sessionStorage.setItem("portfolio_active_section", "hero"); } catch {}
+            if (window.location.pathname === "/") {
+              window.history.replaceState({ section: "hero" }, "", "/");
             }
+            return "hero";
           }
-        }, 350);
+          return prev;
+        });
+        return;
       }
+
+      // Near bottom of page -> Contact
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50) {
+        const lastItem = navItems[navItems.length - 1];
+        if (lastItem) {
+          setActiveSection((prev) => {
+            if (prev !== lastItem.id) {
+              try { sessionStorage.setItem("portfolio_active_section", lastItem.id); } catch {}
+              if (window.location.pathname === "/") {
+                window.history.replaceState({ section: lastItem.id }, "", "/");
+              }
+              return lastItem.id;
+            }
+            return prev;
+          });
+        }
+        return;
+      }
+
+      // Mid-page scrolling: find which section header/content is under focus line
+      const scrollPos = window.scrollY + 140;
+      const sectionsInDoc = navItems
+        .map((item) => {
+          const el = document.getElementById(item.id);
+          return {
+            id: item.id,
+            top: el ? el.getBoundingClientRect().top + window.scrollY : 0,
+            hasEl: el !== null,
+          };
+        })
+        .filter((item) => item.hasEl)
+        .sort((a, b) => a.top - b.top);
+
+      let foundActive = sectionsInDoc[0]?.id || "hero";
+      for (let i = sectionsInDoc.length - 1; i >= 0; i--) {
+        if (scrollPos >= sectionsInDoc[i].top) {
+          foundActive = sectionsInDoc[i].id;
+          break;
+        }
+      }
+
+      setActiveSection((prev) => {
+        if (prev !== foundActive) {
+          try { sessionStorage.setItem("portfolio_active_section", foundActive); } catch {}
+          if (window.location.pathname === "/") {
+            window.history.replaceState({ section: foundActive }, "", "/");
+          }
+          return foundActive;
+        }
+        return prev;
+      });
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (replaceUrlTimer.current) {
-        clearTimeout(replaceUrlTimer.current);
-      }
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [navItems]);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isMobile = false) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string, isMobile = false) => {
     e.preventDefault();
-    navigateToSection(href, { delay: isMobile ? 220 : 0 });
+    setActiveSection(sectionId);
+    navigateToSection(sectionId, { delay: isMobile ? 220 : 0 });
   };
 
   const [isDownloading, setIsDownloading] = useState(false);
@@ -256,7 +313,7 @@ export default function Header() {
           {/* Logo */}
           <a
             href="/"
-            onClick={(e) => handleNavClick(e, "/")}
+            onClick={(e) => handleNavClick(e, "hero")}
             className="flex items-center gap-2 group"
           >
             <span
@@ -276,7 +333,7 @@ export default function Header() {
                 <a
                   key={index}
                   href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
+                  onClick={(e) => handleNavClick(e, item.id)}
                   className={`font-sans text-xs uppercase tracking-widest transition-all duration-300 relative py-1 ${
                     isActive
                       ? isLight
@@ -374,7 +431,7 @@ export default function Header() {
                       href={item.href}
                       onClick={(e) => {
                         setMobileMenuOpen(false);
-                        handleNavClick(e, item.href, true);
+                        handleNavClick(e, item.id, true);
                       }}
                       className={`font-display font-medium text-lg flex items-center justify-between transition-colors ${
                         isActive

@@ -169,9 +169,11 @@ function performScroll(
 }
 
 /**
- * Navigates to a portfolio section using the HTML5 History API without hash.
+ * Navigates to a portfolio section smoothly.
+ * The browser URL strictly remains exactly the root "/" URL (no pathname or hash).
+ * Updates History state and sessionStorage for Back/Forward and refresh restoration.
  * 
- * @param targetIdOrPath - Target section or path (e.g. "/about", "projects", "#contact")
+ * @param targetIdOrPath - Target section or path (e.g. "about", "projects", "contact", "hero")
  * @param options - Navigation options (delay, replace, behavior)
  */
 export function navigateToSection(
@@ -182,13 +184,21 @@ export function navigateToSection(
   const targetPath = getPathFromSection(targetIdOrPath);
   const sectionId = getSectionFromPath(targetPath);
 
-  // If URL differs, update history state cleanly without URL hash
-  if (typeof window !== "undefined" && window.location.pathname !== targetPath) {
+  if (typeof window !== "undefined") {
+    // Keep visible URL strictly as "/"
     if (replace) {
-      window.history.replaceState({ section: sectionId }, "", targetPath);
+      window.history.replaceState({ section: sectionId }, "", "/");
     } else {
-      window.history.pushState({ section: sectionId }, "", targetPath);
+      window.history.pushState({ section: sectionId }, "", "/");
     }
+
+    try {
+      sessionStorage.setItem("portfolio_active_section", sectionId);
+    } catch {}
+
+    window.dispatchEvent(
+      new CustomEvent("portfolio:sectionchange", { detail: { section: sectionId } })
+    );
   }
 
   // Smoothly scroll to target section
