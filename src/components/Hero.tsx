@@ -93,7 +93,7 @@ export default function Hero() {
 
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 w-full relative z-10 grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-center">
         {/* Left Column: Core Text */}
-        <div className="flex flex-col gap-5 lg:gap-5 items-start text-left">
+        <div className="flex flex-col gap-5 lg:gap-5 items-start text-left w-full">
           {/* Tagline / Availability Indicator */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -150,12 +150,12 @@ export default function Hero() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto pt-1"
+            className="flex flex-row flex-wrap items-center justify-start gap-3 sm:gap-4 pt-1"
           >
             <a
               href="/"
               onClick={(e) => handleCtaClick(e, primaryCtaLink)}
-              className="btn-keep-white group relative w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs sm:text-sm uppercase tracking-wider sm:tracking-widest font-bold transition-all duration-300 shadow-xl shadow-purple-600/25 active:scale-95 flex items-center justify-center gap-2.5 border border-purple-400/30 overflow-hidden cursor-pointer"
+              className="btn-keep-white group relative inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs sm:text-sm uppercase tracking-wider font-bold transition-all duration-300 shadow-xl shadow-purple-600/25 active:scale-95 border border-purple-400/30 overflow-hidden cursor-pointer whitespace-nowrap"
             >
               <span className="absolute inset-0 pointer-events-none -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent -skew-x-12" />
               <Paintbrush className="w-4 h-4 text-purple-200" />
@@ -164,7 +164,7 @@ export default function Hero() {
             <a
               href="/"
               onClick={(e) => handleCtaClick(e, secondaryCtaLink)}
-              className={`w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm uppercase tracking-wider sm:tracking-widest font-bold transition-all duration-300 active:scale-95 cursor-pointer flex items-center justify-center ${
+              className={`inline-flex items-center justify-center px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl text-xs sm:text-sm uppercase tracking-wider font-bold transition-all duration-300 active:scale-95 cursor-pointer whitespace-nowrap ${
                 isLight
                   ? "bg-white/80 hover:bg-white text-zinc-900 border border-white/90 hover:border-purple-400/40 shadow-[0_4px_16px_rgba(100,100,160,0.08),inset_0_1px_1px_rgba(255,255,255,0.95)] hover:shadow-[0_8px_24px_rgba(168,85,247,0.14)] backdrop-blur-md"
                   : "bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20"
@@ -174,38 +174,61 @@ export default function Hero() {
             </a>
           </motion.div>
 
-          {/* Subtle Horizontal Divider above stats for mobile clarity */}
-          <div className={`w-full h-[1px] my-1 sm:my-2 ${isLight ? "bg-zinc-200/80" : "bg-white/10"}`} />
-
           {/* Stats Metadata Group */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="grid grid-cols-3 gap-2 xs:gap-3 sm:flex sm:flex-wrap sm:items-start sm:gap-x-8 sm:gap-y-4 pt-1 w-full sm:w-auto"
+            className="grid grid-cols-3 gap-3 xs:gap-4 sm:gap-6 w-full max-w-xl pt-2 select-none"
           >
-            <div className="flex flex-col">
-              <p className={`font-display font-extrabold sm:font-bold text-3xl xs:text-4xl sm:text-3xl lg:text-4xl ${isLight ? "text-zinc-950" : "text-white"}`}>
+            <div className="flex flex-col items-start text-left w-full">
+              <p className={`font-display font-bold text-3xl sm:text-4xl tracking-tight leading-none ${isLight ? "text-zinc-950" : "text-white"}`}>
                 <AnimatedCounter value={experienceYears} />
               </p>
-              <p className={`font-mono text-[9px] xs:text-[10px] sm:text-[11px] uppercase tracking-wider mt-1 leading-tight ${isLight ? "text-zinc-500 font-medium" : "text-zinc-400"}`}>
-                {yearsLabel}
+              <p className={`font-mono text-[11px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.18em] mt-2 leading-[1.35] ${isLight ? "text-zinc-600 font-medium" : "text-zinc-400"}`}>
+                {yearsLabel.includes(" ") ? (
+                  <>
+                    {yearsLabel.split(" ")[0]}
+                    <br />
+                    {yearsLabel.split(" ").slice(1).join(" ")}
+                  </>
+                ) : (
+                  yearsLabel
+                )}
               </p>
             </div>
-            <div className="flex flex-col">
-              <p className={`font-display font-extrabold sm:font-bold text-3xl xs:text-4xl sm:text-3xl lg:text-4xl ${isLight ? "text-zinc-950" : "text-white"}`}>
+
+            <div className="flex flex-col items-start text-left w-full">
+              <p className={`font-display font-bold text-3xl sm:text-4xl tracking-tight leading-none ${isLight ? "text-zinc-950" : "text-white"}`}>
                 <AnimatedCounter value={selectedBrandsCount} />
               </p>
-              <p className={`font-mono text-[9px] xs:text-[10px] sm:text-[11px] uppercase tracking-wider mt-1 leading-tight ${isLight ? "text-zinc-500 font-medium" : "text-zinc-400"}`}>
-                {brandsLabel}
+              <p className={`font-mono text-[11px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.18em] mt-2 leading-[1.35] ${isLight ? "text-zinc-600 font-medium" : "text-zinc-400"}`}>
+                {brandsLabel.includes(" ") ? (
+                  <>
+                    {brandsLabel.split(" ")[0]}
+                    <br />
+                    {brandsLabel.split(" ").slice(1).join(" ")}
+                  </>
+                ) : (
+                  brandsLabel
+                )}
               </p>
             </div>
-            <div className="flex flex-col">
-              <p className={`font-display font-extrabold sm:font-bold text-3xl xs:text-4xl sm:text-3xl lg:text-4xl ${isLight ? "text-zinc-950" : "text-white"}`}>
+
+            <div className="flex flex-col items-start text-left w-full">
+              <p className={`font-display font-bold text-3xl sm:text-4xl tracking-tight leading-none ${isLight ? "text-zinc-950" : "text-white"}`}>
                 <AnimatedCounter value={creativeAssetsCount} />
               </p>
-              <p className={`font-mono text-[9px] xs:text-[10px] sm:text-[11px] uppercase tracking-wider mt-1 leading-tight ${isLight ? "text-zinc-500 font-medium" : "text-zinc-400"}`}>
-                {assetsLabel}
+              <p className={`font-mono text-[11px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.18em] mt-2 leading-[1.35] ${isLight ? "text-zinc-600 font-medium" : "text-zinc-400"}`}>
+                {assetsLabel.includes(" ") ? (
+                  <>
+                    {assetsLabel.split(" ")[0]}
+                    <br />
+                    {assetsLabel.split(" ").slice(1).join(" ")}
+                  </>
+                ) : (
+                  assetsLabel
+                )}
               </p>
             </div>
           </motion.div>

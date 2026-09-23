@@ -275,25 +275,22 @@ export default function Header() {
             })}
           </nav>
 
-          {/* Action Controls: Theme Toggle (compact on mobile, pill on desktop), Download CV, Hamburger (mobile) */}
+          {/* Action Controls: Theme Toggle (desktop only), Download CV (all devices), Hamburger (mobile) */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            {/* Theme Toggle - compact circular icon on mobile, dual slider on tablet/desktop */}
-            <div className="md:hidden flex items-center">
-              <ThemeToggle compact />
-            </div>
+            {/* Desktop Theme Toggle only (hidden on mobile header) */}
             <div className="hidden md:flex items-center">
               <ThemeToggle />
             </div>
 
-            {/* Download CV Button - visible on sm+ screens, available in mobile dropdown */}
+            {/* Download CV Button - ALWAYS VISIBLE ON ALL VERSIONS & DEVICES */}
             <button
               id="navbar-cv-download-btn"
               onClick={downloadCV}
               disabled={isDownloading}
               aria-label="Download Curriculum Vitae"
-              className={`hidden sm:inline-flex group relative items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4.5 py-2 sm:py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 ease-out overflow-hidden active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap shrink-0 ${
+              className={`inline-flex group relative items-center gap-1.5 sm:gap-2 px-3 py-1.5 xs:px-3.5 xs:py-2 sm:px-4.5 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-wide transition-all duration-300 ease-out overflow-hidden active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap shrink-0 ${
                 isLight
-                  ? "bg-white/65 hover:bg-white/90 border border-white/90 hover:border-purple-400/40 text-purple-950 shadow-[0_4px_16px_rgba(100,100,160,0.08),inset_0_1px_1px_rgba(255,255,255,0.95)] hover:shadow-[0_8px_24px_rgba(168,85,247,0.18)]"
+                  ? "bg-white/80 hover:bg-white border border-purple-200/80 hover:border-purple-400 text-purple-950 shadow-[0_2px_10px_rgba(147,51,234,0.08),inset_0_1px_1px_rgba(255,255,255,1)] hover:shadow-[0_4px_16px_rgba(168,85,247,0.18)]"
                   : "bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 hover:shadow-[0_0_15px_rgba(168,85,247,0.15)] hover:brightness-110 text-white"
               }`}
             >
@@ -337,61 +334,51 @@ export default function Header() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
               style={{
                 WebkitBackdropFilter: 'blur(24px)',
                 backdropFilter: 'blur(24px)',
               }}
-              className="md:hidden border-b border-black/5 bg-white/90 backdrop-blur-xl transition-colors duration-200 dark:border-white/10 dark:bg-[#121614]/90 overflow-hidden"
+              className="md:hidden border-b border-black/5 bg-white/95 backdrop-blur-2xl transition-colors duration-200 dark:border-white/10 dark:bg-[#0c0d14]/95 overflow-hidden shadow-2xl"
             >
-              <div className="px-5 py-5 sm:px-6 sm:py-6 flex flex-col gap-4 sm:gap-5">
+              <div className="px-5 py-5 sm:px-6 sm:py-6 flex flex-col gap-4">
                 {/* Mobile Navigation Links */}
-                {navItems.map((item, index) => {
-                  const isActive = activeSection === item.id;
-                  return (
-                    <a
-                      key={index}
-                      href={item.href}
-                      onClick={(e) => {
-                        setMobileMenuOpen(false);
-                        handleNavClick(e, item.href);
-                      }}
-                      className={`font-display font-medium text-lg flex items-center justify-between transition-colors ${
-                        isActive
-                          ? isLight
-                            ? "text-purple-700 font-bold"
-                            : "text-purple-400 font-semibold"
-                          : isLight
-                            ? "text-zinc-700 hover:text-purple-600"
-                            : "text-zinc-300 hover:text-white"
-                      }`}
-                    >
-                      <span>{item.label}</span>
-                      {isActive && <span className="w-1.5 h-1.5 rounded-full bg-purple-500 shadow-[0_0_6px_rgba(168,85,247,0.6)]" />}
-                    </a>
-                  );
-                })}
+                <div className="flex flex-col gap-3 py-1">
+                  {navItems.map((item, index) => {
+                    const isActive = activeSection === item.id;
+                    return (
+                      <a
+                        key={index}
+                        href={item.href}
+                        onClick={(e) => {
+                          setMobileMenuOpen(false);
+                          handleNavClick(e, item.href);
+                        }}
+                        className={`font-display font-medium text-lg flex items-center justify-between transition-colors py-1 ${
+                          isActive
+                            ? isLight
+                              ? "text-purple-600 font-bold"
+                              : "text-purple-400 font-bold"
+                            : isLight
+                              ? "text-zinc-700 hover:text-purple-600"
+                              : "text-zinc-300 hover:text-white"
+                        }`}
+                      >
+                        <span>{item.label}</span>
+                        {isActive && (
+                          <span className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)]" />
+                        )}
+                      </a>
+                    );
+                  })}
+                </div>
 
-                {/* Mobile Bottom Bar with Theme Toggle & Download CV */}
-                <div className={`pt-4 border-t flex flex-col gap-3.5 ${isLight ? "border-zinc-200/80" : "border-white/5"}`}>
-                  <button
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      downloadCV();
-                    }}
-                    disabled={isDownloading}
-                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-semibold uppercase tracking-wider shadow-md shadow-purple-600/20 active:scale-98"
-                  >
-                    <Download className="w-4 h-4" />
-                    <span>{isDownloading ? "Downloading..." : "Download Curriculum Vitae"}</span>
-                  </button>
-
-                  <div className="flex items-center justify-between py-1">
-                    <span className={`text-xs uppercase tracking-widest font-mono ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
-                      Interface Theme
-                    </span>
-                    <ThemeToggle />
-                  </div>
+                {/* Mobile Bottom Bar with Interface Theme Toggle */}
+                <div className={`pt-4 border-t flex items-center justify-between ${isLight ? "border-zinc-200/80" : "border-white/10"}`}>
+                  <span className={`text-[11px] uppercase tracking-widest font-mono font-medium ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
+                    INTERFACE THEME
+                  </span>
+                  <ThemeToggle />
                 </div>
               </div>
             </motion.div>
