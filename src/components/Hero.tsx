@@ -213,12 +213,12 @@ export default function Hero() {
         </div>
 
         {/* Right Column: Hero Portrait Image */}
-        <div className="flex justify-center lg:justify-end w-full">
+        <div className="flex justify-center lg:justify-end w-full mt-2 lg:mt-0">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className={`relative w-64 h-64 sm:w-80 sm:h-80 lg:w-[390px] lg:h-[390px] rounded-[2rem] overflow-hidden shadow-2xl group flex flex-col justify-end transition-all duration-500 ${
+            className={`relative w-full max-w-[340px] xs:max-w-[370px] sm:max-w-[420px] aspect-[3.8/4.8] lg:w-[400px] lg:h-[500px] lg:aspect-auto rounded-[2rem] sm:rounded-[2.25rem] overflow-hidden shadow-2xl group flex flex-col justify-end transition-all duration-500 ${
               isLight
                 ? "border border-white/90 bg-white/40 shadow-[0_20px_50px_rgba(100,100,160,0.12),inset_0_1.5px_1px_rgba(255,255,255,1)] backdrop-blur-xl"
                 : "border border-white/10 bg-zinc-950"
@@ -234,17 +234,17 @@ export default function Hero() {
               src={imgSrc}
               onError={() => setImgSrc(defaultHeaderImage)}
               alt={info.name || "Rashed Pervej - Senior Visualizer"}
-              width="390"
-              height="390"
+              width="400"
+              height="500"
               loading="eager"
               fetchPriority="high"
               decoding="async"
-              className="absolute inset-0 w-full h-full object-cover object-center filter brightness-95 contrast-105 group-hover:scale-105 transition-transform duration-700"
+              className="absolute inset-0 w-full h-full object-cover object-top filter brightness-95 contrast-105 group-hover:scale-105 transition-transform duration-700"
             />
 
             {/* Subtle Gradient Vignette at Bottom for Edge Blend */}
             <div className={`absolute inset-0 bg-gradient-to-t via-transparent to-transparent pointer-events-none ${
-              isLight ? "from-white/40 opacity-40" : "from-zinc-950/60 opacity-60"
+              isLight ? "from-white/30 opacity-30" : "from-zinc-950/50 opacity-50"
             }`} />
           </motion.div>
         </div>
