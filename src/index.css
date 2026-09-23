@@ -96,6 +96,38 @@ body {
   width: 100%;
 }
 
+/* Hero Bio Description High-Contrast Calibration */
+.hero-bio-text {
+  line-height: 1.75;
+}
+
+/* Ensure all non-highlight text strictly inherits the high-contrast theme color */
+.hero-bio-text span:not([style*="193, 141, 236"]):not([style*="rgb(193"]):not([style*="#c18dec"]):not(.hero-highlight) {
+  color: inherit !important;
+}
+
+/* Ensure highlight text retains clarity in dark and light themes */
+.hero-bio-text span[style*="193, 141, 236"],
+.hero-bio-text span[style*="rgb(193"],
+.hero-bio-text span[style*="#c18dec"],
+.hero-bio-text .hero-highlight {
+  font-weight: 700;
+  display: inline;
+}
+
+/* Rich deep violet on light theme for maximum readability */
+html.light .hero-bio-text span[style*="193, 141, 236"],
+html.light .hero-bio-text span[style*="rgb(193"],
+html.light .hero-bio-text span[style*="#c18dec"],
+body.light .hero-bio-text span[style*="193, 141, 236"],
+body.light .hero-bio-text span[style*="rgb(193"],
+body.light .hero-bio-text span[style*="#c18dec"],
+[data-theme="light"] .hero-bio-text span[style*="193, 141, 236"],
+[data-theme="light"] .hero-bio-text span[style*="rgb(193"],
+[data-theme="light"] .hero-bio-text span[style*="#c18dec"] {
+  color: #7c3aed !important;
+}
+
 section[id] {
   scroll-margin-top: 80px;
 }

@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "timestamp": 1790084508720,
-  "lastSyncIso": "2026-09-22T13:41:48.720Z",
+  "timestamp": 1790199678895,
+  "lastSyncIso": "2026-09-23T21:41:18.895Z",
   "source": "supabase_sync",
   "sections": [
     {
@@ -34,26 +34,26 @@
       "published_content": {
         "name": "Rashed<div><span style=\"color: rgb(212, 123, 255);\">Pervej</span></div>",
         "role": "Senior Visualizer",
-        "heroBio": "Senior Visualizer with <span style=\"color: rgb(193, 141, 236);\"><b>6<span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\">+</span></span></span></b></span><span style=\"color: rgb(193, 141, 236);\"><b><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"></span></span></b></span><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><b> years of premium experience</b></span>.</span> Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.",
+        "heroBio": "Senior Visualizer with <span style=\"color: rgb(193, 141, 236);\"><b>6+ years of premium experience.</b></span> Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.",
         "headline": "Brand Identity | Motion Graphics | Packaging",
         "availability": "Available for Remote & Hybrid",
         "portraitImage": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/zlw0sb7d6al-1790072232417.webp",
         "primaryCtaLink": "https://www.behance.net/rashedpervej",
         "primaryCtaText": "Explore My Work",
-        "experienceYears": "6+",
+        "experienceYears": "7+",
         "secondaryCtaLink": "https://wa.me/8801932623969",
         "secondaryCtaText": "Get In Touch"
       },
       "draft_content": {
         "name": "Rashed<div><span style=\"color: rgb(212, 123, 255);\">Pervej</span></div>",
         "role": "Senior Visualizer",
-        "heroBio": "Senior Visualizer with <span style=\"color: rgb(193, 141, 236);\"><b>6<span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\">+</span></span></span></b></span><span style=\"color: rgb(193, 141, 236);\"><b><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"></span></span></b></span><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><b> years of premium experience</b></span>.</span> Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.",
+        "heroBio": "Senior Visualizer with <span style=\"color: rgb(193, 141, 236);\"><b>6+ years of premium experience.</b></span> Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.",
         "headline": "Brand Identity | Motion Graphics | Packaging",
         "availability": "Available for Remote & Hybrid",
         "portraitImage": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/zlw0sb7d6al-1790072232417.webp",
         "primaryCtaLink": "https://www.behance.net/rashedpervej",
         "primaryCtaText": "Explore My Work",
-        "experienceYears": "6+",
+        "experienceYears": "7+",
         "secondaryCtaLink": "https://wa.me/8801932623969",
         "secondaryCtaText": "Get In Touch"
       },
@@ -375,14 +375,20 @@
       ],
       "published_content": [
         {
-          "name": "Chaldal",
+          "name": "Chaldal PLC",
           "market": "Bangladesh",
-          "logoText": "Chaldal Ltd."
+          "country": "Bangladesh",
+          "logoUrl": "https://www.startupbangladesh.vc/wp-content/uploads/2021/07/Chaldal-BrandID-2021.png",
+          "logoText": "Chaldal Ltd.",
+          "brandName": "Chaldal PLC"
         },
         {
-          "name": "Sheba",
+          "name": "Sheba PLC",
           "market": "Bangladesh",
-          "logoText": "Sheba Platform Ltd."
+          "country": "Bangladesh",
+          "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/3lxg0naxa7s-1790089097394.webp",
+          "logoText": "Sheba Platform Ltd.",
+          "brandName": "Sheba PLC"
         },
         {
           "name": "Go Nature",
@@ -392,22 +398,34 @@
         {
           "name": "Basumati Group",
           "market": "Bangladesh",
-          "logoText": "Basumati Group"
+          "country": "Bangladesh",
+          "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/u83r8ei5e6e-1790089582695.jpg",
+          "logoText": "Basumati Group",
+          "brandName": "Basumati Group"
         },
         {
           "name": "Heavens Group",
           "market": "Bangladesh",
-          "logoText": "Heavens Group"
+          "country": "Bangladesh",
+          "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/8v9n3706w4g-1790089745623.jpg",
+          "logoText": "Heavens Group",
+          "brandName": "Heavens Group"
         },
         {
           "name": "Zettabyte Technology",
           "market": "Bangladesh",
-          "logoText": "Zettabyte Technology Ltd."
+          "country": "Bangladesh",
+          "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/7motfur53gp-1790088776669.png",
+          "logoText": "Zettabyte Technology Ltd.",
+          "brandName": "Zettabyte Technology"
         },
         {
           "name": "Amiras Dental",
           "market": "Bangladesh",
-          "logoText": "Amiras Dental"
+          "country": "Bangladesh",
+          "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/srlv1oegfi-1790088671025.webp",
+          "logoText": "Amiras Dental",
+          "brandName": "Amiras Dental"
         },
         {
           "name": "Dream Advice",
@@ -417,12 +435,18 @@
         {
           "name": "Lake Powell Promotions",
           "market": "USA",
-          "logoText": "Lake Powell Promotions"
+          "country": "USA",
+          "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/j10bt84a3g-1790090082206.webp",
+          "logoText": "Lake Powell Promotions",
+          "brandName": "Lake Powell Promotions"
         },
         {
           "name": "Page Party Bounce Co.",
           "market": "USA",
-          "logoText": "Page Party Bounce Co."
+          "country": "USA",
+          "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/iigoud0ipfq-1790089960303.webp",
+          "logoText": "Page Party Bounce Co.",
+          "brandName": "Page Party Bounce Co."
         },
         {
           "name": "Food Collection",
@@ -432,14 +456,20 @@
       ],
       "draft_content": [
         {
-          "name": "Chaldal",
+          "name": "Chaldal PLC",
           "market": "Bangladesh",
-          "logoText": "Chaldal Ltd."
+          "country": "Bangladesh",
+          "logoUrl": "https://www.startupbangladesh.vc/wp-content/uploads/2021/07/Chaldal-BrandID-2021.png",
+          "logoText": "Chaldal Ltd.",
+          "brandName": "Chaldal PLC"
         },
         {
-          "name": "Sheba",
+          "name": "Sheba PLC",
           "market": "Bangladesh",
-          "logoText": "Sheba Platform Ltd."
+          "country": "Bangladesh",
+          "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/3lxg0naxa7s-1790089097394.webp",
+          "logoText": "Sheba Platform Ltd.",
+          "brandName": "Sheba PLC"
         },
         {
           "name": "Go Nature",
@@ -449,22 +479,34 @@
         {
           "name": "Basumati Group",
           "market": "Bangladesh",
-          "logoText": "Basumati Group"
+          "country": "Bangladesh",
+          "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/u83r8ei5e6e-1790089582695.jpg",
+          "logoText": "Basumati Group",
+          "brandName": "Basumati Group"
         },
         {
           "name": "Heavens Group",
           "market": "Bangladesh",
-          "logoText": "Heavens Group"
+          "country": "Bangladesh",
+          "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/8v9n3706w4g-1790089745623.jpg",
+          "logoText": "Heavens Group",
+          "brandName": "Heavens Group"
         },
         {
           "name": "Zettabyte Technology",
           "market": "Bangladesh",
-          "logoText": "Zettabyte Technology Ltd."
+          "country": "Bangladesh",
+          "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/7motfur53gp-1790088776669.png",
+          "logoText": "Zettabyte Technology Ltd.",
+          "brandName": "Zettabyte Technology"
         },
         {
           "name": "Amiras Dental",
           "market": "Bangladesh",
-          "logoText": "Amiras Dental"
+          "country": "Bangladesh",
+          "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/srlv1oegfi-1790088671025.webp",
+          "logoText": "Amiras Dental",
+          "brandName": "Amiras Dental"
         },
         {
           "name": "Dream Advice",
@@ -474,12 +516,18 @@
         {
           "name": "Lake Powell Promotions",
           "market": "USA",
-          "logoText": "Lake Powell Promotions"
+          "country": "USA",
+          "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/j10bt84a3g-1790090082206.webp",
+          "logoText": "Lake Powell Promotions",
+          "brandName": "Lake Powell Promotions"
         },
         {
           "name": "Page Party Bounce Co.",
           "market": "USA",
-          "logoText": "Page Party Bounce Co."
+          "country": "USA",
+          "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/iigoud0ipfq-1790089960303.webp",
+          "logoText": "Page Party Bounce Co.",
+          "brandName": "Page Party Bounce Co."
         },
         {
           "name": "Food Collection",
@@ -969,6 +1017,10 @@
     "seoTitle": "Rashed Pervej | Senior Visualizer Portfolio",
     "seoDescription": "Portfolio of Rashed Pervej, Senior Visualizer specializing in Brand Identity, Packaging, and Motion Design.",
     "seoKeywords": "portfolio, designer, visualizer, packaging, branding, motion graphics, bangladesh",
+    "ogTitle": "Rashed Pervej | Senior Visualizer Portfolio",
+    "ogDescription": "Award-winning portfolio of Rashed Pervej, Senior Visualizer & Graphic Designer specializing in brand identity, packaging, and motion graphics.",
+    "ogImage": "https://pervej.pro.bd/og-image.jpg",
+    "ogUrl": "https://pervej.pro.bd/",
     "backgroundStyle": "liquid",
     "cvSource": "url",
     "cvUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/cv/Rashed%20Pervej_Resume_Jul26.pdf",
@@ -976,6 +1028,7 @@
     "primaryColor": "#a64dff",
     "customCss": "",
     "enableChatbot": false,
+    "marqueeSpeed": 25,
     "projectSettings": {
       "showYear": false,
       "showLiveUrl": false,
@@ -994,11 +1047,6 @@
       "showFilterMarketing": true,
       "showProjectDuration": false,
       "showFilterInternational": true
-    },
-    "defaultTheme": "dark",
-    "ogTitle": "Rashed Pervej | Senior Visualizer Portfolio",
-    "ogDescription": "Award-winning portfolio of Rashed Pervej, Senior Visualizer & Graphic Designer specializing in brand identity, packaging, and motion graphics.",
-    "ogImage": "https://pervej.pro.bd/og-image.jpg",
-    "ogUrl": "https://pervej.pro.bd/"
+    }
   }
 }

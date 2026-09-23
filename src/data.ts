@@ -110,7 +110,7 @@ export const portfolioData: PortfolioData = {
     brandsLabel: "Selected Brands",
     creativeAssetsCount: "200+",
     assetsLabel: "Creative Assets",
-    heroBio: "Senior Visualizer with <span style=\"color: rgb(193, 141, 236);\"><b></b></span><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><b>6+ years of premium experience</b></span>.</span> Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.",
+    heroBio: "Senior Visualizer with <span style=\"color: rgb(193, 141, 236);\"><b>6+ years of premium experience.</b></span> Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.",
     primaryCtaText: "Explore My Work",
     primaryCtaLink: "https://www.behance.net/rashedpervej",
     secondaryCtaText: "Get In Touch",

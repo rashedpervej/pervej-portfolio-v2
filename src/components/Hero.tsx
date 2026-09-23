@@ -68,7 +68,15 @@ export default function Hero() {
 
   const availabilityTag = info.availability || "Available for Remote & Hybrid";
   const roleText = info.role || "Senior Visualizer";
-  const bioText = info.heroBio || "Senior Visualizer with 6+ years of premium experience. Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.";
+  const bioText = info.heroBio || "Senior Visualizer with <span style=\"color: rgb(193, 141, 236);\"><b>6+ years of premium experience.</b></span> Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.";
+
+  const cleanBioText = React.useMemo(() => {
+    if (!bioText) return "";
+    return bioText
+      .replace(/<span style="color:\s*rgb\(255,\s*255,\s*255\);?">/gi, "")
+      .replace(/<span style="color:\s*rgb\(23,\s*23,\s*23\);?">/gi, "")
+      .replace(/<span style="color:\s*rgb\(161,\s*161,\s*170\);?">/gi, "");
+  }, [bioText]);
 
   const isExternalUrl = (url: string) => {
     return /^https?:\/\//i.test(url) || /^mailto:/i.test(url) || /^tel:/i.test(url);
@@ -153,11 +161,11 @@ export default function Hero() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className={`text-sm sm:text-base max-w-xl font-sans leading-relaxed mb-8 ${
-              isLight ? "text-zinc-600" : "text-zinc-400"
+            className={`hero-bio-text text-[18px] leading-relaxed max-w-xl font-sans mb-8 ${
+              isLight ? "text-zinc-800 font-medium" : "text-zinc-200 font-normal"
             }`}
           >
-            <FormattedText content={bioText} />
+            <FormattedText content={cleanBioText} />
           </motion.p>
 
           {/* CTA Buttons */}
