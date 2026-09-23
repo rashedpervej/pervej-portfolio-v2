@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { usePortfolio } from "../context/PortfolioContext";
 import { Quote, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
-import { setupEmblaMobileSwipe } from "../utils/emblaMobileSwipe";
 import { motion } from "motion/react";
 import FormattedText from "./FormattedText";
 
@@ -34,13 +33,61 @@ export default function Testimonials() {
     emblaApi.on("reInit", onSelect);
   }, [emblaApi, onSelect]);
 
-  // Enhanced mobile touch/swipe sensitivity for testimonials: short distance swipe smoothly changes card
+  // Enhanced mobile touch/swipe sensitivity for testimonials
   useEffect(() => {
     if (!emblaApi) return;
-    return setupEmblaMobileSwipe(emblaApi, {
-      threshold: 25,
-      onSwipeChange: () => resetAutoplayRef.current(),
-    });
+    const node = emblaApi.rootNode();
+    if (!node) return;
+
+    let startX = 0;
+    let startY = 0;
+    let startIndex = 0;
+    let isTracking = false;
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      startIndex = emblaApi.selectedScrollSnap();
+      isTracking = true;
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      if (!isTracking) return;
+      isTracking = false;
+
+      if (!e.changedTouches || e.changedTouches.length === 0) return;
+      const endX = e.changedTouches[0].clientX;
+      const endY = e.changedTouches[0].clientY;
+      const diffX = endX - startX;
+      const diffY = endY - startY;
+
+      // Minimum swipe distance (30px) and clean horizontal dominance (prevents accidental vertical scroll/tap)
+      const isHorizontalSwipe = Math.abs(diffX) >= 30 && Math.abs(diffX) > Math.abs(diffY) * 1.25;
+
+      if (isHorizontalSwipe) {
+        requestAnimationFrame(() => {
+          if (!emblaApi) return;
+          const currentIndex = emblaApi.selectedScrollSnap();
+          if (currentIndex === startIndex) {
+            if (diffX < 0) {
+              emblaApi.scrollNext();
+            } else {
+              emblaApi.scrollPrev();
+            }
+            resetAutoplayRef.current();
+          }
+        });
+      }
+    };
+
+    node.addEventListener("touchstart", onTouchStart, { passive: true });
+    node.addEventListener("touchend", onTouchEnd, { passive: true });
+
+    return () => {
+      node.removeEventListener("touchstart", onTouchStart);
+      node.removeEventListener("touchend", onTouchEnd);
+    };
   }, [emblaApi]);
 
   // Autoplay every 3 seconds with temporary pause on interaction and auto-resume
@@ -165,7 +212,7 @@ export default function Testimonials() {
   if (!testimonials.length) return null;
 
   return (
-    <section id="testimonials" className={`py-6 sm:py-8 md:py-9 lg:py-10 relative overflow-hidden ${
+    <section id="testimonials" className={`py-10 sm:py-12 md:py-14 lg:py-16 relative overflow-hidden ${
       isLight ? "bg-transparent border-y border-zinc-200/80" : "bg-[#050508] border-y border-white/5"
     }`}>
       {/* Absolute glow */}
@@ -181,7 +228,7 @@ export default function Testimonials() {
         className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 text-center"
       >
         {/* Title */}
-        <div className="flex flex-col items-center mb-4 sm:mb-5 lg:mb-6">
+        <div className="flex flex-col items-center mb-6 sm:mb-8 lg:mb-10">
           <h2 className={`font-display font-bold text-3xl sm:text-5xl tracking-tight ${
             isLight ? "text-zinc-950" : "text-white"
           }`}>

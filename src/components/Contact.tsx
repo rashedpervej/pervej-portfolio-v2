@@ -21,7 +21,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className={`py-16 sm:py-20 lg:py-24 relative overflow-hidden ${
+      className={`py-10 sm:py-12 md:py-14 lg:py-16 relative overflow-hidden ${
         isLight ? "bg-transparent" : "bg-[#030303]"
       }`}
     >

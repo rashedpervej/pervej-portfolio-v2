@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "motion/react";
 import { ExternalLink, Layers, Film, Award, BookOpen, ArrowUpRight } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
-import { setupEmblaMobileSwipe } from "../utils/emblaMobileSwipe";
 import { usePortfolio } from "../context/PortfolioContext";
 import { Project } from "../data";
 import FormattedText from "./FormattedText";
@@ -229,7 +228,58 @@ function MobileProjectsCarousel({
   // Enhanced mobile touch/swipe sensitivity: short distance swipe smoothly advances slide
   useEffect(() => {
     if (!emblaApi) return;
-    return setupEmblaMobileSwipe(emblaApi, { threshold: 25 });
+    const node = emblaApi.rootNode();
+    if (!node) return;
+
+    let startX = 0;
+    let startY = 0;
+    let startIndex = 0;
+    let isTracking = false;
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      startIndex = emblaApi.selectedScrollSnap();
+      isTracking = true;
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      if (!isTracking) return;
+      isTracking = false;
+
+      if (!e.changedTouches || e.changedTouches.length === 0) return;
+      const endX = e.changedTouches[0].clientX;
+      const endY = e.changedTouches[0].clientY;
+      const diffX = endX - startX;
+      const diffY = endY - startY;
+
+      // Minimum swipe distance (30px) and clean horizontal dominance (avoids accidental vertical scrolls & taps)
+      const isHorizontalSwipe = Math.abs(diffX) >= 30 && Math.abs(diffX) > Math.abs(diffY) * 1.25;
+
+      if (isHorizontalSwipe) {
+        requestAnimationFrame(() => {
+          if (!emblaApi) return;
+          const currentIndex = emblaApi.selectedScrollSnap();
+          // If Embla would have snapped back due to low drag distance, smoothly change slide
+          if (currentIndex === startIndex) {
+            if (diffX < 0) {
+              emblaApi.scrollNext();
+            } else {
+              emblaApi.scrollPrev();
+            }
+          }
+        });
+      }
+    };
+
+    node.addEventListener("touchstart", onTouchStart, { passive: true });
+    node.addEventListener("touchend", onTouchEnd, { passive: true });
+
+    return () => {
+      node.removeEventListener("touchstart", onTouchStart);
+      node.removeEventListener("touchend", onTouchEnd);
+    };
   }, [emblaApi]);
 
   useEffect(() => {
@@ -345,7 +395,7 @@ export default function Projects() {
     : projects.filter((proj) => proj.category.toLowerCase().includes(selectedCategory.toLowerCase()) || selectedCategory.toLowerCase().includes(proj.category.toLowerCase()));
 
   return (
-    <section id="projects" className={`py-6 sm:py-8 md:py-9 lg:py-10 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#050508]"}`}>
+    <section id="projects" className={`py-10 sm:py-12 md:py-14 lg:py-16 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#050508]"}`}>
       {/* Background radial highlight */}
       <div className={`absolute top-1/2 right-1/4 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[150px] pointer-events-none ${
         isLight ? "bg-purple-200/25" : "bg-purple-950/5"
@@ -429,7 +479,7 @@ export default function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className={`mt-6 sm:mt-7 lg:mt-8 relative overflow-hidden rounded-2xl md:rounded-[24px] transition-colors duration-300 flex flex-col sm:flex-row items-center justify-between min-h-[120px] gap-6 p-6 sm:py-5 sm:px-6 md:px-8 group ${
+          className={`mt-8 sm:mt-10 lg:mt-12 relative overflow-hidden rounded-2xl md:rounded-[24px] transition-colors duration-300 flex flex-col sm:flex-row items-center justify-between min-h-[120px] gap-6 p-6 sm:py-5 sm:px-6 md:px-8 group ${
             isLight
               ? "bg-white/90 border border-purple-200/90 shadow-[0_16px_40px_rgba(168,85,247,0.1)] backdrop-blur-xl"
               : "bg-[#0c0d16]/90 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-xl"

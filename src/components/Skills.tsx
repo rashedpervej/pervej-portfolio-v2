@@ -232,7 +232,7 @@ export default function Skills() {
   };
 
   return (
-    <section ref={sectionRef} id="skills" className={`py-6 sm:py-8 md:py-9 lg:py-10 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#030303]"}`}>
+    <section ref={sectionRef} id="skills" className={`py-10 sm:py-12 md:py-14 lg:py-16 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#030303]"}`}>
       {/* Decorative Blur elements */}
       <div className={`absolute bottom-0 right-0 w-80 h-80 rounded-full blur-[130px] pointer-events-none ${
         isLight ? "bg-purple-200/25" : "bg-purple-950/10"

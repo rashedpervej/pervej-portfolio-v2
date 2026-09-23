@@ -19,7 +19,7 @@ export default function Experience() {
   };
 
   return (
-    <section id="experience" className={`py-6 sm:py-8 md:py-9 lg:py-10 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#030303]"}`}>
+    <section id="experience" className={`py-10 sm:py-12 md:py-14 lg:py-16 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#030303]"}`}>
       {/* Decorative Orb */}
       <div className={`absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full blur-[130px] pointer-events-none ${
         isLight ? "bg-purple-200/25" : "bg-purple-950/10"
