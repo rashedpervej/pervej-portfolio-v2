@@ -55,12 +55,10 @@ export default function Header() {
   }, []);
 
   const allNavItems = [
-    { label: "Home", href: "#hero", id: "hero" },
     { label: "About", href: "#about", id: "about" },
     { label: "Experience", href: "#experience", id: "experience" },
     { label: "Skills", href: "#skills", id: "skills" },
     { label: "Services", href: "#services", id: "services" },
-    { label: "Workflow", href: "#workflow", id: "workflow" },
     { label: "Projects", href: "#projects", id: "projects" },
     { label: "Contact", href: "#contact", id: "contact" }
   ];
