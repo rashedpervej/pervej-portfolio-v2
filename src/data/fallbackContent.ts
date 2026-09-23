@@ -1032,6 +1032,7 @@ export const FALLBACK_SITE_SETTINGS: SiteSettings = {
   "primaryColor": "#a64dff",
   "customCss": "",
   "enableChatbot": false,
+  "marqueeSpeed": 25,
   "projectSettings": {
     "showYear": false,
     "showLiveUrl": false,

@@ -72,7 +72,7 @@ export default function Testimonials() {
             className="overflow-hidden cursor-grab active:cursor-grabbing rounded-3xl"
           >
             <div className="flex -ml-4">
-              {testimonials.map((item, idx) => (
+              {testimonials.map((item: any, idx) => (
                 <div
                   key={item.id || idx}
                   className="flex-[0_0_100%] min-w-0 pl-4"

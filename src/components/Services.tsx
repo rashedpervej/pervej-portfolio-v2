@@ -66,7 +66,7 @@ function ServiceCard({ service, index }: { service: Service; index: number; key?
     >
       <div>
         {/* Premium Image Banner at the top of the card */}
-        <div className={`relative w-full h-[155px] overflow-hidden bg-zinc-900 border-b ${
+        <div className={`relative w-full h-[135px] sm:h-[155px] overflow-hidden bg-zinc-900 border-b ${
           isLight ? "border-zinc-200/80" : "border-white/10"
         }`}>
           <img
@@ -78,7 +78,7 @@ function ServiceCard({ service, index }: { service: Service; index: number; key?
           />
 
           {/* Overlaid Icon (bottom-left of the image banner) */}
-          <div className={`absolute bottom-3 left-4 w-10 h-10 rounded-xl flex items-center justify-center border shadow-lg transition-all duration-300 backdrop-blur-md ${
+          <div className={`absolute bottom-2.5 sm:bottom-3 left-3.5 sm:left-4 w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center border shadow-lg transition-all duration-300 backdrop-blur-md ${
             isLight
               ? "bg-white/90 border-white/90 group-hover:border-purple-300 shadow-[0_4px_12px_rgba(100,100,160,0.1)]"
               : "bg-black/80 border-white/15 group-hover:bg-purple-600/10 group-hover:border-purple-500/30"
@@ -89,7 +89,7 @@ function ServiceCard({ service, index }: { service: Service; index: number; key?
 
         {/* Content Area with custom padding */}
         <div className="p-6 sm:p-8">
-          <h3 className={`font-display font-semibold text-xl transition-colors mb-3 ${
+          <h3 className={`font-display font-bold text-lg sm:text-2xl transition-colors mb-2 sm:mb-3 ${
             isLight ? "text-zinc-900 group-hover:text-purple-600" : "text-white group-hover:text-purple-300"
           }`}>
             <FormattedText content={service.title} />
@@ -104,12 +104,12 @@ function ServiceCard({ service, index }: { service: Service; index: number; key?
 
       {/* Skills/Bullets list, positioned at the bottom of the card */}
       <div className="px-6 sm:px-8 pb-6 sm:pb-8">
-        <div className={`w-full h-[1px] mb-4 ${isLight ? "bg-zinc-200/80" : "bg-white/10"}`} />
-        <div className="flex flex-wrap gap-2">
+        <div className={`w-full h-[1px] mb-3 sm:mb-4 ${isLight ? "bg-zinc-200/80" : "bg-white/10"}`} />
+        <div className="flex flex-wrap gap-1.5 sm:gap-2">
           {service.skills.map((skill, sIdx) => (
             <span
               key={sIdx}
-              className={`px-2.5 py-1 rounded-md text-[10px] font-mono transition-colors ${
+              className={`px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-md text-[10px] sm:text-[11px] font-mono transition-colors ${
                 isLight
                   ? "bg-white/80 border border-purple-200/60 text-zinc-700 shadow-sm group-hover:bg-purple-100/70 group-hover:text-purple-700 group-hover:border-purple-300"
                   : "bg-white/[0.05] border border-white/10 text-zinc-200 group-hover:bg-purple-500/10 group-hover:text-purple-300 group-hover:border-purple-500/20"
@@ -130,7 +130,12 @@ export default function Services() {
   const services = portfolioData.services;
 
   return (
-    <section id="services" className={`py-6 sm:py-8 md:py-9 lg:py-10 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#030303]"}`}>
+    <section
+      id="services"
+      className={`py-16 sm:py-20 lg:py-24 relative overflow-hidden ${
+        isLight ? "bg-transparent" : "bg-[#030303]"
+      }`}
+    >
       {/* Decorative Orb */}
       <div className={`absolute top-1/2 left-0 -translate-y-1/2 w-80 h-80 rounded-full blur-[120px] pointer-events-none ${
         isLight ? "bg-purple-200/25" : "bg-purple-900/5"
@@ -143,10 +148,14 @@ export default function Services() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col items-start mb-5 sm:mb-6 lg:mb-8 text-left"
+          className="flex flex-col items-start mb-10 sm:mb-12 lg:mb-14 text-left"
         >
-          <h2 className={`font-display font-bold text-3xl sm:text-5xl tracking-tight ${isLight ? "text-zinc-950" : "text-white"}`}>
-            Professional Services & <br />
+          <h2
+            className={`font-display font-bold text-3xl sm:text-5xl tracking-tight leading-tight ${
+              isLight ? "text-zinc-950" : "text-white"
+            }`}
+          >
+            Professional Services & <br className="hidden sm:inline" />
             <span className="bg-gradient-to-r from-purple-500 to-indigo-500 bg-clip-text text-transparent">
               Creative Disciplines
             </span>
@@ -155,7 +164,7 @@ export default function Services() {
         </motion.div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
           {services.map((service, index) => (
             <ServiceCard key={index} service={service} index={index} />
           ))}

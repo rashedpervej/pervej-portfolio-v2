@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect, Suspense, lazy } from "react";
 import { PortfolioProvider, usePortfolio } from "./context/PortfolioContext";
+import ErrorBoundary from "./components/ErrorBoundary";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -32,27 +33,39 @@ function RouteLoadingFallback() {
   );
 }
 
+function safeScrollToTop() {
+  try {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      if (document.documentElement) document.documentElement.scrollTop = 0;
+      if (document.body) document.body.scrollTop = 0;
+    }
+  } catch (_) {
+    try {
+      window.scrollTo(0, 0);
+    } catch (_) {}
+  }
+}
+
 function ScrollToTop({ currentPath }: { currentPath: string }) {
   useEffect(() => {
     // Disable default browser scroll restoration on route navigation
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual";
-    }
+    try {
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+    } catch (_) {}
   }, []);
 
   useLayoutEffect(() => {
-    // Reset scroll immediately when path changes
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
+    // Reset scroll safely when path changes
+    safeScrollToTop();
   }, [currentPath]);
 
   useEffect(() => {
     // Secondary frame check to guarantee top scroll position after layout renders
     const frame = requestAnimationFrame(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
+      safeScrollToTop();
     });
     return () => cancelAnimationFrame(frame);
   }, [currentPath]);
@@ -130,51 +143,67 @@ function MainPortfolio() {
 }
 
 export default function App() {
-  const [currentPath, setCurrentPath] = useState(() => window.location.pathname);
+  const [currentPath, setCurrentPath] = useState(() => (typeof window !== "undefined" ? window.location.pathname : "/"));
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const handleLocationChange = () => {
       setCurrentPath(window.location.pathname);
     };
 
     window.addEventListener("popstate", handleLocationChange);
 
-    // Patch history pushState and replaceState to catch all internal route navigations
+    // Patch history pushState and replaceState safely bound to history instance
     const originalPushState = window.history.pushState;
     const originalReplaceState = window.history.replaceState;
 
-    window.history.pushState = function (...args) {
-      originalPushState.apply(this, args);
-      handleLocationChange();
-    };
+    if (typeof originalPushState === "function") {
+      window.history.pushState = function (...args) {
+        try {
+          originalPushState.apply(window.history, args);
+        } catch (_) {}
+        handleLocationChange();
+      };
+    }
 
-    window.history.replaceState = function (...args) {
-      originalReplaceState.apply(this, args);
-      handleLocationChange();
-    };
+    if (typeof originalReplaceState === "function") {
+      window.history.replaceState = function (...args) {
+        try {
+          originalReplaceState.apply(window.history, args);
+        } catch (_) {}
+        handleLocationChange();
+      };
+    }
 
     return () => {
       window.removeEventListener("popstate", handleLocationChange);
-      window.history.pushState = originalPushState;
-      window.history.replaceState = originalReplaceState;
+      if (typeof originalPushState === "function") {
+        window.history.pushState = originalPushState;
+      }
+      if (typeof originalReplaceState === "function") {
+        window.history.replaceState = originalReplaceState;
+      }
     };
   }, []);
 
   return (
-    <PortfolioProvider>
-      <ScrollToTop currentPath={currentPath} />
-      {currentPath === "/admin" ? (
-        <Suspense fallback={<RouteLoadingFallback />}>
-          <Admin />
-        </Suspense>
-      ) : currentPath === "/invoice-maker" ? (
-        <Suspense fallback={<RouteLoadingFallback />}>
-          <InvoiceMaker />
-        </Suspense>
-      ) : (
-        <MainPortfolio />
-      )}
-    </PortfolioProvider>
+    <ErrorBoundary>
+      <PortfolioProvider>
+        <ScrollToTop currentPath={currentPath} />
+        {currentPath === "/admin" ? (
+          <Suspense fallback={<RouteLoadingFallback />}>
+            <Admin />
+          </Suspense>
+        ) : currentPath === "/invoice-maker" ? (
+          <Suspense fallback={<RouteLoadingFallback />}>
+            <InvoiceMaker />
+          </Suspense>
+        ) : (
+          <MainPortfolio />
+        )}
+      </PortfolioProvider>
+    </ErrorBoundary>
   );
 }
 

@@ -53,7 +53,51 @@ export interface SkillCategory {
   skills: string[];
 }
 
-export const portfolioData = {
+export interface PersonalInfo {
+  name?: string;
+  role?: string;
+  headline?: string;
+  location?: string;
+  availability?: string;
+  experienceYears?: string;
+  yearsLabel?: string;
+  selectedBrandsCount?: string;
+  brandsLabel?: string;
+  creativeAssetsCount?: string;
+  assetsLabel?: string;
+  heroBio?: string;
+  primaryCtaText?: string;
+  primaryCtaLink?: string;
+  secondaryCtaText?: string;
+  secondaryCtaLink?: string;
+  portraitImage?: string;
+  heroImage?: string;
+  avatar?: string;
+  email?: string;
+  phone?: string;
+  linkedin?: string;
+  behance?: string;
+  aboutSummary?: string;
+  aboutDetail?: string;
+  [key: string]: any;
+}
+
+export interface PortfolioData {
+  personalInfo: PersonalInfo;
+  experiences: Experience[];
+  selectedBrands: Brand[];
+  skills: {
+    creativeTools: Array<{ name: string; percentage?: number; icon?: string; logoUrl?: string; color?: string; category?: string; level?: string | number }>;
+    coreCompetencies: string[];
+    aiAndModernWorkflow?: string[];
+  };
+  services: Service[];
+  projects: Project[];
+  testimonials: Array<{ quote: string; author: string; company: string; role: string; id?: string }>;
+  educationCertifications?: any[];
+}
+
+export const portfolioData: PortfolioData = {
   personalInfo: {
     name: "Rashed<div><span style=\"color: rgb(212, 123, 255);\">Pervej</span></div>",
     role: "Senior Visualizer",

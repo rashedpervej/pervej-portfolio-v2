@@ -19,7 +19,12 @@ export default function Experience() {
   };
 
   return (
-    <section id="experience" className={`py-6 sm:py-8 md:py-9 lg:py-10 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#030303]"}`}>
+    <section
+      id="experience"
+      className={`py-16 sm:py-20 lg:py-24 relative overflow-hidden ${
+        isLight ? "bg-transparent" : "bg-[#030303]"
+      }`}
+    >
       {/* Decorative Orb */}
       <div className={`absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full blur-[130px] pointer-events-none ${
         isLight ? "bg-purple-200/25" : "bg-purple-950/10"
@@ -32,10 +37,14 @@ export default function Experience() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col items-start mb-5 sm:mb-6 lg:mb-8 text-left"
+          className="flex flex-col items-start mb-10 sm:mb-12 lg:mb-14 text-left"
         >
-          <h2 className={`font-display font-bold text-3xl sm:text-5xl tracking-tight ${isLight ? "text-zinc-950" : "text-white"}`}>
-            Work Experience & <br />
+          <h2
+            className={`font-display font-bold text-3xl sm:text-5xl tracking-tight leading-tight ${
+              isLight ? "text-zinc-950" : "text-white"
+            }`}
+          >
+            Work Experience & <br className="hidden sm:inline" />
             <span className="bg-gradient-to-r from-purple-500 to-indigo-500 bg-clip-text text-transparent">
               Creative Milestones
             </span>
@@ -44,9 +53,11 @@ export default function Experience() {
         </motion.div>
 
         {/* Timeline container */}
-        <div className={`relative max-w-4xl mx-auto pl-4 sm:pl-8 border-l space-y-6 ${
-          isLight ? "border-purple-200/80" : "border-zinc-800"
-        }`}>
+        <div
+          className={`relative max-w-4xl mx-auto pl-5 sm:pl-8 border-l space-y-6 ${
+            isLight ? "border-purple-200/80" : "border-zinc-800"
+          }`}
+        >
           {experiences.map((item, index) => {
             const isExpanded = expandedIndex === index;
             return (
@@ -55,13 +66,13 @@ export default function Experience() {
                 initial={{ opacity: 0, y: 25 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.15 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
                 className="relative group"
               >
                 {/* Floating Bullet Icon */}
                 <div
                   onClick={() => toggleExpand(index)}
-                  className={`absolute -left-[20px] sm:-left-[36px] -top-2 sm:top-1 w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-300 z-20 cursor-pointer ${
+                  className={`absolute -left-[15px] sm:-left-[36px] -top-1 sm:top-1 w-7 h-7 sm:w-8 sm:h-8 rounded-full border flex items-center justify-center transition-all duration-300 z-20 cursor-pointer ${
                     isExpanded
                       ? isLight
                         ? "bg-gradient-to-tr from-purple-600 to-indigo-600 border-2 border-white text-white shadow-[0_4px_16px_rgba(147,51,234,0.45)] scale-110 ring-4 ring-purple-100"
@@ -71,13 +82,13 @@ export default function Experience() {
                       : "bg-[#0e0e18] border border-purple-500/40 text-purple-300 shadow-[0_0_12px_rgba(147,51,234,0.25)] group-hover:border-purple-400 group-hover:text-white group-hover:bg-purple-950/40"
                   }`}
                 >
-                  <Briefcase className="w-3.5 h-3.5" />
+                  <Briefcase className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 </div>
 
                 {/* Main Card */}
                 <div
                   onClick={() => toggleExpand(index)}
-                  className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 border text-left ${
+                  className={`p-5 sm:p-6 rounded-2xl cursor-pointer transition-all duration-300 border text-left ${
                     isLight
                       ? isExpanded
                         ? "bg-white/75 backdrop-blur-xl border-white/95 shadow-[0_12px_32px_rgba(100,100,160,0.08),inset_0_1.5px_1px_rgba(255,255,255,1)] ring-1 ring-purple-400/30"
@@ -87,43 +98,66 @@ export default function Experience() {
                       : "bg-[#090a12]/85 hover:bg-[#0f101b]/95 backdrop-blur-md border-white/10 hover:border-purple-500/30 shadow-md shadow-black/40"
                   }`}
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
                     <div>
                       {/* Role & Company */}
-                      <h3 className={`font-display font-semibold text-lg sm:text-xl ${isLight ? "text-zinc-900" : "text-white"}`}>
-                        <FormattedText content={item.role} />{" "}
-                        <span className="text-purple-600 font-medium">
-                          @ <FormattedText content={item.company} />
-                        </span>
-                      </h3>
-
-                      {/* Meta links */}
-                      <div className={`flex flex-wrap items-center gap-4 text-xs mt-1.5 font-sans ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
-                        <span className="flex items-center gap-1">
-                          <Calendar className={`w-3.5 h-3.5 ${isLight ? "text-purple-600" : "text-purple-400"}`} />
-                          {item.period}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5 text-zinc-400" />
-                          {item.location}
-                        </span>
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
+                        <h3
+                          className={`font-display font-bold text-base sm:text-lg ${
+                            isLight ? "text-zinc-900" : "text-white"
+                          }`}
+                        >
+                          <FormattedText content={item.role} />
+                        </h3>
                         {item.type && (
-                          <span className={`px-2 py-0.5 rounded-md text-[10px] uppercase tracking-wider font-mono border ${
-                            isLight
-                              ? "bg-purple-100 text-purple-700 border-purple-200"
-                              : "bg-purple-500/10 text-purple-300 border-purple-500/10"
-                          }`}>
+                          <span
+                            className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-widest ${
+                              isLight
+                                ? "bg-purple-100 text-purple-700 border border-purple-200"
+                                : "bg-purple-500/10 text-purple-300 border border-purple-500/10"
+                            }`}
+                          >
                             {item.type}
                           </span>
                         )}
                       </div>
+
+                      <p
+                        className={`font-medium text-sm ${
+                          isLight ? "text-purple-700" : "text-purple-400"
+                        }`}
+                      >
+                        <FormattedText content={item.company} />
+                      </p>
+
+                      {/* Meta links */}
+                      <div
+                        className={`flex flex-wrap items-center gap-3 mt-1.5 text-xs font-sans ${
+                          isLight ? "text-zinc-500" : "text-zinc-400"
+                        }`}
+                      >
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          {item.period}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <MapPin className="w-3 h-3" />
+                          {item.location}
+                        </span>
+                      </div>
                     </div>
 
                     {/* Toggle Button */}
-                    <div className={`self-end sm:self-center transition-colors ${
-                      isLight ? "text-zinc-400 group-hover:text-zinc-700" : "text-zinc-500 group-hover:text-zinc-300"
-                    }`}>
-                      {isExpanded ? <ChevronUp className={`w-5 h-5 ${isLight ? "text-purple-600" : "text-purple-400"}`} /> : <ChevronDown className="w-5 h-5" />}
+                    <div
+                      className={`self-end sm:self-center shrink-0 transition-colors ${
+                        isLight ? "text-zinc-400 group-hover:text-zinc-700" : "text-zinc-500 group-hover:text-zinc-300"
+                      }`}
+                    >
+                      {isExpanded ? (
+                        <ChevronUp className={`w-5 h-5 ${isLight ? "text-purple-600" : "text-purple-400"}`} />
+                      ) : (
+                        <ChevronDown className="w-5 h-5" />
+                      )}
                     </div>
                   </div>
 
@@ -137,15 +171,27 @@ export default function Experience() {
                         transition={{ duration: 0.3, ease: "easeInOut" }}
                         className="overflow-hidden"
                       >
-                        <div className={`pt-6 border-t mt-5 space-y-3 ${isLight ? "border-zinc-200/80" : "border-white/10"}`}>
-                          {item.description.map((bullet, idx) => (
-                            <div key={idx} className={`flex gap-2 items-start text-xs sm:text-sm font-sans leading-relaxed ${
-                              isLight ? "text-zinc-600" : "text-zinc-300"
-                            }`}>
-                              <span className={`mt-1.5 shrink-0 ${isLight ? "text-purple-600" : "text-purple-400"}`}>■</span>
-                              <FormattedText content={bullet} />
-                            </div>
-                          ))}
+                        <div
+                          className={`px-0 sm:px-1 pt-4 sm:pt-5 pb-1 sm:pb-2 border-t mt-4 sm:mt-5 space-y-2.5 ${
+                            isLight ? "border-zinc-200/80" : "border-white/10"
+                          }`}
+                        >
+                          <ul className="space-y-2.5">
+                            {item.description.map((bullet, idx) => (
+                              <li
+                                key={idx}
+                                className={`flex items-start gap-2.5 text-sm leading-relaxed ${
+                                  isLight ? "text-zinc-600" : "text-zinc-300"
+                                }`}
+                              >
+                                <span
+                                  className="mt-2 w-1.5 h-1.5 rounded-full bg-purple-500 shrink-0"
+                                  aria-hidden="true"
+                                />
+                                <FormattedText content={bullet} />
+                              </li>
+                            ))}
+                          </ul>
                         </div>
                       </motion.div>
                     )}

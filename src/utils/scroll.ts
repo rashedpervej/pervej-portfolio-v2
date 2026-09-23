@@ -125,7 +125,13 @@ function performScroll(
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (behavior === "instant" || prefersReducedMotion || duration <= 0) {
-    window.scrollTo({ top: targetPosition, behavior: "instant" as ScrollBehavior });
+    try {
+      window.scrollTo({ top: targetPosition, behavior: "auto" });
+    } catch (_) {
+      try {
+        window.scrollTo(0, targetPosition);
+      } catch (_) {}
+    }
     setProgrammaticScrollActive(false);
     onComplete?.();
     return;
