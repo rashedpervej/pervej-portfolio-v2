@@ -71,7 +71,6 @@ export interface SiteSettings {
   enableChatbot?: boolean;
   backgroundStyle?: BackgroundStyle;
   projectSettings?: ProjectSettings;
-  marqueeSpeed?: number;
 }
 
 interface PortfolioContextType {
@@ -353,9 +352,6 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           let val = row.value;
           if (val === "true") val = true;
           if (val === "false") val = false;
-          if (row.key === "marqueeSpeed" && typeof val === "string" && !isNaN(Number(val))) {
-            val = Number(val);
-          }
           mergedSettings[row.key] = val;
         });
       }

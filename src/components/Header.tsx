@@ -223,8 +223,8 @@ export default function Header() {
           isolation: 'isolate',
         }}
       >
-        <div className={`max-w-7xl mx-auto px-5 sm:px-6 transition-all duration-300 flex items-center justify-between ${
-          isScrolled ? "py-3 sm:py-3.5" : "py-3.5 sm:py-4.5"
+        <div className={`max-w-7xl mx-auto px-4 sm:px-6 transition-all duration-300 flex items-center justify-between ${
+          isScrolled ? "py-3.5" : "py-4.5"
         }`}>
           {/* Logo */}
           <a
@@ -275,22 +275,22 @@ export default function Header() {
             })}
           </nav>
 
-          {/* Action Controls: Theme Toggle (desktop only), Download CV (all devices), Hamburger (mobile) */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            {/* Desktop Theme Toggle only (hidden on mobile header) */}
+          {/* Action Controls: Theme Toggle (desktop/tablet), Download CV (all screens), Hamburger (mobile) */}
+          <div className="flex items-center gap-2 sm:gap-3.5 shrink-0">
+            {/* Apple-style Liquid Glass Theme Toggle - Desktop & Tablet only */}
             <div className="hidden md:flex items-center">
               <ThemeToggle />
             </div>
 
-            {/* Download CV Button - ALWAYS VISIBLE ON ALL VERSIONS & DEVICES */}
+            {/* Download CV Button - Permanently visible across ALL screen sizes (Mobile, Tablet, Desktop) */}
             <button
               id="navbar-cv-download-btn"
               onClick={downloadCV}
               disabled={isDownloading}
               aria-label="Download Curriculum Vitae"
-              className={`inline-flex group relative items-center gap-1.5 sm:gap-2 px-3 py-1.5 xs:px-3.5 xs:py-2 sm:px-4.5 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-wide transition-all duration-300 ease-out overflow-hidden active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap shrink-0 ${
+              className={`group relative inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4.5 py-2 sm:py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 ease-out overflow-hidden active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap shrink-0 ${
                 isLight
-                  ? "bg-white/80 hover:bg-white border border-purple-200/80 hover:border-purple-400 text-purple-950 shadow-[0_2px_10px_rgba(147,51,234,0.08),inset_0_1px_1px_rgba(255,255,255,1)] hover:shadow-[0_4px_16px_rgba(168,85,247,0.18)]"
+                  ? "bg-white/65 hover:bg-white/90 border border-white/90 hover:border-purple-400/40 text-purple-950 shadow-[0_4px_16px_rgba(100,100,160,0.08),inset_0_1px_1px_rgba(255,255,255,0.95)] hover:shadow-[0_8px_24px_rgba(168,85,247,0.18)]"
                   : "bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 hover:shadow-[0_0_15px_rgba(168,85,247,0.15)] hover:brightness-110 text-white"
               }`}
             >
@@ -315,13 +315,13 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={mobileMenuOpen}
-              className={`md:hidden p-2 min-w-[38px] min-h-[38px] flex items-center justify-center rounded-xl transition-all duration-300 cursor-pointer shrink-0 ${
+              className={`md:hidden p-2 sm:p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] flex items-center justify-center rounded-xl transition-all duration-300 cursor-pointer shrink-0 ${
                 isLight
-                  ? "text-zinc-700 hover:text-zinc-950 bg-white/70 border border-white/90 shadow-xs"
-                  : "text-zinc-300 hover:text-white bg-white/5 border border-white/10"
+                  ? "text-zinc-700 hover:text-zinc-950 bg-white/50 border border-white/80 shadow-xs"
+                  : "text-zinc-300 hover:text-white"
               }`}
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 sm:w-5.5 sm:h-5.5" /> : <Menu className="w-5 h-5 sm:w-5.5 sm:h-5.5" />}
             </button>
           </div>
         </div>
@@ -334,51 +334,49 @@ export default function Header() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
+              transition={{ duration: 0.3 }}
               style={{
                 WebkitBackdropFilter: 'blur(24px)',
                 backdropFilter: 'blur(24px)',
               }}
-              className="md:hidden border-b border-black/5 bg-white/95 backdrop-blur-2xl transition-colors duration-200 dark:border-white/10 dark:bg-[#0c0d14]/95 overflow-hidden shadow-2xl"
+              className="md:hidden border-b border-black/5 bg-white/90 backdrop-blur-xl transition-colors duration-200 dark:border-white/10 dark:bg-[#121614]/90 overflow-hidden"
             >
-              <div className="px-5 py-5 sm:px-6 sm:py-6 flex flex-col gap-4">
+              <div className="px-6 py-6 flex flex-col gap-5">
                 {/* Mobile Navigation Links */}
-                <div className="flex flex-col gap-3 py-1">
-                  {navItems.map((item, index) => {
-                    const isActive = activeSection === item.id;
-                    return (
-                      <a
-                        key={index}
-                        href={item.href}
-                        onClick={(e) => {
-                          setMobileMenuOpen(false);
-                          handleNavClick(e, item.href);
-                        }}
-                        className={`font-display font-medium text-lg flex items-center justify-between transition-colors py-1 ${
-                          isActive
-                            ? isLight
-                              ? "text-purple-600 font-bold"
-                              : "text-purple-400 font-bold"
-                            : isLight
-                              ? "text-zinc-700 hover:text-purple-600"
-                              : "text-zinc-300 hover:text-white"
-                        }`}
-                      >
-                        <span>{item.label}</span>
-                        {isActive && (
-                          <span className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)]" />
-                        )}
-                      </a>
-                    );
-                  })}
-                </div>
+                {navItems.map((item, index) => {
+                  const isActive = activeSection === item.id;
+                  return (
+                    <a
+                      key={index}
+                      href={item.href}
+                      onClick={(e) => {
+                        setMobileMenuOpen(false);
+                        handleNavClick(e, item.href);
+                      }}
+                      className={`font-display font-medium text-lg flex items-center justify-between transition-colors ${
+                        isActive
+                          ? isLight
+                            ? "text-purple-700 font-bold"
+                            : "text-purple-400 font-semibold"
+                          : isLight
+                            ? "text-zinc-700 hover:text-purple-600"
+                            : "text-zinc-300 hover:text-white"
+                      }`}
+                    >
+                      <span>{item.label}</span>
+                      {isActive && <span className="w-1.5 h-1.5 rounded-full bg-purple-500 shadow-[0_0_6px_rgba(168,85,247,0.6)]" />}
+                    </a>
+                  );
+                })}
 
-                {/* Mobile Bottom Bar with Interface Theme Toggle */}
-                <div className={`pt-4 border-t flex items-center justify-between ${isLight ? "border-zinc-200/80" : "border-white/10"}`}>
-                  <span className={`text-[11px] uppercase tracking-widest font-mono font-medium ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
-                    INTERFACE THEME
-                  </span>
-                  <ThemeToggle />
+                {/* Mobile Bottom Bar with Theme Toggle */}
+                <div className={`pt-4 border-t flex flex-col gap-3 ${isLight ? "border-zinc-200/80" : "border-white/5"}`}>
+                  <div className="flex items-center justify-between py-1">
+                    <span className={`text-xs uppercase tracking-widest font-mono ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
+                      Interface Theme
+                    </span>
+                    <ThemeToggle />
+                  </div>
                 </div>
               </div>
             </motion.div>

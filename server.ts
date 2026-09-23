@@ -75,24 +75,8 @@ async function startServer() {
   } else {
     // Production Mode
     const distPath = path.join(process.cwd(), "dist");
-    app.use(
-      "/assets",
-      express.static(path.join(distPath, "assets"), {
-        maxAge: "1y",
-        immutable: true,
-      })
-    );
-    app.use(
-      express.static(distPath, {
-        setHeaders: (res, filePath) => {
-          if (filePath.endsWith("index.html")) {
-            res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-          }
-        },
-      })
-    );
+    app.use(express.static(distPath));
     app.get("*", (req, res) => {
-      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
       try {
         const indexHtmlPath = path.join(distPath, "index.html");
         if (fs.existsSync(indexHtmlPath)) {

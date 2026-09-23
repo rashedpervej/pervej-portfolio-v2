@@ -296,33 +296,3 @@ export async function deleteLead(req: Request, res: Response) {
     return res.status(500).json({ error: "Internal Server Error", details: err.message });
   }
 }
-
-// Default export dispatcher for Vercel Serverless Function compatibility
-export default async function handler(req: Request, res: Response) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-  if (req.method === "OPTIONS") {
-    return res.status(204).end();
-  }
-
-  const url = req.url || "";
-  const action = req.body?.action || (req.query?.action as string);
-
-  if (req.method === "GET") {
-    return getLeads(req, res);
-  }
-
-  if (req.method === "POST") {
-    if (action === "delete" || url.includes("/delete")) {
-      return deleteLead(req, res);
-    }
-    if (action === "update" || url.includes("/update") || req.body?.status || req.body?.notes !== undefined) {
-      return updateLead(req, res);
-    }
-    return getLeads(req, res);
-  }
-
-  return res.status(405).json({ error: "Method Not Allowed" });
-}

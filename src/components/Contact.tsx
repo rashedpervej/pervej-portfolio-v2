@@ -19,12 +19,7 @@ export default function Contact() {
   const behanceUrl = behance.startsWith('http') ? behance : `https://${behance}`;
 
   return (
-    <section
-      id="contact"
-      className={`py-16 sm:py-20 lg:py-24 relative overflow-hidden ${
-        isLight ? "bg-transparent" : "bg-[#030303]"
-      }`}
-    >
+    <section id="contact" className={`py-6 sm:py-8 md:py-9 lg:py-10 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#030303]"}`}>
       {/* Ambient background glow */}
       <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] blur-[140px] pointer-events-none rounded-full ${
         isLight ? "bg-purple-200/30" : "bg-purple-950/15"
@@ -37,26 +32,22 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col items-start mb-10 sm:mb-12 lg:mb-14 text-left"
+          className="flex flex-col items-start mb-5 sm:mb-6 lg:mb-8 text-left"
         >
-          <h2
-            className={`font-display font-bold text-3xl sm:text-5xl tracking-tight leading-tight ${
-              isLight ? "text-zinc-950" : "text-white"
-            }`}
-          >
-            Let's Collaborate on <br className="hidden sm:inline" />
+          <h2 className={`font-display font-bold text-3xl sm:text-5xl tracking-tight ${isLight ? "text-zinc-950" : "text-white"}`}>
+            Let's Collaborate on <br className="hidden sm:block" />
             <span className="bg-gradient-to-r from-purple-500 to-indigo-500 bg-clip-text text-transparent">
               Your Next Brand Story
             </span>
           </h2>
-          <div className="w-12 h-[2px] bg-purple-500 mt-4 mb-3 sm:mb-4" />
-          <h3 className={`font-display font-semibold text-lg sm:text-2xl ${isLight ? "text-zinc-700" : "text-zinc-100"}`}>
+          <div className="w-12 h-[2px] bg-purple-500 mt-3 mb-4" />
+          <h3 className={`font-display font-semibold text-lg sm:text-xl ${isLight ? "text-zinc-700" : "text-zinc-100"}`}>
             Direct Contact &amp; Credentials
           </h3>
         </motion.div>
 
         {/* 3 Equal Width Glassmorphism Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 items-stretch mb-8 sm:mb-10 lg:mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch mb-5 sm:mb-6 lg:mb-7">
           {/* Card 1: Email */}
           <motion.a
             href={`mailto:${email}`}
@@ -64,19 +55,19 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className={`flex items-center gap-4 sm:gap-5 p-5 sm:p-6 rounded-2xl transition-all duration-300 group cursor-pointer ${
+            className={`flex items-center gap-4.5 p-5 sm:p-6 rounded-[20px] transition-all duration-300 group cursor-pointer ${
               isLight
                 ? "bg-white/65 hover:bg-white/90 border border-white/90 hover:border-purple-300 shadow-[0_8px_24px_rgba(100,100,160,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-xl"
                 : "bg-[#09090e]/80 border border-white/[0.06] hover:border-purple-500/30 hover:bg-[#0c0c16] shadow-lg shadow-black/40"
             }`}
           >
-            <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-all duration-300 ${
+            <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-all duration-300 ${
               isLight ? "bg-purple-100/70 border border-purple-200 group-hover:border-purple-300" : "bg-purple-950/30 border border-purple-500/20 group-hover:border-purple-500/40"
             }`}>
-              <Mail className={`w-5 h-5 sm:w-6 sm:h-6 ${isLight ? "text-purple-600" : "text-purple-400"}`} />
+              <Mail className={`w-6 h-6 ${isLight ? "text-purple-600" : "text-purple-400"}`} />
             </div>
-            <div className="min-w-0 flex-1">
-              <p className={`font-mono text-[10px] sm:text-[11px] uppercase tracking-widest font-medium mb-1 ${isLight ? "text-zinc-500 font-semibold" : "text-zinc-400"}`}>
+            <div className="min-w-0">
+              <p className={`font-mono text-[11px] uppercase tracking-widest font-medium mb-1 ${isLight ? "text-zinc-500 font-semibold" : "text-zinc-400"}`}>
                 EMAIL
               </p>
               <p className={`font-sans text-sm sm:text-base font-medium truncate transition-colors ${
@@ -96,19 +87,19 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className={`flex items-center gap-4 sm:gap-5 p-5 sm:p-6 rounded-2xl transition-all duration-300 group cursor-pointer ${
+            className={`flex items-center gap-4.5 p-5 sm:p-6 rounded-[20px] transition-all duration-300 group cursor-pointer ${
               isLight
                 ? "bg-white/65 hover:bg-white/90 border border-white/90 hover:border-purple-300 shadow-[0_8px_24px_rgba(100,100,160,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-xl"
                 : "bg-[#09090e]/80 border border-white/[0.06] hover:border-purple-500/30 hover:bg-[#0c0c16] shadow-lg shadow-black/40"
             }`}
           >
-            <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-all duration-300 ${
+            <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-all duration-300 ${
               isLight ? "bg-purple-100/70 border border-purple-200 group-hover:border-purple-300" : "bg-purple-950/30 border border-purple-500/20 group-hover:border-purple-500/40"
             }`}>
-              <Phone className={`w-5 h-5 sm:w-6 sm:h-6 ${isLight ? "text-purple-600" : "text-purple-400"}`} />
+              <Phone className={`w-6 h-6 ${isLight ? "text-purple-600" : "text-purple-400"}`} />
             </div>
-            <div className="min-w-0 flex-1">
-              <p className={`font-mono text-[10px] sm:text-[11px] uppercase tracking-widest font-medium mb-1 ${isLight ? "text-zinc-500 font-semibold" : "text-zinc-400"}`}>
+            <div className="min-w-0">
+              <p className={`font-mono text-[11px] uppercase tracking-widest font-medium mb-1 ${isLight ? "text-zinc-500 font-semibold" : "text-zinc-400"}`}>
                 PHONE &amp; WHATSAPP
               </p>
               <p className={`font-sans text-sm sm:text-base font-medium truncate transition-colors ${
@@ -125,19 +116,19 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className={`flex items-center gap-4 sm:gap-5 p-5 sm:p-6 rounded-2xl transition-all duration-300 group ${
+            className={`flex items-center gap-4.5 p-5 sm:p-6 rounded-[20px] transition-all duration-300 group ${
               isLight
                 ? "bg-white/65 border border-white/90 shadow-[0_8px_24px_rgba(100,100,160,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-xl"
                 : "bg-[#09090e]/80 border border-white/[0.06] hover:border-purple-500/30 hover:bg-[#0c0c16] shadow-lg shadow-black/40"
             }`}
           >
-            <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-all duration-300 ${
+            <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-all duration-300 ${
               isLight ? "bg-purple-100/70 border border-purple-200" : "bg-purple-950/30 border border-purple-500/20 group-hover:border-purple-500/40"
             }`}>
-              <MapPin className={`w-5 h-5 sm:w-6 sm:h-6 ${isLight ? "text-purple-600" : "text-purple-400"}`} />
+              <MapPin className={`w-6 h-6 ${isLight ? "text-purple-600" : "text-purple-400"}`} />
             </div>
-            <div className="min-w-0 flex-1">
-              <p className={`font-mono text-[10px] sm:text-[11px] uppercase tracking-widest font-medium mb-1 ${isLight ? "text-zinc-500 font-semibold" : "text-zinc-400"}`}>
+            <div className="min-w-0">
+              <p className={`font-mono text-[11px] uppercase tracking-widest font-medium mb-1 ${isLight ? "text-zinc-500 font-semibold" : "text-zinc-400"}`}>
                 LOCATION
               </p>
               <p className={`font-sans text-sm sm:text-base font-medium truncate ${
@@ -155,10 +146,10 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, delay: 0.35 }}
-          className="relative flex items-center justify-center my-6 sm:my-8"
+          className="relative flex items-center justify-center my-5 sm:my-6"
         >
           <div className={`flex-grow border-t ${isLight ? "border-zinc-300/80" : "border-white/[0.08]"}`} />
-          <span className={`shrink-0 px-4 sm:px-6 font-mono text-[11px] sm:text-xs uppercase tracking-[0.2em] font-medium ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
+          <span className={`shrink-0 px-6 font-mono text-xs uppercase tracking-[0.2em] font-medium ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
             SOCIAL CONNECTIONS
           </span>
           <div className={`flex-grow border-t ${isLight ? "border-zinc-300/80" : "border-white/[0.08]"}`} />
@@ -170,23 +161,23 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex items-center justify-center gap-4 sm:gap-5 mt-4 sm:mt-6"
+          className="flex items-center justify-center gap-4 mt-4 sm:mt-5"
         >
           {/* Behance Button */}
           <a
             href={behanceUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-center justify-center gap-2 sm:gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl hover:-translate-y-0.5 transition-all duration-300 group shadow-lg ${
+            className={`flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl hover:-translate-y-0.5 transition-all duration-300 group shadow-lg ${
               isLight
                 ? "bg-white/70 hover:bg-white/95 border border-white/90 hover:border-purple-300 shadow-[0_6px_20px_rgba(100,100,160,0.07),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-xl"
                 : "bg-[#09090e]/90 border border-white/[0.08] hover:border-purple-500/40 hover:bg-[#0c0c16]"
             }`}
           >
-            <span className={`font-sans font-black text-lg sm:text-xl tracking-tight ${isLight ? "text-purple-600" : "text-purple-400"}`}>
+            <span className={`font-sans font-black text-xl tracking-tight ${isLight ? "text-purple-600" : "text-purple-400"}`}>
               Bē
             </span>
-            <ExternalLink className={`w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all ${
+            <ExternalLink className={`w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all ${
               isLight ? "text-purple-600" : "text-purple-400/80 group-hover:text-purple-300"
             }`} />
           </a>
@@ -196,16 +187,16 @@ export default function Contact() {
             href={linkedinUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-center justify-center gap-2 sm:gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl hover:-translate-y-0.5 transition-all duration-300 group shadow-lg ${
+            className={`flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl hover:-translate-y-0.5 transition-all duration-300 group shadow-lg ${
               isLight
                 ? "bg-white/70 hover:bg-white/95 border border-white/90 hover:border-purple-300 shadow-[0_6px_20px_rgba(100,100,160,0.07),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-xl"
                 : "bg-[#09090e]/90 border border-white/[0.08] hover:border-purple-500/40 hover:bg-[#0c0c16]"
             }`}
           >
-            <span className={`font-sans font-extrabold text-lg sm:text-xl tracking-tight ${isLight ? "text-purple-600" : "text-purple-400"}`}>
+            <span className={`font-sans font-extrabold text-xl tracking-tight ${isLight ? "text-purple-600" : "text-purple-400"}`}>
               in
             </span>
-            <ExternalLink className={`w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all ${
+            <ExternalLink className={`w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all ${
               isLight ? "text-purple-600" : "text-purple-400/80 group-hover:text-purple-300"
             }`} />
           </a>
