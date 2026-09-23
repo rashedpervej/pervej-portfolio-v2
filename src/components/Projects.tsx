@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "motion/react";
 import { ExternalLink, Layers, Film, Award, BookOpen, ArrowUpRight } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
+import { setupEmblaMobileSwipe } from "../utils/emblaMobileSwipe";
 import { usePortfolio } from "../context/PortfolioContext";
 import { Project } from "../data";
 import FormattedText from "./FormattedText";
@@ -72,22 +73,22 @@ function ProjectCard({ project, settings }: ProjectCardProps) {
       </div>
 
       {/* Info Section */}
-      <div className="p-4 sm:p-6 flex-1 flex flex-col justify-between text-left">
+      <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between text-left">
         <div>
-          <div className="flex items-center justify-between gap-2 mb-1.5 sm:mb-2">
-            <span className={`font-mono text-[9.5px] sm:text-[10px] uppercase tracking-widest ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <span className={`font-mono text-[10px] uppercase tracking-widest ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
               {settings.showYear ? `${project.year} // ${project.serviceProvided || "DESIGN PROJECT"}` : (project.serviceProvided || "DESIGN PROJECT")}
             </span>
           </div>
 
-          <h3 className={`font-display font-semibold text-base sm:text-lg transition-colors duration-300 line-clamp-1 ${
+          <h3 className={`font-display font-semibold text-lg transition-colors duration-300 line-clamp-1 ${
             isLight
               ? "text-zinc-900 group-hover:text-purple-600"
               : "text-white group-hover:text-purple-300"
           }`}>
             <FormattedText content={project.title} />
           </h3>
-          <div className={`text-xs sm:text-sm mt-1.5 line-clamp-2 sm:line-clamp-3 font-sans leading-relaxed ${
+          <div className={`text-xs sm:text-sm mt-2 line-clamp-3 font-sans leading-relaxed ${
             isLight ? "text-zinc-600" : "text-zinc-300"
           }`}>
             <FormattedText content={project.description} />
@@ -98,27 +99,27 @@ function ProjectCard({ project, settings }: ProjectCardProps) {
             (settings.showServices && project.serviceProvided) || 
             (settings.showToolsUsed && project.toolsUsed) || 
             (settings.showProjectDuration && project.projectDuration)) && (
-            <div className={`mt-3 sm:mt-4 pt-3 sm:pt-4 border-t space-y-1.5 ${isLight ? "border-zinc-200/80" : "border-white/10"}`}>
+            <div className={`mt-4 pt-4 border-t space-y-1.5 ${isLight ? "border-zinc-200/80" : "border-white/10"}`}>
               {settings.showClientName && project.clientName && (
-                <div className="text-[10.5px] sm:text-[11px] flex items-center justify-between text-zinc-400">
+                <div className="text-[11px] flex items-center justify-between text-zinc-400">
                   <span className="text-zinc-500 font-mono text-[9px] uppercase tracking-wider">Client</span>
                   <span className={`font-medium ${isLight ? "text-zinc-700" : "text-zinc-200"}`}>{project.clientName}</span>
                 </div>
               )}
               {settings.showServices && project.serviceProvided && (
-                <div className="text-[10.5px] sm:text-[11px] flex items-start justify-between gap-4 text-zinc-400">
+                <div className="text-[11px] flex items-start justify-between gap-4 text-zinc-400">
                   <span className="text-zinc-500 font-mono text-[9px] uppercase tracking-wider mt-0.5">Services</span>
                   <span className={`font-medium text-right line-clamp-1 ${isLight ? "text-zinc-700" : "text-zinc-200"}`}>{project.serviceProvided}</span>
                 </div>
               )}
               {settings.showToolsUsed && project.toolsUsed && (
-                <div className="text-[10.5px] sm:text-[11px] flex items-start justify-between gap-4 text-zinc-400">
+                <div className="text-[11px] flex items-start justify-between gap-4 text-zinc-400">
                   <span className="text-zinc-500 font-mono text-[9px] uppercase tracking-wider mt-0.5">Tools</span>
-                  <span className={`font-mono text-[9.5px] sm:text-[10px] text-right line-clamp-1 ${isLight ? "text-zinc-700" : "text-zinc-200"}`}>{project.toolsUsed}</span>
+                  <span className={`font-mono text-[10px] text-right line-clamp-1 ${isLight ? "text-zinc-700" : "text-zinc-200"}`}>{project.toolsUsed}</span>
                 </div>
               )}
               {settings.showProjectDuration && project.projectDuration && (
-                <div className="text-[10.5px] sm:text-[11px] flex items-center justify-between text-zinc-400">
+                <div className="text-[11px] flex items-center justify-between text-zinc-400">
                   <span className="text-zinc-500 font-mono text-[9px] uppercase tracking-wider">Duration</span>
                   <span className={`font-medium ${isLight ? "text-zinc-700" : "text-zinc-200"}`}>{project.projectDuration}</span>
                 </div>
@@ -127,7 +128,7 @@ function ProjectCard({ project, settings }: ProjectCardProps) {
           )}
         </div>
 
-        <div className={`mt-4 sm:mt-6 pt-3 sm:pt-4 border-t flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 ${
+        <div className={`mt-6 pt-4 border-t flex flex-wrap items-center justify-between gap-3 ${
           isLight ? "border-zinc-200/80" : "border-white/10"
         }`}>
           {settings.showAwardBadge && (project.awardBadge || "Award Quality") ? (
@@ -206,6 +207,9 @@ function MobileProjectsCarousel({
     align: "center",
     containScroll: "trimSnaps",
     loop: true,
+    dragThreshold: 8,
+    skipSnaps: false,
+    duration: 22,
   });
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -222,6 +226,12 @@ function MobileProjectsCarousel({
     emblaApi.on("reInit", onSelect);
   }, [emblaApi, onSelect]);
 
+  // Enhanced mobile touch/swipe sensitivity: short distance swipe smoothly advances slide
+  useEffect(() => {
+    if (!emblaApi) return;
+    return setupEmblaMobileSwipe(emblaApi, { threshold: 25 });
+  }, [emblaApi]);
+
   useEffect(() => {
     if (emblaApi) {
       emblaApi.reInit();
@@ -234,7 +244,7 @@ function MobileProjectsCarousel({
     : false;
 
   return (
-    <div ref={containerRef} className="block md:hidden w-full overflow-hidden">
+    <div ref={containerRef} className="block md:hidden -mx-6 w-[calc(100%+3rem)] overflow-hidden">
       <motion.div
         animate={
           isInView && !hasPlayedIntro && !prefersReducedMotion
@@ -248,12 +258,12 @@ function MobileProjectsCarousel({
         }}
         onAnimationComplete={() => setHasPlayedIntro(true)}
       >
-        <div ref={emblaRef} className="overflow-hidden cursor-grab active:cursor-grabbing -my-8 py-8 -mx-5 px-5 sm:-mx-6 sm:px-6">
-          <div className="flex -ml-3.5 sm:-ml-4">
+        <div ref={emblaRef} className="overflow-hidden cursor-grab active:cursor-grabbing touch-pan-y select-none -my-8 py-8 px-6">
+          <div className="flex -ml-4">
             {filteredProjects.map((project) => (
               <div
                 key={project.id}
-                className="flex-[0_0_88%] sm:flex-[0_0_75%] min-w-0 pl-3.5 sm:pl-4 py-2 flex flex-col"
+                className="flex-[0_0_86%] sm:flex-[0_0_75%] min-w-0 pl-4 py-2 flex flex-col"
               >
                 <ProjectCard project={project} settings={settings} />
               </div>
@@ -335,12 +345,7 @@ export default function Projects() {
     : projects.filter((proj) => proj.category.toLowerCase().includes(selectedCategory.toLowerCase()) || selectedCategory.toLowerCase().includes(proj.category.toLowerCase()));
 
   return (
-    <section
-      id="projects"
-      className={`py-16 sm:py-20 lg:py-24 relative overflow-hidden ${
-        isLight ? "bg-transparent" : "bg-[#050508]"
-      }`}
-    >
+    <section id="projects" className={`py-6 sm:py-8 md:py-9 lg:py-10 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#050508]"}`}>
       {/* Background radial highlight */}
       <div className={`absolute top-1/2 right-1/4 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[150px] pointer-events-none ${
         isLight ? "bg-purple-200/25" : "bg-purple-950/5"
@@ -353,15 +358,11 @@ export default function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-10 sm:mb-12 lg:mb-14"
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-5 sm:mb-6 lg:mb-8"
         >
           <div className="flex flex-col items-start text-left">
-            <h2
-              className={`font-display font-bold text-3xl sm:text-5xl tracking-tight leading-tight ${
-                isLight ? "text-zinc-950" : "text-white"
-              }`}
-            >
-              Selected Works & <br className="hidden sm:inline" />
+            <h2 className={`font-display font-bold text-3xl sm:text-5xl tracking-tight ${isLight ? "text-zinc-950" : "text-white"}`}>
+              Selected Works & <br />
               <span className="bg-gradient-to-r from-purple-500 to-indigo-500 bg-clip-text text-transparent">
                 Visual Artifacts
               </span>
@@ -371,14 +372,14 @@ export default function Projects() {
 
           {/* Filters */}
           {showFilterBar && (
-            <div className="flex flex-wrap gap-1.5 sm:gap-2">
+            <div className="flex flex-wrap gap-2">
               {visibleCategories.map((cat) => {
                 const isActive = selectedCategory === cat.id;
                 return (
                   <button
                     key={cat.id}
                     onClick={() => setSelectedCategory(cat.id)}
-                    className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs uppercase tracking-wider sm:tracking-widest font-mono transition-all duration-300 border ${
+                    className={`px-4 py-2 rounded-xl text-xs uppercase tracking-widest font-mono transition-all duration-300 border ${
                       isActive
                         ? "btn-keep-white bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-purple-400/30 shadow-md shadow-purple-600/20"
                         : isLight
@@ -447,7 +448,7 @@ export default function Projects() {
           />
 
           {/* Left 3D Glass Magnifier Visual Area */}
-          <div className="relative w-full sm:w-56 md:w-64 h-28 sm:h-32 flex-shrink-0 flex items-center justify-center sm:justify-start sm:pl-2 md:pl-4 overflow-visible">
+          <div className="relative w-full sm:w-56 md:w-64 h-36 sm:h-32 flex-shrink-0 flex items-center justify-center sm:justify-start sm:pl-2 md:pl-4 overflow-visible">
             {/* Soft ambient violet aura glow underneath */}
             <div
               className={`absolute left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-6 top-1/2 -translate-y-1/2 w-28 h-28 sm:w-32 sm:h-32 rounded-full blur-2xl pointer-events-none ${
@@ -468,7 +469,7 @@ export default function Projects() {
             />
 
             {/* Floating 3D Glass Magnifier Image */}
-            <div className="relative z-10 w-28 sm:w-40 md:w-44 h-28 sm:h-40 md:h-44 flex items-center justify-center select-none transform transition-transform duration-500 group-hover:scale-105 group-hover:rotate-2">
+            <div className="relative z-10 w-32 sm:w-40 md:w-44 h-32 sm:h-40 md:h-44 flex items-center justify-center select-none transform transition-transform duration-500 group-hover:scale-105 group-hover:rotate-2">
               <img
                 src="https://i.ibb.co.com/GQxxJ3Tc/magnify-glass-400px.webp"
                 alt="Custom Creative Solution 3D Magnifying Glass"
@@ -483,21 +484,14 @@ export default function Projects() {
           </div>
 
           {/* Center Title Text */}
-          <div className="flex-1 text-center sm:text-left px-1 sm:px-4 relative z-10">
+          <div className="flex-1 text-center sm:text-left px-2 sm:px-4 relative z-10">
             <h4
-              className={`font-display font-semibold text-lg sm:text-2xl md:text-[23px] tracking-tight leading-snug ${
-                isLight ? "text-zinc-900" : "text-white"
+              className={`font-display font-bold text-2xl sm:text-3xl md:text-3xl lg:text-4xl tracking-tight leading-tight ${
+                isLight ? "text-zinc-950" : "text-white"
               }`}
             >
               Looking for a custom creative solution?
             </h4>
-            <p
-              className={`text-xs sm:text-sm mt-1 font-normal ${
-                isLight ? "text-zinc-600" : "text-zinc-400"
-              }`}
-            >
-              Tailored brand identities, modern motion graphics & tactical packaging.
-            </p>
           </div>
 
           {/* Right Action Button */}
@@ -506,7 +500,7 @@ export default function Projects() {
               href="https://be.net/rashedpervej"
               target="_blank"
               rel="noopener noreferrer"
-              className={`w-full sm:w-auto px-6 sm:px-7 py-2.5 sm:py-3 rounded-full font-medium text-xs sm:text-sm tracking-wide transition-all duration-300 flex items-center justify-center gap-2 active:scale-95 ${
+              className={`w-full sm:w-auto px-7 py-3 rounded-full font-medium text-sm sm:text-base tracking-wide transition-all duration-300 flex items-center justify-center gap-2 active:scale-95 ${
                 isLight
                   ? "bg-purple-600 hover:bg-purple-700 text-white shadow-md shadow-purple-600/25 border border-purple-500/30"
                   : "bg-purple-600/20 hover:bg-purple-600/35 border border-purple-500/40 hover:border-purple-400 text-white shadow-lg shadow-purple-950/40"

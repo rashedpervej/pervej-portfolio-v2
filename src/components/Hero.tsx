@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { ArrowDown, Award, Zap, Paintbrush, Play } from "lucide-react";
+import { ChevronDown, Zap, Paintbrush } from "lucide-react";
 import { usePortfolio } from "../context/PortfolioContext";
-import { scrollToSection, navigateToSection } from "../utils/scroll";
+import { navigateToSection } from "../utils/scroll";
 import FormattedText from "./FormattedText";
 import defaultHeaderImage from "../assets/images/Rashed Header Image.webp";
 
@@ -70,16 +70,31 @@ export default function Hero() {
   const roleText = info.role || "Senior Visualizer";
   const bioText = info.heroBio || "Senior Visualizer with 6+ years of premium experience. Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.";
 
+  const isExternalUrl = (url: string) => {
+    return /^https?:\/\//i.test(url) || /^mailto:/i.test(url) || /^tel:/i.test(url);
+  };
+
   const handleCtaClick = (e: React.MouseEvent<HTMLAnchorElement>, link: string) => {
+    if (!link) return;
+    if (isExternalUrl(link)) {
+      // Allow browser natural external navigation / new tab
+      return;
+    }
     e.preventDefault();
     const sectionId = link.replace(/^#/, "").replace(/^\//, "") || "hero";
     navigateToSection(sectionId);
   };
 
+  const getHref = (link: string) => {
+    if (!link) return "/";
+    if (isExternalUrl(link)) return link;
+    return `/#${link.replace(/^#/, "").replace(/^\//, "")}`;
+  };
+
   return (
     <section
       id="hero"
-      className={`relative min-h-[100svh] flex items-center justify-center pt-20 sm:pt-24 lg:pt-28 pb-16 sm:pb-20 lg:pb-24 overflow-hidden ${
+      className={`relative min-h-screen flex items-center justify-center pt-24 sm:pt-28 lg:pt-32 pb-8 sm:pb-10 lg:pb-12 overflow-hidden ${
         isLight ? "bg-transparent" : "bg-[#030303]"
       }`}
     >
@@ -91,15 +106,15 @@ export default function Hero() {
         isLight ? "bg-indigo-300/25" : "bg-indigo-950/15"
       }`} />
 
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 w-full relative z-10 grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-center">
+      <div className="max-w-7xl mx-auto px-6 w-full relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         {/* Left Column: Core Text */}
-        <div className="flex flex-col gap-5 lg:gap-5 items-start text-left w-full">
+        <div className="lg:col-span-7 flex flex-col items-start text-left">
           {/* Tagline / Availability Indicator */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-[10.5px] sm:text-[11px] font-mono tracking-wider uppercase transition-all duration-300 ${
+            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] font-mono tracking-wider uppercase mb-6 transition-all duration-300 ${
               isLight
                 ? "bg-white/70 border border-white/90 text-purple-700 shadow-[0_4px_14px_rgba(147,51,234,0.08),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-md"
                 : "bg-purple-500/10 border border-purple-500/20 text-purple-400"
@@ -114,7 +129,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className={`font-mono text-[11px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.25em] ${
+            className={`font-mono text-xs uppercase tracking-[0.25em] mb-2 ${
               isLight ? "text-zinc-500 font-medium" : "text-zinc-500"
             }`}
           >
@@ -126,7 +141,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className={`font-display font-black leading-none tracking-tight text-[2.75rem] xs:text-5xl sm:text-6xl lg:text-7xl ${
+            className={`font-display font-bold text-5xl sm:text-7xl lg:text-8xl tracking-tight mb-6 leading-[0.95] ${
               isLight ? "text-zinc-950" : "text-white"
             }`}
           >
@@ -138,7 +153,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className={`text-base sm:text-[17px] lg:text-lg leading-[1.65] max-w-xl font-sans ${
+            className={`text-sm sm:text-base max-w-xl font-sans leading-relaxed mb-8 ${
               isLight ? "text-zinc-600" : "text-zinc-400"
             }`}
           >
@@ -150,23 +165,27 @@ export default function Hero() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-row flex-wrap items-center justify-start gap-3 sm:gap-4 pt-1"
+            className="flex flex-wrap items-center gap-4 mb-8 sm:mb-10 lg:mb-12"
           >
             <a
-              href="/"
+              href={getHref(primaryCtaLink)}
+              target={isExternalUrl(primaryCtaLink) ? "_blank" : undefined}
+              rel={isExternalUrl(primaryCtaLink) ? "noopener noreferrer" : undefined}
               onClick={(e) => handleCtaClick(e, primaryCtaLink)}
-              className="btn-keep-white group relative inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs sm:text-sm uppercase tracking-wider font-bold transition-all duration-300 shadow-xl shadow-purple-600/25 active:scale-95 border border-purple-400/30 overflow-hidden cursor-pointer whitespace-nowrap"
+              className="btn-keep-white group relative px-8 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs uppercase tracking-widest font-semibold transition-all duration-300 shadow-lg shadow-purple-600/25 active:scale-95 flex items-center gap-2 border border-purple-400/30 overflow-hidden cursor-pointer"
             >
               <span className="absolute inset-0 pointer-events-none -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent -skew-x-12" />
               <Paintbrush className="w-4 h-4 text-purple-200" />
               <FormattedText content={primaryCtaText} />
             </a>
             <a
-              href="/"
+              href={getHref(secondaryCtaLink)}
+              target={isExternalUrl(secondaryCtaLink) ? "_blank" : undefined}
+              rel={isExternalUrl(secondaryCtaLink) ? "noopener noreferrer" : undefined}
               onClick={(e) => handleCtaClick(e, secondaryCtaLink)}
-              className={`inline-flex items-center justify-center px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl text-xs sm:text-sm uppercase tracking-wider font-bold transition-all duration-300 active:scale-95 cursor-pointer whitespace-nowrap ${
+              className={`px-8 py-4 rounded-xl text-xs uppercase tracking-widest font-semibold transition-all duration-300 active:scale-95 cursor-pointer ${
                 isLight
-                  ? "bg-white/80 hover:bg-white text-zinc-900 border border-white/90 hover:border-purple-400/40 shadow-[0_4px_16px_rgba(100,100,160,0.08),inset_0_1px_1px_rgba(255,255,255,0.95)] hover:shadow-[0_8px_24px_rgba(168,85,247,0.14)] backdrop-blur-md"
+                  ? "bg-white/65 hover:bg-white/95 text-zinc-900 border border-white/90 hover:border-purple-400/40 shadow-[0_4px_16px_rgba(100,100,160,0.08),inset_0_1px_1px_rgba(255,255,255,0.95)] hover:shadow-[0_8px_24px_rgba(168,85,247,0.14)] backdrop-blur-md"
                   : "bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20"
               }`}
             >
@@ -174,73 +193,50 @@ export default function Hero() {
             </a>
           </motion.div>
 
+          {/* Divider line */}
+          <div className={`w-full h-[1px] mb-8 ${isLight ? "bg-zinc-200/80" : "bg-zinc-900"}`} />
+
           {/* Stats Metadata Group */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="grid grid-cols-3 gap-3 xs:gap-4 sm:gap-6 w-full max-w-xl pt-2 select-none"
+            className="grid grid-cols-3 gap-6 sm:gap-10 w-full"
           >
-            <div className="flex flex-col items-start text-left w-full">
-              <p className={`font-display font-bold text-3xl sm:text-4xl tracking-tight leading-none ${isLight ? "text-zinc-950" : "text-white"}`}>
+            <div>
+              <p className={`font-display font-medium text-3xl sm:text-4xl ${isLight ? "text-zinc-900" : "text-white"}`}>
                 <AnimatedCounter value={experienceYears} />
               </p>
-              <p className={`font-mono text-[11px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.18em] mt-2 leading-[1.35] ${isLight ? "text-zinc-600 font-medium" : "text-zinc-400"}`}>
-                {yearsLabel.includes(" ") ? (
-                  <>
-                    {yearsLabel.split(" ")[0]}
-                    <br />
-                    {yearsLabel.split(" ").slice(1).join(" ")}
-                  </>
-                ) : (
-                  yearsLabel
-                )}
+              <p className="font-mono text-[10px] uppercase tracking-widest mt-1 text-zinc-500">
+                {yearsLabel}
               </p>
             </div>
-
-            <div className="flex flex-col items-start text-left w-full">
-              <p className={`font-display font-bold text-3xl sm:text-4xl tracking-tight leading-none ${isLight ? "text-zinc-950" : "text-white"}`}>
+            <div>
+              <p className={`font-display font-medium text-3xl sm:text-4xl ${isLight ? "text-zinc-900" : "text-white"}`}>
                 <AnimatedCounter value={selectedBrandsCount} />
               </p>
-              <p className={`font-mono text-[11px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.18em] mt-2 leading-[1.35] ${isLight ? "text-zinc-600 font-medium" : "text-zinc-400"}`}>
-                {brandsLabel.includes(" ") ? (
-                  <>
-                    {brandsLabel.split(" ")[0]}
-                    <br />
-                    {brandsLabel.split(" ").slice(1).join(" ")}
-                  </>
-                ) : (
-                  brandsLabel
-                )}
+              <p className="font-mono text-[10px] uppercase tracking-widest mt-1 text-zinc-500">
+                {brandsLabel}
               </p>
             </div>
-
-            <div className="flex flex-col items-start text-left w-full">
-              <p className={`font-display font-bold text-3xl sm:text-4xl tracking-tight leading-none ${isLight ? "text-zinc-950" : "text-white"}`}>
+            <div>
+              <p className={`font-display font-medium text-3xl sm:text-4xl ${isLight ? "text-zinc-900" : "text-white"}`}>
                 <AnimatedCounter value={creativeAssetsCount} />
               </p>
-              <p className={`font-mono text-[11px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.18em] mt-2 leading-[1.35] ${isLight ? "text-zinc-600 font-medium" : "text-zinc-400"}`}>
-                {assetsLabel.includes(" ") ? (
-                  <>
-                    {assetsLabel.split(" ")[0]}
-                    <br />
-                    {assetsLabel.split(" ").slice(1).join(" ")}
-                  </>
-                ) : (
-                  assetsLabel
-                )}
+              <p className="font-mono text-[10px] uppercase tracking-widest mt-1 text-zinc-500">
+                {assetsLabel}
               </p>
             </div>
           </motion.div>
         </div>
 
         {/* Right Column: Hero Portrait Image */}
-        <div className="flex justify-center lg:justify-end w-full mt-2 lg:mt-0">
+        <div className="lg:col-span-5 flex justify-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className={`relative w-full max-w-[340px] xs:max-w-[370px] sm:max-w-[420px] aspect-[3.8/4.8] lg:w-[400px] lg:h-[500px] lg:aspect-auto rounded-[2rem] sm:rounded-[2.25rem] overflow-hidden shadow-2xl group flex flex-col justify-end transition-all duration-500 ${
+            className={`relative w-full max-w-sm sm:max-w-md aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl group flex flex-col justify-end transition-all duration-500 ${
               isLight
                 ? "border border-white/90 bg-white/40 shadow-[0_20px_50px_rgba(100,100,160,0.12),inset_0_1.5px_1px_rgba(255,255,255,1)] backdrop-blur-xl"
                 : "border border-white/10 bg-zinc-950"
@@ -256,47 +252,26 @@ export default function Hero() {
               src={imgSrc}
               onError={() => setImgSrc(defaultHeaderImage)}
               alt={info.name || "Rashed Pervej - Senior Visualizer"}
-              width="400"
-              height="500"
+              width="448"
+              height="560"
               loading="eager"
               fetchPriority="high"
               decoding="async"
-              className="absolute inset-0 w-full h-full object-cover object-top filter brightness-95 contrast-105 group-hover:scale-105 transition-transform duration-700"
+              className="absolute inset-0 w-full h-full object-cover object-center filter brightness-95 contrast-105 group-hover:scale-105 transition-transform duration-700"
             />
 
             {/* Subtle Gradient Vignette at Bottom for Edge Blend */}
             <div className={`absolute inset-0 bg-gradient-to-t via-transparent to-transparent pointer-events-none ${
-              isLight ? "from-white/30 opacity-30" : "from-zinc-950/50 opacity-50"
+              isLight ? "from-white/40 opacity-40" : "from-zinc-950/60 opacity-60"
             }`} />
           </motion.div>
         </div>
       </div>
 
-      {/* Decorative Absolute Elements - Scroll Indicator */}
-      <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none select-none z-20">
-        <a
-          href="#about"
-          onClick={(e) => {
-            e.preventDefault();
-            const target = document.getElementById("about");
-            if (target) target.scrollIntoView({ behavior: "smooth" });
-          }}
-          className="pointer-events-auto flex flex-col items-center gap-2 group cursor-pointer"
-          aria-label="Scroll to About section"
-        >
-          <span
-            className={`font-mono text-[10px] uppercase tracking-[0.2em] leading-none transition-colors ${
-              isLight ? "text-zinc-500 group-hover:text-purple-600" : "text-zinc-400 group-hover:text-purple-300"
-            }`}
-          >
-            scroll
-          </span>
-          <ArrowDown
-            className={`w-4 h-4 animate-bounce shrink-0 transition-colors ${
-              isLight ? "text-zinc-500 group-hover:text-purple-600" : "text-zinc-400 group-hover:text-purple-300"
-            }`}
-          />
-        </a>
+      {/* Decorative Absolute Elements - Scroll Down Indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 animate-bounce">
+        <span className="font-mono text-[9px] text-zinc-500 tracking-[0.2em] uppercase">Scroll Down</span>
+        <ChevronDown className="w-3.5 h-3.5 text-zinc-400" />
       </div>
     </section>
   );

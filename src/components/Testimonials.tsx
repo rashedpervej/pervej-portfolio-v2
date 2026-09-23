@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { usePortfolio } from "../context/PortfolioContext";
 import { Quote, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
+import { setupEmblaMobileSwipe } from "../utils/emblaMobileSwipe";
 import { motion } from "motion/react";
 import FormattedText from "./FormattedText";
 
@@ -13,9 +14,13 @@ export default function Testimonials() {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: "center",
+    dragThreshold: 8,
+    skipSnaps: false,
+    duration: 22,
   });
 
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const resetAutoplayRef = useRef<() => void>(() => {});
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
@@ -29,12 +34,132 @@ export default function Testimonials() {
     emblaApi.on("reInit", onSelect);
   }, [emblaApi, onSelect]);
 
+  // Enhanced mobile touch/swipe sensitivity for testimonials: short distance swipe smoothly changes card
+  useEffect(() => {
+    if (!emblaApi) return;
+    return setupEmblaMobileSwipe(emblaApi, {
+      threshold: 25,
+      onSwipeChange: () => resetAutoplayRef.current(),
+    });
+  }, [emblaApi]);
+
+  // Autoplay every 3 seconds with temporary pause on interaction and auto-resume
+  useEffect(() => {
+    if (!emblaApi || testimonials.length <= 1) return;
+
+    let autoInterval: NodeJS.Timeout | null = null;
+    let resumeTimeout: NodeJS.Timeout | null = null;
+    let isDragging = false;
+    let isHovered = false;
+
+    const stopAutoplay = () => {
+      if (autoInterval) {
+        clearInterval(autoInterval);
+        autoInterval = null;
+      }
+    };
+
+    const startAutoplay = () => {
+      stopAutoplay();
+      if (isDragging || isHovered || document.hidden) return;
+      autoInterval = setInterval(() => {
+        if (emblaApi && !isDragging && !isHovered && !document.hidden) {
+          emblaApi.scrollNext();
+        }
+      }, 3000);
+    };
+
+    // Called on click of navigation controls or pagination dots
+    const handleUserAction = () => {
+      stopAutoplay();
+      if (resumeTimeout) clearTimeout(resumeTimeout);
+      resumeTimeout = setTimeout(() => {
+        startAutoplay();
+      }, 3000);
+    };
+    resetAutoplayRef.current = handleUserAction;
+
+    // Called when user begins swiping / dragging
+    const onPointerDown = () => {
+      isDragging = true;
+      stopAutoplay();
+      if (resumeTimeout) clearTimeout(resumeTimeout);
+    };
+
+    // Called when user releases swipe / drag
+    const onPointerUp = () => {
+      isDragging = false;
+      if (resumeTimeout) clearTimeout(resumeTimeout);
+      // Resume automatically after swipe finishes
+      resumeTimeout = setTimeout(() => {
+        startAutoplay();
+      }, 3000);
+    };
+
+    // Hover listeners for desktop pointer devices
+    const onMouseEnter = () => {
+      isHovered = true;
+      stopAutoplay();
+    };
+
+    const onMouseLeave = () => {
+      isHovered = false;
+      if (resumeTimeout) clearTimeout(resumeTimeout);
+      resumeTimeout = setTimeout(() => {
+        startAutoplay();
+      }, 2000);
+    };
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        stopAutoplay();
+      } else {
+        startAutoplay();
+      }
+    };
+
+    // Start initial 3s autoplay
+    startAutoplay();
+
+    // Attach listeners
+    emblaApi.on("pointerDown", onPointerDown);
+    emblaApi.on("pointerUp", onPointerUp);
+
+    const rootNode = emblaApi.rootNode();
+    rootNode.addEventListener("mouseenter", onMouseEnter);
+    rootNode.addEventListener("mouseleave", onMouseLeave);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    return () => {
+      stopAutoplay();
+      if (resumeTimeout) clearTimeout(resumeTimeout);
+      emblaApi.off("pointerDown", onPointerDown);
+      emblaApi.off("pointerUp", onPointerUp);
+      rootNode.removeEventListener("mouseenter", onMouseEnter);
+      rootNode.removeEventListener("mouseleave", onMouseLeave);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
+  }, [emblaApi, testimonials.length]);
+
   const handlePrev = () => {
-    if (emblaApi) emblaApi.scrollPrev();
+    if (emblaApi) {
+      emblaApi.scrollPrev();
+      resetAutoplayRef.current();
+    }
   };
 
   const handleNext = () => {
-    if (emblaApi) emblaApi.scrollNext();
+    if (emblaApi) {
+      emblaApi.scrollNext();
+      resetAutoplayRef.current();
+    }
+  };
+
+  const handleDotClick = (index: number) => {
+    if (emblaApi) {
+      emblaApi.scrollTo(index);
+      resetAutoplayRef.current();
+    }
   };
 
   if (!testimonials.length) return null;
@@ -69,7 +194,7 @@ export default function Testimonials() {
         <div className="relative">
           <div
             ref={emblaRef}
-            className="overflow-hidden cursor-grab active:cursor-grabbing rounded-3xl"
+            className="overflow-hidden cursor-grab active:cursor-grabbing touch-pan-y select-none rounded-3xl"
           >
             <div className="flex -ml-4">
               {testimonials.map((item: any, idx) => (
@@ -139,7 +264,7 @@ export default function Testimonials() {
               {testimonials.map((_, idx) => (
                 <button
                   key={idx}
-                  onClick={() => emblaApi?.scrollTo(idx)}
+                  onClick={() => handleDotClick(idx)}
                   aria-label={`Go to testimonial ${idx + 1}`}
                   className={`h-2 rounded-full transition-all duration-300 ${
                     selectedIndex === idx

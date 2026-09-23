@@ -8,13 +8,47 @@ export default function Brands() {
   const isLight = theme === "light";
   const brands = portfolioData.selectedBrands || [];
 
+  // Guarantee sufficient items for ultra-wide displays
+  const marqueeBrands = brands.length > 0
+    ? brands.length < 6
+      ? [...brands, ...brands, ...brands]
+      : brands
+    : [];
+
+  const renderLogoItem = (brand: any, uniqueKey: string | number) => {
+    const brandName = brand.brandName || brand.name || "Brand";
+    const logoSrc = brand.logoUrl || getDefaultBrandLogo(brandName);
+    const isSvgDataUri = typeof logoSrc === "string" && logoSrc.startsWith("data:image/svg+xml");
+
+    return (
+      <div
+        key={uniqueKey}
+        className="shrink-0 select-none group px-1.5"
+        title={brandName}
+      >
+        {/* Global white background shape treatment with clean, subtle border and no heavy shadow */}
+        <div
+          className="px-4 sm:px-7 py-2 sm:py-3 rounded-xl sm:rounded-2xl transition-all duration-300 flex items-center justify-center min-w-[130px] sm:min-w-[180px] md:min-w-[210px] h-[58px] sm:h-[76px] md:h-[84px] bg-white border border-zinc-200/50 shadow-[0_1px_3px_rgba(0,0,0,0.06)] hover:border-purple-300/80 hover:shadow-[0_4px_12px_rgba(168,85,247,0.12)] hover:scale-[1.02]"
+        >
+          <img
+            src={logoSrc}
+            alt={brandName}
+            loading="lazy"
+            className={`h-10 sm:h-13 md:h-15 w-auto max-w-[150px] sm:max-w-[200px] md:max-w-[240px] object-contain transition-all duration-300 opacity-95 group-hover:opacity-100 group-hover:scale-105 ${
+              isSvgDataUri
+                ? "[filter:invert(0.88)_hue-rotate(180deg)]"
+                : "contrast-[1.02] brightness-100"
+            }`}
+          />
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <section
-      id="brands"
-      className={`py-12 sm:py-16 lg:py-20 relative overflow-hidden ${
-        isLight ? "bg-transparent border-y border-zinc-200/80" : "bg-[#030303] border-y border-white/5"
-      }`}
-    >
+    <section id="brands" className={`py-5 sm:py-6 md:py-7 lg:py-8 relative overflow-hidden ${
+      isLight ? "bg-transparent border-y border-zinc-200/80" : "bg-[#030303] border-y border-white/5"
+    }`}>
       {/* Absolute faint lighting */}
       <div className={`absolute top-1/2 left-0 -translate-y-1/2 w-64 h-32 blur-[50px] pointer-events-none ${
         isLight ? "bg-purple-300/20" : "bg-purple-500/5"
@@ -27,62 +61,47 @@ export default function Brands() {
         transition={{ duration: 0.6 }}
         className="max-w-7xl mx-auto px-6 relative z-10"
       >
-        <p className={`font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.25em] text-center mb-4 sm:mb-6 ${
+        <p className={`font-mono text-[10px] uppercase tracking-[0.25em] text-center mb-3 sm:mb-4 ${
           isLight ? "text-zinc-500 font-semibold" : "text-zinc-500"
         }`}>
-          SELECTED BRANDS &amp; COLLABORATORS
+          SELECTED BRANDS & COLLABORATORS
         </p>
 
-        {/* Dynamic Horizontal Ticker Marquee - ONLY brand logo image rendered via item.logoUrl */}
-        <div className="relative w-full overflow-hidden py-3 sm:py-4">
-          <div className="flex gap-6 sm:gap-12 md:gap-16 items-center animate-[marquee_20s_linear_infinite] sm:animate-[marquee_25s_linear_infinite] whitespace-nowrap min-w-full w-max hover:[animation-play-state:paused]">
-            {/* Duplicate array to create seamless endless scroll */}
-            {[...brands, ...brands].map((brand, index) => {
-              const brandName = brand.brandName || brand.name || `Brand ${index + 1}`;
-              const logoSrc = brand.logoUrl || getDefaultBrandLogo(brandName);
-
-              return (
-                <div
-                  key={index}
-                  className="flex items-center justify-center shrink-0 select-none group px-2 sm:px-4 py-1"
-                  title={brandName}
-                >
-                  <img
-                    src={logoSrc}
-                    alt={brandName}
-                    loading="lazy"
-                    className={`h-6 sm:h-8 md:h-9 w-auto max-w-[95px] sm:max-w-[150px] object-contain transition-all duration-300 filter grayscale opacity-45 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 ${
-                      isLight
-                        ? "brightness-95 contrast-125 group-hover:brightness-100 group-hover:drop-shadow-[0_2px_12px_rgba(168,85,247,0.35)]"
-                        : "brightness-110 contrast-100 group-hover:brightness-125 group-hover:drop-shadow-[0_0_14px_rgba(168,85,247,0.55)]"
-                    }`}
-                  />
-                </div>
-              );
-            })}
+        {/* Dynamic Horizontal Ticker Marquee - Edge-to-edge on mobile, contained on desktop */}
+        <div className="relative -mx-6 sm:mx-0 w-[calc(100%+3rem)] sm:w-full overflow-hidden py-2 sm:py-3">
+          {/* Marquee Track Container with two identical child tracks */}
+          <div className="flex w-max items-center group/marquee">
+            {/* Primary Track */}
+            <div className="flex shrink-0 items-center gap-5 sm:gap-7 pr-5 sm:pr-7 animate-marquee-seamless group-hover/marquee:[animation-play-state:paused]">
+              {marqueeBrands.map((brand, index) => renderLogoItem(brand, `track-a-${index}`))}
+            </div>
+            {/* Synchronized Seamless Clone Track */}
+            <div aria-hidden="true" className="flex shrink-0 items-center gap-5 sm:gap-7 pr-5 sm:pr-7 animate-marquee-seamless group-hover/marquee:[animation-play-state:paused]">
+              {marqueeBrands.map((brand, index) => renderLogoItem(brand, `track-b-${index}`))}
+            </div>
           </div>
         </div>
 
-        {/* Static Grid on Mobile: strictly 2-column grid on mobile (grid-cols-2) */}
-        <div className={`grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4 mt-6 sm:mt-8 pt-6 sm:pt-8 border-t ${
+        {/* Static Grid: displaying item.brandName and item.country with balanced readability */}
+        <div className={`grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4 mt-5 sm:mt-6 pt-5 sm:pt-6 border-t ${
           isLight ? "border-zinc-200/80" : "border-white/5"
         }`}>
           {brands.map((brand, i) => (
             <div
               key={i}
-              className={`p-3.5 sm:p-4 rounded-xl text-center transition-all duration-300 group ${
+              className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl text-center transition-all duration-300 group ${
                 isLight
-                  ? "bg-white/60 hover:bg-white/90 border border-white/90 hover:border-purple-300 shadow-[0_2px_8px_rgba(100,100,160,0.05),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-md"
-                  : "bg-white/[0.01] border border-white/5 hover:border-purple-500/20"
+                  ? "bg-white/70 hover:bg-white/95 border border-purple-100/90 hover:border-purple-300 shadow-[0_2px_8px_rgba(100,100,160,0.05),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-md"
+                  : "bg-[#0d0e19]/70 hover:bg-[#141627]/90 border border-white/[0.07] hover:border-purple-500/30 shadow-sm"
               }`}
             >
-              <p className={`font-display font-medium text-xs sm:text-sm truncate ${
-                isLight ? "text-zinc-800 group-hover:text-purple-700 font-semibold" : "text-zinc-300 group-hover:text-white"
+              <p className={`font-display font-semibold text-xs sm:text-sm tracking-tight leading-snug ${
+                isLight ? "text-zinc-800 group-hover:text-purple-700" : "text-zinc-200 group-hover:text-white"
               }`}>
                 {brand.brandName || brand.name}
               </p>
-              <span className={`text-[8.5px] sm:text-[9px] font-mono uppercase tracking-wider sm:tracking-widest mt-0.5 sm:mt-1 block truncate ${
-                isLight ? "text-zinc-400" : "text-zinc-600"
+              <span className={`text-[10px] sm:text-[11px] font-mono uppercase tracking-wider mt-1.5 block font-medium ${
+                isLight ? "text-zinc-500 group-hover:text-purple-600" : "text-zinc-400 group-hover:text-purple-300"
               }`}>
                 {brand.country || brand.market || "Local Client"}
               </span>
@@ -91,18 +110,19 @@ export default function Brands() {
         </div>
       </motion.div>
 
-      {/* Custom marquee keyframes */}
+      {/* Pure Mathematical Seamless Marquee Animation */}
       <style>{`
-        @keyframes marquee {
+        @keyframes marqueeSeamless {
           0% {
-            transform: translateX(0%);
+            transform: translate3d(0, 0, 0);
           }
           100% {
-            transform: translateX(-50%);
+            transform: translate3d(-100%, 0, 0);
           }
         }
-        .animate-marquee {
-          animation: marquee 25s linear infinite;
+        .animate-marquee-seamless {
+          animation: marqueeSeamless 20s linear infinite;
+          will-change: transform;
         }
       `}</style>
     </section>

@@ -6,16 +6,22 @@ import { usePortfolio } from "../context/PortfolioContext";
 interface ThemeToggleProps {
   className?: string;
   compact?: boolean;
+  onToggle?: () => void;
 }
 
-export default function ThemeToggle({ className = "", compact = false }: ThemeToggleProps) {
+export default function ThemeToggle({ className = "", compact = false, onToggle }: ThemeToggleProps) {
   const { theme, toggleTheme } = usePortfolio();
   const isLight = theme === "light";
+
+  const handleToggle = () => {
+    toggleTheme();
+    onToggle?.();
+  };
 
   return (
     <button
       id="theme-toggle-button"
-      onClick={toggleTheme}
+      onClick={handleToggle}
       type="button"
       aria-label={`Switch to ${isLight ? "Dark" : "Light"} Mode`}
       title={`Switch to ${isLight ? "Dark" : "Light"} Mode`}
