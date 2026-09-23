@@ -232,7 +232,13 @@ export default function Skills() {
   };
 
   return (
-    <section ref={sectionRef} id="skills" className={`py-6 sm:py-8 md:py-9 lg:py-10 relative overflow-hidden ${isLight ? "bg-transparent" : "bg-[#030303]"}`}>
+    <section
+      ref={sectionRef}
+      id="skills"
+      className={`py-16 sm:py-20 lg:py-24 relative overflow-hidden ${
+        isLight ? "bg-transparent" : "bg-[#030303]"
+      }`}
+    >
       {/* Decorative Blur elements */}
       <div className={`absolute bottom-0 right-0 w-80 h-80 rounded-full blur-[130px] pointer-events-none ${
         isLight ? "bg-purple-200/25" : "bg-purple-950/10"
@@ -245,10 +251,14 @@ export default function Skills() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col items-start mb-5 sm:mb-6 lg:mb-8 text-left"
+          className="flex flex-col items-start mb-10 sm:mb-12 lg:mb-14 text-left"
         >
-          <h2 className={`font-display font-bold text-3xl sm:text-5xl tracking-tight ${isLight ? "text-zinc-950" : "text-white"}`}>
-            Craftsmanship & <br />
+          <h2
+            className={`font-display font-bold text-3xl sm:text-5xl tracking-tight leading-tight ${
+              isLight ? "text-zinc-950" : "text-white"
+            }`}
+          >
+            Craftsmanship & <br className="hidden sm:inline" />
             <span className="bg-gradient-to-r from-purple-500 to-indigo-500 bg-clip-text text-transparent">
               Technical Expertise
             </span>
@@ -257,15 +267,15 @@ export default function Skills() {
         </motion.div>
 
         {/* Competencies Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
           
           {/* Left Column: Core Competencies */}
-          <div className={`lg:col-span-5 p-6 rounded-2xl transition-all duration-300 ${
+          <div className={`lg:col-span-5 p-5 sm:p-6 lg:p-7 rounded-2xl transition-all duration-300 ${
             isLight
               ? "bg-white/65 border border-white/90 shadow-[0_12px_32px_rgba(100,100,160,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-xl"
               : "bg-[#07070a]/80 border border-white/[0.04] backdrop-blur-sm"
           }`}>
-            <h3 className={`font-display font-bold text-xs uppercase tracking-widest mb-6 flex items-center ${
+            <h3 className={`font-display font-bold text-xs uppercase tracking-widest mb-4 sm:mb-6 flex items-center ${
               isLight ? "text-zinc-700" : "text-zinc-300"
             }`}>
               CORE COMPETENCIES 
@@ -273,7 +283,7 @@ export default function Skills() {
             </h3>
             
             <motion.div 
-              className="space-y-3"
+              className="space-y-2.5 sm:space-y-3"
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
@@ -283,25 +293,25 @@ export default function Skills() {
                 <motion.div
                   key={idx}
                   variants={cardVariants}
-                  className={`flex items-center justify-between p-2.5 rounded-xl transition-all duration-300 group cursor-pointer ${
+                  className={`flex items-center justify-between p-2.5 sm:p-3 rounded-xl transition-all duration-300 group cursor-pointer ${
                     isLight
                       ? "bg-white/70 hover:bg-white/95 border border-white/90 hover:border-purple-300 shadow-[0_2px_8px_rgba(100,100,160,0.05),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-md"
                       : "bg-[#0c0c12]/60 border border-white/[0.03] hover:border-purple-500/30 hover:bg-[#0c0c16]"
                   }`}
                 >
-                  <div className="flex items-center gap-2">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-all duration-300 ${
+                  <div className="flex items-center gap-3">
+                    <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-all duration-300 ${
                       isLight ? "bg-purple-100/70 border border-purple-200" : "bg-white/[0.02] border border-white/[0.08]"
                     }`}>
                       {getCompetencyIcon(comp)}
                     </div>
-                    <span className={`font-display text-sm font-medium transition-colors duration-300 ${
+                    <span className={`font-display text-xs sm:text-sm font-medium transition-colors duration-300 ${
                       isLight ? "text-zinc-800 group-hover:text-zinc-950" : "text-zinc-200 group-hover:text-white"
                     }`}>
                       {comp}
                     </span>
                   </div>
-                  <ChevronRight className={`w-4 h-4 group-hover:translate-x-0.5 transition-all duration-300 ${
+                  <ChevronRight className={`w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 transition-all duration-300 ${
                     isLight ? "text-zinc-400 group-hover:text-purple-600" : "text-zinc-500 group-hover:text-purple-400"
                   }`} />
                 </motion.div>
@@ -310,20 +320,20 @@ export default function Skills() {
           </div>
 
           {/* Right Column: Creative Tools */}
-          <div className="lg:col-span-7 space-y-5">
-            <div className={`p-6 rounded-2xl text-left transition-all duration-300 ${
+          <div className="lg:col-span-7 space-y-4 sm:space-y-6">
+            <div className={`p-5 sm:p-6 lg:p-7 rounded-2xl text-left transition-all duration-300 ${
               isLight
                 ? "bg-white/65 border border-white/90 shadow-[0_12px_32px_rgba(100,100,160,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-xl"
                 : "bg-[#07070a]/80 border border-white/[0.04] backdrop-blur-sm"
             }`}>
-              <h3 className={`font-display font-bold text-xs uppercase tracking-widest mb-5 sm:mb-6 flex items-center ${
+              <h3 className={`font-display font-bold text-xs uppercase tracking-widest mb-4 sm:mb-6 flex items-center ${
                 isLight ? "text-zinc-700" : "text-zinc-300"
               }`}>
-                CREATIVE TOOLS & SOFTWARE PROFICIENCY
+                CREATIVE TOOLS &amp; SOFTWARE PROFICIENCY
                 <span className="text-purple-500 ml-1.5">•</span>
               </h3>
 
-              <div className="grid grid-cols-12 gap-4">
+              <div className="grid grid-cols-12 gap-3 sm:gap-4">
                 {toolsList.map((tool, idx) => {
                   const branding = getToolBranding(tool.name);
                   const spanClass = getGridSpanClass(idx, toolsList.length);
@@ -334,29 +344,29 @@ export default function Skills() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, amount: 0.1 }}
                       transition={{ duration: 0.4, delay: idx * 0.05 }}
-                      className={`${spanClass} flex flex-col items-center justify-between p-5 pt-6 pb-5 rounded-2xl hover:-translate-y-1 transition-all duration-300 text-center group cursor-pointer ${
+                      className={`${spanClass} flex flex-col items-center justify-between p-3.5 sm:p-5 pt-4 sm:pt-6 pb-3.5 sm:pb-5 rounded-2xl hover:-translate-y-1 transition-all duration-300 text-center group cursor-pointer ${
                         isLight
                           ? "bg-white/70 hover:bg-white/95 border border-white/90 hover:border-purple-300 shadow-[0_4px_16px_rgba(100,100,160,0.05),inset_0_1px_1px_rgba(255,255,255,0.95)] hover:shadow-[0_10px_24px_rgba(147,51,234,0.1)] backdrop-blur-md"
                           : "bg-[#0c0c12]/60 border border-white/[0.03] hover:border-purple-500/30 hover:bg-[#0c0c16] hover:shadow-lg hover:shadow-purple-500/[0.02]"
                       }`}
                     >
-                      <div className="mb-3 transform group-hover:scale-105 transition-transform duration-300">
+                      <div className="mb-2 sm:mb-3 transform group-hover:scale-105 transition-transform duration-300">
                         {branding.logo}
                       </div>
-                      <div className="space-y-3 mb-3 w-full">
+                      <div className="space-y-1.5 sm:space-y-3 mb-2.5 sm:mb-3 w-full">
                         <span className={`block font-sans text-xs transition-colors duration-300 truncate px-1 ${
                           isLight ? "text-zinc-800 font-medium" : "text-zinc-300 group-hover:text-white"
                         }`}>
                           {tool.name.replace("Adobe ", "")}
                         </span>
-                        <span className={`block font-sans text-[12px] font-medium ${
+                        <span className={`block font-sans text-[11px] sm:text-[12px] font-medium ${
                           isLight ? "text-purple-600 font-semibold" : "text-purple-400 font-semibold"
                         }`}>
                           {tool.level}%
                         </span>
                       </div>
                       {/* Compact Progress Bar */}
-                      <div className={`h-[6px] w-full rounded-full overflow-hidden border ${
+                      <div className={`h-[5px] sm:h-[6px] w-full rounded-full overflow-hidden border ${
                         isLight ? "bg-zinc-200/80 border-zinc-200/60" : "bg-white/[0.05] border-white/[0.03]"
                       }`}>
                         <div
@@ -371,18 +381,18 @@ export default function Skills() {
             </div>
 
             {/* Bottom: Visual Artistry Principle Information Card */}
-            <div className={`p-6 rounded-2xl text-left flex gap-4 items-start ${
+            <div className={`p-4 sm:p-6 rounded-2xl text-left flex gap-3.5 sm:gap-4 items-start ${
               isLight
                 ? "bg-white/70 border border-purple-200/80 shadow-[0_8px_24px_rgba(147,51,234,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-md"
                 : "bg-gradient-to-r from-purple-950/20 to-[#07070a]/60 border border-purple-500/15 shadow-inner"
             }`}>
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
+              <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 ${
                 isLight ? "bg-purple-100 border border-purple-200" : "bg-purple-500/10 border border-purple-500/20 shadow-lg shadow-purple-500/[0.02]"
               }`}>
-                <Sparkles className={`w-5 h-5 ${isLight ? "text-purple-600" : "text-purple-400"}`} />
+                <Sparkles className={`w-4.5 h-4.5 sm:w-5 sm:h-5 ${isLight ? "text-purple-600" : "text-purple-400"}`} />
               </div>
               <div>
-                <span className={`font-display font-bold text-xs uppercase tracking-widest block mb-2 ${
+                <span className={`font-display font-bold text-xs uppercase tracking-widest block mb-1.5 sm:mb-2 ${
                   isLight ? "text-purple-700" : "text-purple-400"
                 }`}>
                   VISUAL ARTISTRY PRINCIPLE

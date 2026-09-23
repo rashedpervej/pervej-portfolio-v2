@@ -223,8 +223,8 @@ export default function Header() {
           isolation: 'isolate',
         }}
       >
-        <div className={`max-w-7xl mx-auto px-4 sm:px-6 transition-all duration-300 flex items-center justify-between ${
-          isScrolled ? "py-3.5" : "py-4.5"
+        <div className={`max-w-7xl mx-auto px-5 sm:px-6 transition-all duration-300 flex items-center justify-between ${
+          isScrolled ? "py-3 sm:py-3.5" : "py-3.5 sm:py-4.5"
         }`}>
           {/* Logo */}
           <a
@@ -341,7 +341,7 @@ export default function Header() {
               }}
               className="md:hidden border-b border-black/5 bg-white/90 backdrop-blur-xl transition-colors duration-200 dark:border-white/10 dark:bg-[#121614]/90 overflow-hidden"
             >
-              <div className="px-6 py-6 flex flex-col gap-5">
+              <div className="px-5 py-5 sm:px-6 sm:py-6 flex flex-col gap-4 sm:gap-5">
                 {/* Mobile Navigation Links */}
                 {navItems.map((item, index) => {
                   const isActive = activeSection === item.id;

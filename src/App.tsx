@@ -8,7 +8,6 @@ import Projects from "./components/Projects";
 import Brands from "./components/Brands";
 import Skills from "./components/Skills";
 import Services from "./components/Services";
-import Workflow from "./components/Workflow";
 import Testimonials from "./components/Testimonials";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
@@ -96,8 +95,6 @@ function MainPortfolio() {
               return <Skills key={key} />;
             case "services":
               return <Services key={key} />;
-            case "workflow":
-              return <Workflow key={key} />;
             case "testimonials":
               return <Testimonials key={key} />;
             case "contact":

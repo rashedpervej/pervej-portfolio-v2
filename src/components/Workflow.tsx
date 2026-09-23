@@ -62,7 +62,7 @@ export default function Workflow() {
   return (
     <section
       id="workflow"
-      className={`py-10 sm:py-12 md:py-14 lg:py-16 relative overflow-hidden transition-colors duration-300 ${
+      className={`py-16 sm:py-20 lg:py-24 relative overflow-hidden transition-colors duration-300 ${
         isLight
           ? "bg-transparent border-t border-zinc-200/80"
           : "bg-[#04060e] border-t border-white/[0.06]"
@@ -89,9 +89,9 @@ export default function Workflow() {
         }`}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-12 lg:mb-14">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-10 sm:mb-12 lg:mb-14">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -100,9 +100,9 @@ export default function Workflow() {
             className="flex flex-col items-start text-left max-w-2xl"
           >
             {/* Eyebrow */}
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-2 sm:mb-3">
               <span
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-semibold uppercase tracking-[0.25em] ${
+                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-semibold uppercase tracking-[0.2em] sm:tracking-[0.25em] ${
                   isLight
                     ? "bg-purple-100/90 text-purple-700 border border-purple-200 shadow-sm"
                     : "bg-purple-500/10 text-purple-400 border border-purple-500/20 shadow-[0_0_12px_rgba(168,85,247,0.15)]"
@@ -115,7 +115,7 @@ export default function Workflow() {
 
             {/* Title */}
             <h2
-              className={`font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.12] ${
+              className={`font-display font-bold text-3xl sm:text-5xl tracking-tight leading-tight ${
                 isLight ? "text-zinc-950" : "text-white"
               }`}
             >
@@ -128,7 +128,7 @@ export default function Workflow() {
 
             {/* Editorial Lead Description */}
             <p
-              className={`mt-4 text-sm sm:text-base leading-relaxed ${
+              className={`mt-3 sm:mt-4 text-base sm:text-lg leading-relaxed ${
                 isLight ? "text-zinc-600" : "text-zinc-400"
               }`}
             >
@@ -205,7 +205,7 @@ export default function Workflow() {
         </div>
 
         {/* 3 Elegant Glassmorphism Cards (Horizontal Layout) */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-7 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7 items-stretch">
           {steps.map((step, index) => {
             const IconComponent = step.icon;
             return (
@@ -216,7 +216,7 @@ export default function Workflow() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.15 }}
                 transition={{ duration: 0.55, delay: index * 0.12 }}
-                className={`relative rounded-2xl md:rounded-[22px] p-6 sm:p-7 md:p-8 flex flex-col justify-between transition-all duration-500 group overflow-hidden ${
+                className={`relative rounded-2xl md:rounded-[22px] p-6 sm:p-8 flex flex-col justify-between transition-all duration-500 group overflow-hidden ${
                   isLight
                     ? "bg-white/80 hover:bg-white/95 border border-zinc-200/90 hover:border-purple-300 shadow-[0_12px_32px_rgba(90,105,150,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] hover:shadow-[0_20px_45px_rgba(147,51,234,0.12)]"
                     : "bg-[#0b0e1d]/75 hover:bg-[#0f1327]/90 border border-white/[0.08] hover:border-purple-400/30 shadow-[0_16px_40px_rgba(0,0,0,0.55)] hover:shadow-[0_22px_50px_rgba(99,102,241,0.15)] backdrop-blur-xl"
@@ -236,11 +236,11 @@ export default function Workflow() {
 
                 <div className="relative z-10">
                   {/* Card Header: Step Pill & Modern Minimal Icon */}
-                  <div className="flex items-center justify-between gap-4 mb-5">
+                  <div className="flex items-center justify-between gap-4 mb-4 sm:mb-5">
                     {/* Step Number Tag */}
                     <div className="flex items-center gap-2">
                       <span
-                        className={`inline-flex items-center justify-center font-mono font-bold text-xs sm:text-sm px-3 py-1 rounded-full border backdrop-blur-sm transition-all duration-300 ${
+                        className={`inline-flex items-center justify-center font-mono font-bold text-xs sm:text-sm px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full border backdrop-blur-sm transition-all duration-300 ${
                           isLight
                             ? "bg-zinc-100 text-zinc-900 border-zinc-300 group-hover:border-purple-300 group-hover:bg-purple-50 group-hover:text-purple-700"
                             : `${step.accentBadge} group-hover:border-white/30 group-hover:shadow-[0_0_12px_rgba(168,85,247,0.25)]`
@@ -249,7 +249,7 @@ export default function Workflow() {
                         {step.number}
                       </span>
                       <span
-                        className={`font-mono text-[10px] uppercase tracking-widest ${
+                        className={`font-mono text-[9.5px] sm:text-[10px] uppercase tracking-widest ${
                           isLight ? "text-zinc-500" : "text-zinc-500"
                         }`}
                       >
@@ -259,19 +259,19 @@ export default function Workflow() {
 
                     {/* Minimal Modern Icon in Frosted Pill */}
                     <div
-                      className={`p-2.5 rounded-xl border transition-all duration-300 ${
+                      className={`p-2 sm:p-2.5 rounded-xl border transition-all duration-300 ${
                         isLight
                           ? "bg-zinc-100/90 border-zinc-200 text-zinc-800 group-hover:text-purple-600 group-hover:border-purple-300"
                           : "bg-white/[0.04] border-white/[0.09] text-zinc-300 group-hover:text-white group-hover:border-purple-400/30 group-hover:shadow-[0_0_15px_rgba(168,85,247,0.2)]"
                       }`}
                     >
-                      <IconComponent className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
+                      <IconComponent className="w-4.5 h-4.5 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:scale-110" />
                     </div>
                   </div>
 
                   {/* Step Title */}
                   <h3
-                    className={`font-display font-bold text-xl sm:text-2xl tracking-tight leading-snug transition-colors duration-300 ${
+                    className={`font-display font-bold text-lg sm:text-2xl tracking-tight leading-snug transition-colors duration-300 ${
                       isLight
                         ? "text-zinc-950 group-hover:text-purple-900"
                         : "text-white group-hover:text-purple-200"
@@ -282,7 +282,7 @@ export default function Workflow() {
 
                   {/* Editorial Subtitle */}
                   <p
-                    className={`font-serif italic text-sm sm:text-base mt-1.5 mb-3 transition-colors duration-300 ${
+                    className={`font-serif italic text-xs sm:text-base mt-1 mb-2 sm:mb-3 transition-colors duration-300 ${
                       isLight ? "text-purple-700 font-medium" : "text-purple-300/85"
                     }`}
                   >
@@ -291,7 +291,7 @@ export default function Workflow() {
 
                   {/* Description */}
                   <p
-                    className={`text-xs sm:text-sm leading-relaxed mb-6 font-sans ${
+                    className={`text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6 font-sans ${
                       isLight ? "text-zinc-600" : "text-zinc-400"
                     }`}
                   >
@@ -299,11 +299,11 @@ export default function Workflow() {
                   </p>
 
                   {/* Deliverables / Scope Tags */}
-                  <div className="flex flex-wrap gap-1.5 pt-4 border-t border-white/[0.06] mb-6">
+                  <div className="flex flex-wrap gap-1.5 pt-3 sm:pt-4 border-t border-white/[0.06] mb-4 sm:mb-6">
                     {step.tags.map((tag, tagIdx) => (
                       <span
                         key={tagIdx}
-                        className={`text-[10px] sm:text-[11px] font-mono tracking-wide px-2.5 py-1 rounded-md transition-colors duration-200 whitespace-nowrap ${
+                        className={`text-[9.5px] sm:text-[11px] font-mono tracking-wide px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md transition-colors duration-200 whitespace-nowrap ${
                           isLight
                             ? "bg-zinc-100 text-zinc-700 border border-zinc-200/80 group-hover:border-purple-200"
                             : "bg-white/[0.03] text-zinc-300 border border-white/[0.06] group-hover:border-white/10 group-hover:bg-white/[0.05]"
@@ -317,7 +317,7 @@ export default function Workflow() {
 
                 {/* Card Footer: Phase Deliverable Bar */}
                 <div
-                  className={`pt-3.5 border-t flex items-center justify-between text-xs transition-colors duration-300 relative z-10 ${
+                  className={`pt-3 sm:pt-3.5 border-t flex items-center justify-between text-xs transition-colors duration-300 relative z-10 ${
                     isLight
                       ? "border-zinc-200/80 text-zinc-600"
                       : "border-white/[0.06] text-zinc-400"
@@ -325,13 +325,13 @@ export default function Workflow() {
                 >
                   <div className="flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
-                    <span className="font-mono text-[10px] uppercase tracking-wider">
+                    <span className="font-mono text-[9.5px] sm:text-[10px] uppercase tracking-wider truncate max-w-[170px] sm:max-w-none">
                       {step.deliverable}
                     </span>
                   </div>
 
                   <span
-                    className={`inline-flex items-center text-xs font-mono font-medium gap-1 opacity-70 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 ${
+                    className={`inline-flex items-center text-xs font-mono font-medium gap-1 opacity-70 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 shrink-0 ${
                       isLight ? "text-purple-700" : "text-purple-300"
                     }`}
                   >
@@ -350,7 +350,7 @@ export default function Workflow() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.55, delay: 0.4 }}
-          className={`mt-8 sm:mt-10 p-4 sm:p-5 rounded-xl border backdrop-blur-md flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left ${
+          className={`mt-8 sm:mt-12 p-5 sm:p-6 rounded-2xl border backdrop-blur-md flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left ${
             isLight
               ? "bg-white/70 border-zinc-200 text-zinc-700 shadow-xs"
               : "bg-white/[0.02] border-white/[0.06] text-zinc-400"
@@ -358,11 +358,11 @@ export default function Workflow() {
         >
           <div className="flex items-center gap-3">
             <div
-              className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+              className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
                 isLight ? "bg-purple-100 text-purple-700" : "bg-purple-500/10 text-purple-400"
               }`}
             >
-              <Sparkles className="w-4 h-4" />
+              <Sparkles className="w-4.5 h-4.5" />
             </div>
             <p className="text-xs sm:text-sm font-sans">
               <strong className={isLight ? "text-zinc-900" : "text-white"}>
@@ -375,7 +375,7 @@ export default function Workflow() {
           <a
             href="#contact"
             id="workflow-discuss-cta"
-            className={`shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-lg font-sans text-xs font-medium transition-all duration-300 ${
+            className={`shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-sans text-xs font-medium transition-all duration-300 ${
               isLight
                 ? "bg-zinc-900 text-white hover:bg-purple-700 shadow-sm"
                 : "bg-purple-600/90 text-white hover:bg-purple-500 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)]"
