@@ -275,20 +275,23 @@ export default function Header() {
             })}
           </nav>
 
-          {/* Action Controls: Theme Toggle (desktop/tablet), Download CV (all screens), Hamburger (mobile) */}
-          <div className="flex items-center gap-2 sm:gap-3.5 shrink-0">
-            {/* Apple-style Liquid Glass Theme Toggle - Desktop & Tablet only */}
+          {/* Action Controls: Theme Toggle (compact on mobile, pill on desktop), Download CV, Hamburger (mobile) */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            {/* Theme Toggle - compact circular icon on mobile, dual slider on tablet/desktop */}
+            <div className="md:hidden flex items-center">
+              <ThemeToggle compact />
+            </div>
             <div className="hidden md:flex items-center">
               <ThemeToggle />
             </div>
 
-            {/* Download CV Button - Permanently visible across ALL screen sizes (Mobile, Tablet, Desktop) */}
+            {/* Download CV Button - visible on sm+ screens, available in mobile dropdown */}
             <button
               id="navbar-cv-download-btn"
               onClick={downloadCV}
               disabled={isDownloading}
               aria-label="Download Curriculum Vitae"
-              className={`group relative inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4.5 py-2 sm:py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 ease-out overflow-hidden active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap shrink-0 ${
+              className={`hidden sm:inline-flex group relative items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4.5 py-2 sm:py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 ease-out overflow-hidden active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap shrink-0 ${
                 isLight
                   ? "bg-white/65 hover:bg-white/90 border border-white/90 hover:border-purple-400/40 text-purple-950 shadow-[0_4px_16px_rgba(100,100,160,0.08),inset_0_1px_1px_rgba(255,255,255,0.95)] hover:shadow-[0_8px_24px_rgba(168,85,247,0.18)]"
                   : "bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 hover:shadow-[0_0_15px_rgba(168,85,247,0.15)] hover:brightness-110 text-white"
@@ -315,13 +318,13 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={mobileMenuOpen}
-              className={`md:hidden p-2 sm:p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] flex items-center justify-center rounded-xl transition-all duration-300 cursor-pointer shrink-0 ${
+              className={`md:hidden p-2 min-w-[38px] min-h-[38px] flex items-center justify-center rounded-xl transition-all duration-300 cursor-pointer shrink-0 ${
                 isLight
-                  ? "text-zinc-700 hover:text-zinc-950 bg-white/50 border border-white/80 shadow-xs"
-                  : "text-zinc-300 hover:text-white"
+                  ? "text-zinc-700 hover:text-zinc-950 bg-white/70 border border-white/90 shadow-xs"
+                  : "text-zinc-300 hover:text-white bg-white/5 border border-white/10"
               }`}
             >
-              {mobileMenuOpen ? <X className="w-5 h-5 sm:w-5.5 sm:h-5.5" /> : <Menu className="w-5 h-5 sm:w-5.5 sm:h-5.5" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -369,8 +372,20 @@ export default function Header() {
                   );
                 })}
 
-                {/* Mobile Bottom Bar with Theme Toggle */}
-                <div className={`pt-4 border-t flex flex-col gap-3 ${isLight ? "border-zinc-200/80" : "border-white/5"}`}>
+                {/* Mobile Bottom Bar with Theme Toggle & Download CV */}
+                <div className={`pt-4 border-t flex flex-col gap-3.5 ${isLight ? "border-zinc-200/80" : "border-white/5"}`}>
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      downloadCV();
+                    }}
+                    disabled={isDownloading}
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-semibold uppercase tracking-wider shadow-md shadow-purple-600/20 active:scale-98"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>{isDownloading ? "Downloading..." : "Download Curriculum Vitae"}</span>
+                  </button>
+
                   <div className="flex items-center justify-between py-1">
                     <span className={`text-xs uppercase tracking-widest font-mono ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
                       Interface Theme

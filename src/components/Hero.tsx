@@ -49,11 +49,8 @@ export default function Hero() {
     setImgSrc(primaryImage);
   }, [primaryImage]);
 
-  // Name splitting for second word coloring
+  // Name display
   const fullDisplayName = info.name || "Rashed Pervej";
-  const nameParts = fullDisplayName.trim().split(" ");
-  const firstName = nameParts[0] || "Rashed";
-  const lastName = nameParts.slice(1).join(" ") || "Pervej";
 
   const primaryCtaText = info.primaryCtaText || "Explore My Work";
   const primaryCtaLink = info.primaryCtaLink || "projects";
@@ -129,8 +126,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            style={{ fontSize: "clamp(2.75rem, 6vw, 5rem)" }}
-            className={`font-display font-black leading-none tracking-tight ${
+            className={`font-display font-black leading-none tracking-tight text-[2.75rem] xs:text-5xl sm:text-6xl lg:text-7xl ${
               isLight ? "text-zinc-950" : "text-white"
             }`}
           >
@@ -154,12 +150,12 @@ export default function Hero() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-wrap items-center gap-3 w-full sm:w-auto"
+            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto pt-1"
           >
             <a
               href="/"
               onClick={(e) => handleCtaClick(e, primaryCtaLink)}
-              className="btn-keep-white group relative px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-[11px] sm:text-xs uppercase tracking-widest font-semibold transition-all duration-300 shadow-lg shadow-purple-600/25 active:scale-95 flex items-center justify-center gap-2 border border-purple-400/30 overflow-hidden cursor-pointer"
+              className="btn-keep-white group relative w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs sm:text-sm uppercase tracking-wider sm:tracking-widest font-bold transition-all duration-300 shadow-xl shadow-purple-600/25 active:scale-95 flex items-center justify-center gap-2.5 border border-purple-400/30 overflow-hidden cursor-pointer"
             >
               <span className="absolute inset-0 pointer-events-none -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent -skew-x-12" />
               <Paintbrush className="w-4 h-4 text-purple-200" />
@@ -168,9 +164,9 @@ export default function Hero() {
             <a
               href="/"
               onClick={(e) => handleCtaClick(e, secondaryCtaLink)}
-              className={`px-5 py-2.5 rounded-xl text-[11px] sm:text-xs uppercase tracking-widest font-semibold transition-all duration-300 active:scale-95 cursor-pointer text-center ${
+              className={`w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm uppercase tracking-wider sm:tracking-widest font-bold transition-all duration-300 active:scale-95 cursor-pointer flex items-center justify-center ${
                 isLight
-                  ? "bg-white/65 hover:bg-white/95 text-zinc-900 border border-white/90 hover:border-purple-400/40 shadow-[0_4px_16px_rgba(100,100,160,0.08),inset_0_1px_1px_rgba(255,255,255,0.95)] hover:shadow-[0_8px_24px_rgba(168,85,247,0.14)] backdrop-blur-md"
+                  ? "bg-white/80 hover:bg-white text-zinc-900 border border-white/90 hover:border-purple-400/40 shadow-[0_4px_16px_rgba(100,100,160,0.08),inset_0_1px_1px_rgba(255,255,255,0.95)] hover:shadow-[0_8px_24px_rgba(168,85,247,0.14)] backdrop-blur-md"
                   : "bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20"
               }`}
             >
@@ -178,34 +174,37 @@ export default function Hero() {
             </a>
           </motion.div>
 
+          {/* Subtle Horizontal Divider above stats for mobile clarity */}
+          <div className={`w-full h-[1px] my-1 sm:my-2 ${isLight ? "bg-zinc-200/80" : "bg-white/10"}`} />
+
           {/* Stats Metadata Group */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="grid grid-cols-3 gap-3 sm:flex sm:flex-wrap sm:items-start sm:gap-x-8 sm:gap-y-4 pt-1 w-full sm:w-auto"
+            className="grid grid-cols-3 gap-2 xs:gap-3 sm:flex sm:flex-wrap sm:items-start sm:gap-x-8 sm:gap-y-4 pt-1 w-full sm:w-auto"
           >
             <div className="flex flex-col">
-              <p className={`font-display font-medium text-2xl sm:text-3xl ${isLight ? "text-zinc-900" : "text-white"}`}>
+              <p className={`font-display font-extrabold sm:font-bold text-3xl xs:text-4xl sm:text-3xl lg:text-4xl ${isLight ? "text-zinc-950" : "text-white"}`}>
                 <AnimatedCounter value={experienceYears} />
               </p>
-              <p className={`font-mono text-[9.5px] sm:text-[11px] uppercase tracking-wider mt-0.5 leading-tight ${isLight ? "text-zinc-500" : "text-zinc-500"}`}>
+              <p className={`font-mono text-[9px] xs:text-[10px] sm:text-[11px] uppercase tracking-wider mt-1 leading-tight ${isLight ? "text-zinc-500 font-medium" : "text-zinc-400"}`}>
                 {yearsLabel}
               </p>
             </div>
             <div className="flex flex-col">
-              <p className={`font-display font-medium text-2xl sm:text-3xl ${isLight ? "text-zinc-900" : "text-white"}`}>
+              <p className={`font-display font-extrabold sm:font-bold text-3xl xs:text-4xl sm:text-3xl lg:text-4xl ${isLight ? "text-zinc-950" : "text-white"}`}>
                 <AnimatedCounter value={selectedBrandsCount} />
               </p>
-              <p className={`font-mono text-[9.5px] sm:text-[11px] uppercase tracking-wider mt-0.5 leading-tight ${isLight ? "text-zinc-500" : "text-zinc-500"}`}>
+              <p className={`font-mono text-[9px] xs:text-[10px] sm:text-[11px] uppercase tracking-wider mt-1 leading-tight ${isLight ? "text-zinc-500 font-medium" : "text-zinc-400"}`}>
                 {brandsLabel}
               </p>
             </div>
             <div className="flex flex-col">
-              <p className={`font-display font-medium text-2xl sm:text-3xl ${isLight ? "text-zinc-900" : "text-white"}`}>
+              <p className={`font-display font-extrabold sm:font-bold text-3xl xs:text-4xl sm:text-3xl lg:text-4xl ${isLight ? "text-zinc-950" : "text-white"}`}>
                 <AnimatedCounter value={creativeAssetsCount} />
               </p>
-              <p className={`font-mono text-[9.5px] sm:text-[11px] uppercase tracking-wider mt-0.5 leading-tight ${isLight ? "text-zinc-500" : "text-zinc-500"}`}>
+              <p className={`font-mono text-[9px] xs:text-[10px] sm:text-[11px] uppercase tracking-wider mt-1 leading-tight ${isLight ? "text-zinc-500 font-medium" : "text-zinc-400"}`}>
                 {assetsLabel}
               </p>
             </div>
