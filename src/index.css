@@ -1380,4 +1380,83 @@ html[data-theme="dark"] .elevation-cta:hover {
   box-shadow: 0 8px 22px -3px rgba(168, 85, 247, 0.45);
 }
 
+/* ========================================================
+   PROJECT CARDS: TOUCH & MOBILE RESPONSIVE OPTIMIZATION
+   - Desktop (@media (hover: hover) and (pointer: fine)):
+     Full desktop hover transitions, resting opacity-85 with
+     hover reveal, group-hover zoom/scale, and hover elevation shadows.
+   - Mobile/Touch (@media (hover: none) and (pointer: coarse), (max-width: 767px)):
+     Active / center carousel card has 100% clear, natural, and sharp image.
+     Adjacent / side cards maintain soft dim/overlay/softened state
+     to preserve visual focus on the center card.
+     Border-radius, sizing, spacing, and carousel behavior unchanged.
+======================================================== */
+@media (hover: none) and (pointer: coarse), (max-width: 767px) {
+  /* Default base for touch */
+  .project-card-image {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: opacity 0.4s ease, filter 0.4s ease !important;
+  }
+
+  /* Center / Active carousel card: 100% crystal clear & natural focus */
+  .project-card.carousel-card-active {
+    opacity: 1 !important;
+    transition: opacity 0.4s ease !important;
+  }
+
+  .project-card.carousel-card-active .project-card-image {
+    opacity: 1 !important;
+    filter: none !important;
+    transition: opacity 0.4s ease, filter 0.4s ease !important;
+  }
+
+  /* Adjacent / Side carousel cards: softly dimmed to maintain center focus */
+  .project-card.carousel-card-inactive {
+    opacity: 0.85 !important;
+    transition: opacity 0.4s ease !important;
+  }
+
+  .project-card.carousel-card-inactive .project-card-image {
+    opacity: 0.65 !important;
+    filter: brightness(0.92) contrast(0.98) !important;
+    transition: opacity 0.4s ease, filter 0.4s ease !important;
+  }
+
+  .project-card-img-container {
+    background-color: transparent !important;
+  }
+
+  .project-card {
+    transform: none !important;
+  }
+
+  .project-card:hover {
+    transform: none !important;
+  }
+
+  .project-card-light {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  }
+
+  .project-card-light:hover {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    border-color: rgba(255, 255, 255, 0.95) !important;
+  }
+
+  .project-card-dark {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.22) !important;
+  }
+
+  .project-card-dark:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.22) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .project-card-tag-overlay {
+    display: none !important;
+  }
+}
+
 

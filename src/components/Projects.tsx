@@ -9,9 +9,10 @@ import FormattedText from "./FormattedText";
 interface ProjectCardProps {
   project: Project;
   settings: any;
+  isCarouselActive?: boolean;
 }
 
-function ProjectCard({ project, settings }: ProjectCardProps) {
+function ProjectCard({ project, settings, isCarouselActive }: ProjectCardProps) {
   const { theme } = usePortfolio();
   const isLight = theme === "light";
 
@@ -19,18 +20,24 @@ function ProjectCard({ project, settings }: ProjectCardProps) {
     settings.showProjectTags && project.tags && project.tags.length > 0
   );
 
+  const carouselClass = isCarouselActive === true
+    ? "carousel-card-active"
+    : isCarouselActive === false
+    ? "carousel-card-inactive"
+    : "";
+
   return (
     <div
-      className={`group relative rounded-2xl transition-all duration-300 flex flex-col justify-between h-full ${
+      className={`group relative rounded-2xl transition-all duration-300 flex flex-col justify-between h-full project-card ${carouselClass} ${
         isLight
-          ? "bg-white/80 hover:bg-white/95 border border-white/95 hover:border-purple-300 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_28px_-4px_rgba(124,58,237,0.12)] hover:-translate-y-1"
-          : "bg-[#0e0f18]/90 hover:bg-[#141624]/95 border border-white/10 hover:border-purple-500/40 shadow-[0_4px_16px_-2px_rgba(0,0,0,0.4)] hover:shadow-[0_12px_28px_-4px_rgba(0,0,0,0.6),0_0_16px_-2px_rgba(168,85,247,0.15)] hover:-translate-y-1"
+          ? "project-card-light bg-white/80 hover:bg-white/95 border border-white/95 hover:border-purple-300 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_28px_-4px_rgba(124,58,237,0.12)] hover:-translate-y-1"
+          : "project-card-dark bg-[#0e0f18]/90 hover:bg-[#141624]/95 border border-white/10 hover:border-purple-500/40 shadow-[0_4px_16px_-2px_rgba(0,0,0,0.4)] hover:shadow-[0_12px_28px_-4px_rgba(0,0,0,0.6),0_0_16px_-2px_rgba(168,85,247,0.15)] hover:-translate-y-1"
       } backdrop-blur-xl`}
     >
       {/* Inner Container to isolate overflow-hidden for image & content clipping */}
       <div className="relative w-full h-full flex flex-col justify-between rounded-2xl overflow-hidden">
         {/* Image Section */}
-        <div className="aspect-[4/3] w-full overflow-hidden relative bg-zinc-950">
+        <div className="aspect-[4/3] w-full overflow-hidden relative bg-zinc-950 project-card-img-container">
         {/* Category Label Overlay */}
         {settings.showCategory && (
           <span className={`absolute top-4 left-4 z-20 px-2.5 py-1 rounded-md text-[9px] uppercase tracking-widest font-mono backdrop-blur-md border ${
@@ -47,7 +54,7 @@ function ProjectCard({ project, settings }: ProjectCardProps) {
           src={project.image}
           alt={project.title}
           referrerPolicy="no-referrer"
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-85 group-hover:opacity-100"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-85 group-hover:opacity-100 project-card-image"
         />
 
         {/* Bottom shadow/gradient overlay for tags:
@@ -56,7 +63,7 @@ function ProjectCard({ project, settings }: ProjectCardProps) {
             - On desktop, appears on hover behind the tags.
         */}
         {hasVisibleTags && (
-          <div className="absolute bottom-0 inset-x-0 h-28 bg-gradient-to-t from-black/85 via-black/40 to-transparent pointer-events-none z-10 hidden sm:block opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="project-card-tag-overlay absolute bottom-0 inset-x-0 h-28 bg-gradient-to-t from-black/85 via-black/40 to-transparent pointer-events-none z-10 hidden sm:block opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         )}
 
         {/* Tech/Tag Pills inside overlay - hidden on mobile UI */}
@@ -310,12 +317,16 @@ function MobileProjectsCarousel({
       >
         <div ref={emblaRef} className="overflow-hidden cursor-grab active:cursor-grabbing touch-pan-y select-none -my-8 py-8 edge-to-edge-carousel-viewport">
           <div className="flex -ml-4">
-            {filteredProjects.map((project) => (
+            {filteredProjects.map((project, index) => (
               <div
                 key={project.id}
                 className="flex-[0_0_86%] sm:flex-[0_0_75%] min-w-0 pl-4 py-2 flex flex-col"
               >
-                <ProjectCard project={project} settings={settings} />
+                <ProjectCard
+                  project={project}
+                  settings={settings}
+                  isCarouselActive={selectedIndex === index}
+                />
               </div>
             ))}
           </div>
