@@ -7,15 +7,31 @@ interface ThemeToggleProps {
   className?: string;
   compact?: boolean;
   onToggle?: () => void;
+  onAnimationComplete?: () => void;
 }
 
-export default function ThemeToggle({ className = "", compact = false, onToggle }: ThemeToggleProps) {
+export default function ThemeToggle({
+  className = "",
+  compact = false,
+  onToggle,
+  onAnimationComplete,
+}: ThemeToggleProps) {
   const { theme, toggleTheme } = usePortfolio();
   const isLight = theme === "light";
 
+  const isAnimatingRef = React.useRef(false);
+
   const handleToggle = () => {
+    isAnimatingRef.current = true;
     toggleTheme();
     onToggle?.();
+  };
+
+  const handleAnimationComplete = () => {
+    if (isAnimatingRef.current) {
+      isAnimatingRef.current = false;
+      onAnimationComplete?.();
+    }
   };
 
   return (
@@ -47,6 +63,7 @@ export default function ThemeToggle({ className = "", compact = false, onToggle 
             animate={{ scale: 1, rotate: 0, opacity: 1 }}
             exit={{ scale: 0.6, opacity: 0 }}
             transition={{ type: "spring", stiffness: 600, damping: 30 }}
+            onAnimationComplete={handleAnimationComplete}
             className="flex items-center justify-center"
           >
             {isLight ? (
@@ -64,6 +81,7 @@ export default function ThemeToggle({ className = "", compact = false, onToggle 
             initial={false}
             animate={{ x: isLight ? 0 : 32 }}
             transition={{ type: "spring", stiffness: 700, damping: 36 }}
+            onAnimationComplete={handleAnimationComplete}
             className="absolute top-0 left-0 w-7 h-7 rounded-full pointer-events-none overflow-hidden"
           >
             {/* Light Mode Thumb Layer */}

@@ -35,24 +35,10 @@ export default function Header() {
     };
   }, [mobileMenuOpen]);
 
-  // 1.5 seconds (1500ms) delay to allow the user to see the theme switch before closing the mobile menu
-  const themeToggleCloseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const handleThemeToggleInMobile = () => {
-    if (themeToggleCloseTimeoutRef.current) {
-      clearTimeout(themeToggleCloseTimeoutRef.current);
-    }
-    themeToggleCloseTimeoutRef.current = setTimeout(() => {
-      setMobileMenuOpen(false);
-    }, 1500);
+  // Smoothly close the mobile menu immediately upon completion of the Theme Toggle's spring animation
+  const handleThemeAnimationCompleteInMobile = () => {
+    setMobileMenuOpen(false);
   };
-
-  useEffect(() => {
-    return () => {
-      if (themeToggleCloseTimeoutRef.current) {
-        clearTimeout(themeToggleCloseTimeoutRef.current);
-      }
-    };
-  }, []);
 
   const allNavItems = [
     { label: "About", href: "#about", id: "about" },
@@ -428,7 +414,7 @@ export default function Header() {
                     <span className={`text-xs uppercase tracking-widest font-mono ${isLight ? "text-zinc-500" : "text-zinc-400"}`}>
                       Interface Theme
                     </span>
-                    <ThemeToggle onToggle={handleThemeToggleInMobile} />
+                    <ThemeToggle onAnimationComplete={handleThemeAnimationCompleteInMobile} />
                   </div>
                 </div>
               </div>
