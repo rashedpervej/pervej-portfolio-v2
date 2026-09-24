@@ -4,8 +4,9 @@ import { Menu, X, Download } from "lucide-react";
 import { usePortfolio } from "../context/PortfolioContext";
 import { scrollToSection } from "../utils/scroll";
 import { supabase, isSupabaseConfigured } from "../lib/supabase";
-import defaultResumePdf from "../assets/CV/Rashed Pervej _ Resume _ Jul 26.pdf";
 import ThemeToggle from "./ThemeToggle";
+
+const defaultResumePdf = "/Rashed-Pervej-Resume.pdf";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);

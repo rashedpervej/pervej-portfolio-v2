@@ -160,12 +160,15 @@ export const InvoicePreview: React.FC<InvoicePreviewProps> = ({
     const area = previewAreaRef.current;
     if (!area) return;
 
-    const ro = new ResizeObserver(() => handleScale());
-    ro.observe(area);
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(() => handleScale());
+      ro.observe(area);
+    }
     window.addEventListener("resize", handleScale);
 
     return () => {
-      ro.disconnect();
+      if (ro) ro.disconnect();
       window.removeEventListener("resize", handleScale);
     };
   }, []);

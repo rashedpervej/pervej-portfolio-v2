@@ -69,6 +69,7 @@ async function startServer() {
       server: {
         middlewareMode: true,
         allowedHosts: true,
+        hmr: false,
       },
       preview: {
         allowedHosts: true,
@@ -79,8 +80,15 @@ async function startServer() {
     // SPA HTML renderer with dynamic OG & Twitter meta tag injection
     const serveIndexHtml = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       const url = req.originalUrl;
-      // Skip API routes and requests for assets with extensions
-      if (req.method !== "GET" || url.startsWith("/api") || path.extname(url.split("?")[0])) {
+      // Skip API routes, Vite internal modules, source files, and assets with extensions
+      if (
+        req.method !== "GET" ||
+        url.startsWith("/api") ||
+        url.startsWith("/@") ||
+        url.startsWith("/src") ||
+        url.startsWith("/node_modules") ||
+        Boolean(path.extname(url.split("?")[0]))
+      ) {
         return next();
       }
 
@@ -108,13 +116,10 @@ async function startServer() {
       next();
     };
 
-    // 1. Intercept SPA page requests before Vite middlewares
-    app.use(serveIndexHtml);
-
-    // 2. Vite middlewares for client scripts, CSS, HMR, assets, and pre-bundled deps
+    // 1. Vite middlewares for client scripts, CSS, HMR, assets, and pre-bundled deps
     app.use(vite.middlewares);
 
-    // 3. Fallback SPA route after Vite middlewares for all client-side routes (e.g. /admin)
+    // 2. SPA route fallback with dynamic OG meta injection for all client routes (e.g. /, /admin)
     app.use("*", serveIndexHtml);
 
     console.log("Vite development server middleware loaded with allowedHosts and dynamic OG meta injection.");

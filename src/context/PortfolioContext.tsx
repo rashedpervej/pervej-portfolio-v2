@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { portfolioData as fallbackData } from "../data";
 import { supabase, isSupabaseConfigured } from "../lib/supabase";
-import defaultResumePdf from "../assets/CV/Rashed Pervej _ Resume _ Jul 26.pdf";
 import { FALLBACK_SECTIONS, FALLBACK_SITE_SETTINGS } from "../data/fallbackContent";
 import {
   getInitialSections,

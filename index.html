@@ -4,6 +4,36 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script>
+      // Early observer polyfill for sandboxed iframes & webviews
+      (function() {
+        if (typeof window !== "undefined") {
+          if (typeof window.IntersectionObserver === "undefined") {
+            window.IntersectionObserver = function(callback) {
+              this.observe = function(el) {
+                setTimeout(function() {
+                  callback([{ target: el, isIntersecting: true, intersectionRatio: 1, boundingClientRect: el.getBoundingClientRect ? el.getBoundingClientRect() : {} }], this);
+                }, 0);
+              };
+              this.unobserve = function() {};
+              this.disconnect = function() {};
+              this.takeRecords = function() { return []; };
+            };
+          }
+          if (typeof window.ResizeObserver === "undefined") {
+            window.ResizeObserver = function(callback) {
+              this.observe = function(el) {
+                setTimeout(function() {
+                  callback([{ target: el, contentRect: el.getBoundingClientRect ? el.getBoundingClientRect() : {} }], this);
+                }, 0);
+              };
+              this.unobserve = function() {};
+              this.disconnect = function() {};
+            };
+          }
+        }
+      })();
+    </script>
+    <script>
       (function() {
         try {
           var userPref = localStorage.getItem("portfolio_user_theme") || localStorage.getItem("portfolio_theme");
@@ -143,10 +173,10 @@
         }
       }
     </script>
-    <script type="module" src="/src/main.tsx"></script>
   </head>
   <body class="bg-[#030303] text-zinc-100 antialiased selection:bg-purple-600 selection:text-white">
     <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
 
