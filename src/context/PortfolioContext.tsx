@@ -134,6 +134,107 @@ function adjustHexColor(hex: string, percent: number): string {
   return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
 
+// ========================================================
+// THEME MANAGEMENT CONFIGURATION & PREFERENCE PRIORITY
+// Priority rules:
+// 1. Manual user choice via Theme Toggle (persisted via localStorage)
+// 2. Device/system theme via prefers-color-scheme
+// 3. Fallback to "light" if device theme cannot be detected
+// 4. Follow device theme on next visit if user never made a manual choice
+// 5. Never let device theme override manual user selection
+// ========================================================
+export const THEME_USER_PREF_KEY = "portfolio_user_theme";
+export const THEME_LEGACY_KEY = "portfolio_theme";
+
+/**
+ * Returns the explicit manual user theme choice from localStorage if one exists, or null.
+ * Distinguishes between "no user preference" (null) and explicit user choices ("light" | "dark").
+ */
+export const getSavedManualTheme = (): ThemeMode | null => {
+  if (typeof window === "undefined") return null;
+  try {
+    const userPref = localStorage.getItem(THEME_USER_PREF_KEY);
+    if (userPref === "light" || userPref === "dark") {
+      return userPref;
+    }
+    const legacyPref = localStorage.getItem(THEME_LEGACY_KEY);
+    if (legacyPref === "light" || legacyPref === "dark") {
+      return legacyPref;
+    }
+  } catch (e) {}
+  return null;
+};
+
+/**
+ * Detects the device/system theme via window.matchMedia('(prefers-color-scheme: ...)').
+ * Returns "dark", "light", or null if undetectable or unsupported.
+ */
+export const getSystemTheme = (): ThemeMode | null => {
+  if (typeof window === "undefined" || !window.matchMedia) {
+    return null;
+  }
+  try {
+    const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    if (darkQuery.matches) {
+      return "dark";
+    }
+    const lightQuery = window.matchMedia("(prefers-color-scheme: light)");
+    if (lightQuery.matches) {
+      return "light";
+    }
+  } catch (e) {}
+  return null;
+};
+
+/**
+ * Resolves the initial theme adhering to the exact requested priority:
+ * 1. Previously manual choice from localStorage
+ * 2. Device/system preference
+ * 3. Default to "light"
+ */
+export const resolveInitialTheme = (): ThemeMode => {
+  // 1. User manual selection from site toggle
+  const manual = getSavedManualTheme();
+  if (manual) {
+    return manual;
+  }
+
+  // 2. Device / system theme
+  const system = getSystemTheme();
+  if (system) {
+    return system;
+  }
+
+  // 3. Fallback default
+  return "light";
+};
+
+/**
+ * Persists explicit manual theme selection into localStorage.
+ */
+export const saveManualTheme = (theme: ThemeMode) => {
+  try {
+    localStorage.setItem(THEME_USER_PREF_KEY, theme);
+    localStorage.setItem(THEME_LEGACY_KEY, theme);
+  } catch (e) {}
+};
+
+export const applyThemeToDOM = (themeMode: ThemeMode) => {
+  if (typeof document === "undefined") return;
+  const root = document.documentElement;
+  if (themeMode === "light") {
+    root.classList.add("light");
+    root.classList.remove("dark");
+    root.setAttribute("data-theme", "light");
+    root.style.colorScheme = "light";
+  } else {
+    root.classList.add("dark");
+    root.classList.remove("light");
+    root.setAttribute("data-theme", "dark");
+    root.style.colorScheme = "dark";
+  }
+};
+
 export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Initialize from latest persistent snapshot if available; otherwise fallback dataset
   const [sections, setSections] = useState<SectionRecord[]>(() => getInitialSections());
@@ -143,14 +244,8 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [isLoading, setIsLoading] = useState(true);
   const [isPreviewMode, setIsPreviewMode] = useState(false);
 
-  // Theme Management: Light Mode Liquid Glass / Dark Mode
-  const [theme, setThemeState] = useState<ThemeMode>(() => {
-    try {
-      const saved = localStorage.getItem("portfolio_theme");
-      if (saved === "light" || saved === "dark") return saved;
-    } catch (e) {}
-    return "dark";
-  });
+  // Theme Management with strict priority resolution
+  const [theme, setThemeState] = useState<ThemeMode>(() => resolveInitialTheme());
 
   // Dynamic Background Style State - Defaults permanently to "liquid" (Liquid Glass)
   const [backgroundStyle, setBackgroundStyleState] = useState<BackgroundStyle>(() => {
@@ -171,43 +266,63 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     } catch (e) {}
   }, []);
 
-  const applyThemeToDOM = (themeMode: ThemeMode) => {
-    const root = document.documentElement;
-    if (themeMode === "light") {
-      root.classList.add("light");
-      root.classList.remove("dark");
-      root.setAttribute("data-theme", "light");
-      root.style.colorScheme = "light";
-    } else {
-      root.classList.add("dark");
-      root.classList.remove("light");
-      root.setAttribute("data-theme", "dark");
-      root.style.colorScheme = "dark";
-    }
-  };
-
   const setTheme = useCallback((newTheme: ThemeMode) => {
+    saveManualTheme(newTheme);
     applyThemeToDOM(newTheme);
     setThemeState(newTheme);
-    try {
-      localStorage.setItem("portfolio_theme", newTheme);
-    } catch (e) {}
   }, []);
 
   const toggleTheme = useCallback(() => {
     setThemeState((prev) => {
       const next = prev === "light" ? "dark" : "light";
+      saveManualTheme(next);
       applyThemeToDOM(next);
-      try {
-        localStorage.setItem("portfolio_theme", next);
-      } catch (e) {}
       return next;
     });
   }, []);
 
+  // Sync DOM on mount and theme state change
   useEffect(() => {
     applyThemeToDOM(theme);
   }, [theme]);
+
+  // Listen for device/system theme changes:
+  // If the user has NOT manually chosen a theme, follow device changes in real-time.
+  // If the user HAS manually selected a theme, do NOT override their saved choice.
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+
+    const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const handleSystemThemeChange = (e: MediaQueryListEvent) => {
+      // 5. Changing device theme must NOT override manual choice
+      if (getSavedManualTheme()) {
+        return;
+      }
+      // 4. Follow new device theme
+      const newTheme: ThemeMode = e.matches ? "dark" : "light";
+      applyThemeToDOM(newTheme);
+      setThemeState(newTheme);
+    };
+
+    try {
+      if (darkQuery.addEventListener) {
+        darkQuery.addEventListener("change", handleSystemThemeChange);
+      } else if ((darkQuery as any).addListener) {
+        (darkQuery as any).addListener(handleSystemThemeChange);
+      }
+    } catch (err) {}
+
+    return () => {
+      try {
+        if (darkQuery.removeEventListener) {
+          darkQuery.removeEventListener("change", handleSystemThemeChange);
+        } else if ((darkQuery as any).removeListener) {
+          (darkQuery as any).removeListener(handleSystemThemeChange);
+        }
+      } catch (err) {}
+    };
+  }, []);
 
   // Synchronize SEO metadata and Brand Theme dynamically to document head DOM
   useEffect(() => {

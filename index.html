@@ -1,8 +1,37 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function() {
+        try {
+          var userPref = localStorage.getItem("portfolio_user_theme") || localStorage.getItem("portfolio_theme");
+          var theme = "light";
+          if (userPref === "light" || userPref === "dark") {
+            theme = userPref;
+          } else if (window.matchMedia) {
+            if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+              theme = "dark";
+            } else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
+              theme = "light";
+            }
+          }
+          var root = document.documentElement;
+          if (theme === "dark") {
+            root.classList.add("dark");
+            root.classList.remove("light");
+            root.setAttribute("data-theme", "dark");
+            root.style.colorScheme = "dark";
+          } else {
+            root.classList.add("light");
+            root.classList.remove("dark");
+            root.setAttribute("data-theme", "light");
+            root.style.colorScheme = "light";
+          }
+        } catch (e) {}
+      })();
+    </script>
     <title>Rashed Pervej | Senior Visualizer Portfolio</title>
     <meta name="description" content="Award-winning portfolio of Rashed Pervej, Senior Visualizer & Graphic Designer specializing in brand identity, packaging, and motion graphics." />
     <meta name="keywords" content="Rashed Pervej, Senior Visualizer, Brand Identity, Packaging Designer, Motion Graphics, Art Director, Bangladesh, Graphic Design" />
