@@ -14,9 +14,8 @@ export function getCurrentOrigin(): string {
 /**
  * Universal resolution of Social / Open Graph Image URLs:
  * - If image path is missing or empty, defaults to current origin + "/og-image.jpg"
- * - If contains the legacy hard-coded domain "pervej.pro.bd", smoothly transitions it to the current deployment origin
- * - If already a full external URL (Supabase CDN, AWS S3, Cloudinary, data:, blob:), preserves it intact
- * - If a relative path (e.g. "/og-image.jpg" or "/brand-header.webp"), dynamically prepends the current deployment origin
+ * - If already a full external URL (Supabase CDN, AWS S3, Cloudinary), preserves it intact
+ * - If a relative path (e.g. "/og-image.jpg"), dynamically prepends the current deployment origin
  */
 export function resolveSocialImageUrl(rawImage?: string): string {
   const origin = getCurrentOrigin();
@@ -27,7 +26,6 @@ export function resolveSocialImageUrl(rawImage?: string): string {
 
   let cleaned = rawImage.trim().replace(/^["']|["']$/g, "");
 
-  // Transparently migrate legacy pervej.pro.bd URL to dynamic universal path
   if (cleaned.includes("pervej.pro.bd")) {
     cleaned = cleaned.replace(/^https?:\/\/(www\.)?pervej\.pro\.bd\/?/, "/");
     if (!cleaned.startsWith("/")) {
@@ -35,35 +33,27 @@ export function resolveSocialImageUrl(rawImage?: string): string {
     }
   }
 
-  // Normalize legacy source asset paths (e.g. /src/assets/images/packeging-header.webp -> /packeging-header.webp)
   if (cleaned.startsWith("/src/assets/images/")) {
     cleaned = cleaned.replace("/src/assets/images/", "/");
   } else if (cleaned.startsWith("src/assets/images/")) {
     cleaned = "/" + cleaned.replace("src/assets/images/", "");
   }
 
-  // Expand relative Supabase storage paths if provided without domain
   if (cleaned.startsWith("portfolio-assets/") || cleaned.startsWith("/portfolio-assets/")) {
     const assetPath = cleaned.replace(/^\/+/, "");
     return `https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/${assetPath}`;
   }
 
-  // Preserve absolute URLs and inline data/blob streams
   if (/^(https?:|\/\/|data:|blob:)/i.test(cleaned)) {
     return cleaned;
   }
 
-  // Prepend current origin for relative paths
   const normalizedPath = cleaned.startsWith("/") ? cleaned : `/${cleaned}`;
   return origin ? `${origin}${normalizedPath}` : normalizedPath;
 }
 
 /**
- * Universal resolution of Canonical / Social Page URLs:
- * - If empty, uses current deployment origin + current pathname
- * - If contains legacy hard-coded domain "pervej.pro.bd", smoothly normalizes to current deployment
- * - If relative path, prepends current deployment origin
- * - If valid absolute URL, returns it as-is
+ * Universal resolution of Canonical / Social Page URLs
  */
 export function resolveCanonicalUrl(rawUrl?: string): string {
   const origin = getCurrentOrigin();
@@ -78,7 +68,6 @@ export function resolveCanonicalUrl(rawUrl?: string): string {
 
   let cleaned = rawUrl.trim();
 
-  // Normalize legacy domain
   if (cleaned.includes("pervej.pro.bd")) {
     cleaned = cleaned.replace(/^https?:\/\/(www\.)?pervej\.pro\.bd\/?/, "/");
     if (!cleaned.startsWith("/")) {
@@ -94,9 +83,6 @@ export function resolveCanonicalUrl(rawUrl?: string): string {
   return origin ? `${origin}${normalizedPath}` : normalizedPath;
 }
 
-/**
- * Safely extracts hostname for live preview cards and social badges.
- */
 export function getDisplayHostname(rawUrl?: string): string {
   const resolved = resolveCanonicalUrl(rawUrl);
   try {
@@ -111,8 +97,10 @@ export function getDisplayHostname(rawUrl?: string): string {
 }
 
 /**
- * Synchronizes document <head> elements (Title, Description, Canonical, Open Graph, Twitter Cards, Schema.org)
- * directly with current database / CMS site settings.
+ * Single Source of Truth Architecture with Optional Overrides:
+ * 1. Primary SEO (seoTitle, seoDescription) sets Browser title and Meta description.
+ * 2. Open Graph & Twitter automatically inherit Primary SEO unless explicitly overridden by ogTitle / ogDescription.
+ * 3. Dedicated ogImage for 1200x630 social preview card.
  */
 export function syncDocumentSeo(settings: Partial<SiteSettings>): void {
   if (typeof document === "undefined") return;
@@ -121,15 +109,18 @@ export function syncDocumentSeo(settings: Partial<SiteSettings>): void {
   const defaultDesc =
     "Award-winning portfolio of Rashed Pervej, Senior Visualizer & Graphic Designer specializing in brand identity, packaging, and motion graphics.";
 
-  const activeTitle = settings.ogTitle || settings.seoTitle || defaultTitle;
-  const activeDesc = settings.ogDescription || settings.seoDescription || defaultDesc;
+  // 1. Primary SEO (Single Source of Truth)
+  const primaryTitle = settings.seoTitle || defaultTitle;
+  const primaryDesc = settings.seoDescription || defaultDesc;
+
+  // 2. Social Meta (Inherits Primary SEO, or overrides if social-specific values are set)
+  const socialTitle = settings.ogTitle || primaryTitle;
+  const socialDesc = settings.ogDescription || primaryDesc;
   const resolvedOgImage = resolveSocialImageUrl(settings.ogImage);
   const resolvedOgUrl = resolveCanonicalUrl(settings.ogUrl);
 
-  // 1. Standard HTML Head Metadata
-  if (settings.seoTitle || settings.ogTitle) {
-    document.title = activeTitle;
-  }
+  // Set Browser Tab Title directly from Primary SEO Title
+  document.title = primaryTitle;
 
   const updateOrCreateTag = (
     tagName: string,
@@ -147,10 +138,8 @@ export function syncDocumentSeo(settings: Partial<SiteSettings>): void {
     el.setAttribute(contentAttr, contentVal);
   };
 
-  // Meta description
-  updateOrCreateTag("meta", "name", "description", "content", activeDesc);
-
-  // Meta keywords
+  // Meta description & Keywords
+  updateOrCreateTag("meta", "name", "description", "content", primaryDesc);
   if (settings.seoKeywords) {
     updateOrCreateTag("meta", "name", "keywords", "content", settings.seoKeywords);
   }
@@ -158,32 +147,32 @@ export function syncDocumentSeo(settings: Partial<SiteSettings>): void {
   // Canonical link tag
   updateOrCreateTag("link", "rel", "canonical", "href", resolvedOgUrl);
 
-  // 2. Open Graph Meta Tags (Facebook, LinkedIn, Slack, WhatsApp)
+  // Open Graph Meta Tags (Facebook, LinkedIn, WhatsApp)
   updateOrCreateTag("meta", "property", "og:type", "content", "website");
-  updateOrCreateTag("meta", "property", "og:title", "content", activeTitle);
-  updateOrCreateTag("meta", "property", "og:description", "content", activeDesc);
+  updateOrCreateTag("meta", "property", "og:title", "content", socialTitle);
+  updateOrCreateTag("meta", "property", "og:description", "content", socialDesc);
   updateOrCreateTag("meta", "property", "og:image", "content", resolvedOgImage);
   updateOrCreateTag("meta", "property", "og:image:width", "content", "1200");
   updateOrCreateTag("meta", "property", "og:image:height", "content", "630");
-  updateOrCreateTag("meta", "property", "og:image:alt", "content", activeTitle);
+  updateOrCreateTag("meta", "property", "og:image:alt", "content", socialTitle);
   updateOrCreateTag("meta", "property", "og:url", "content", resolvedOgUrl);
   updateOrCreateTag(
     "meta",
     "property",
     "og:site_name",
     "content",
-    settings.seoTitle || "Rashed Pervej Portfolio"
+    primaryTitle
   );
 
-  // 3. Twitter / X Social Cards
+  // Twitter / X Social Cards
   updateOrCreateTag("meta", "name", "twitter:card", "content", "summary_large_image");
-  updateOrCreateTag("meta", "name", "twitter:title", "content", activeTitle);
-  updateOrCreateTag("meta", "name", "twitter:description", "content", activeDesc);
+  updateOrCreateTag("meta", "name", "twitter:title", "content", socialTitle);
+  updateOrCreateTag("meta", "name", "twitter:description", "content", socialDesc);
   updateOrCreateTag("meta", "name", "twitter:image", "content", resolvedOgImage);
-  updateOrCreateTag("meta", "name", "twitter:image:alt", "content", activeTitle);
+  updateOrCreateTag("meta", "name", "twitter:image:alt", "content", socialTitle);
   updateOrCreateTag("meta", "name", "twitter:url", "content", resolvedOgUrl);
 
-  // 4. Schema.org JSON-LD Structured Data
+  // Schema.org JSON-LD Structured Data
   const jsonLd = document.querySelector('script[type="application/ld+json"]');
   if (jsonLd) {
     try {
