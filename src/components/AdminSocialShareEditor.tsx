@@ -18,13 +18,18 @@ import {
 import { usePortfolio } from "../context/PortfolioContext";
 import { supabase, isSupabaseConfigured } from "../lib/supabase";
 import { savePersistentSnapshot } from "../utils/persistentSnapshot";
+import {
+  resolveSocialImageUrl,
+  resolveCanonicalUrl,
+  getDisplayHostname,
+} from "../utils/seo";
 
 interface AdminSocialShareEditorProps {
   isDemo?: boolean;
 }
 
-const DEFAULT_OG_IMAGE = "https://pervej.pro.bd/og-image.jpg";
-const DEFAULT_SITE_URL = "https://pervej.pro.bd/";
+const DEFAULT_OG_IMAGE = "/og-image.jpg";
+const DEFAULT_SITE_URL = "";
 
 export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ isDemo = false }) => {
   const { siteSettings, setSiteSettings, sections } = usePortfolio();
@@ -130,10 +135,10 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
     }
   };
 
-  // Preset Image Options from Existing Portfolio Assets
+  // Preset Image Options from Existing Portfolio Assets (Universal relative paths)
   const presetImages = [
-    { label: "Default Global 1200x630 OG Banner", url: "https://pervej.pro.bd/og-image.jpg" },
-    { label: "Brand Showcase Banner", url: "https://pervej.pro.bd/brand-header.webp" },
+    { label: "Default Global 1200x630 OG Banner", url: "/og-image.jpg" },
+    { label: "Brand Showcase Banner", url: "/brand-header.webp" },
     { label: "Packaging Showcase Header", url: "/src/assets/images/packeging-header.webp" },
   ];
 
@@ -331,12 +336,12 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
                   type="url"
                   value={ogUrl}
                   onChange={(e) => setOgUrl(e.target.value)}
-                  placeholder="https://pervej.pro.bd/"
+                  placeholder={typeof window !== "undefined" && window.location?.origin ? `${window.location.origin}/` : "https://your-domain.com/"}
                   className="w-full bg-[#18181d] border border-zinc-700/80 rounded-xl pl-10 pr-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-colors"
                 />
               </div>
               <p className="text-[11px] text-zinc-500 mt-1">
-                Canonical URL associated with your Open Graph tags (<code className="text-zinc-400">og:url</code>).
+                Canonical URL associated with your Open Graph tags (<code className="text-zinc-400">og:url</code>). Leave blank to auto-detect current domain.
               </p>
             </div>
           </div>
@@ -362,8 +367,7 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
                   <strong className="text-zinc-300">File Formats:</strong> JPG, PNG, or WebP (Max 5MB)
                 </li>
                 <li>
-                  <strong className="text-zinc-300">Accessibility:</strong> Public HTTPS URL, accessible without
-                  login for social scrapers
+                  <strong className="text-zinc-300">Universal:</strong> Supports relative paths (e.g. <code className="text-zinc-300 font-mono">/og-image.jpg</code>) or remote HTTPS URLs
                 </li>
               </ul>
             </div>
@@ -371,7 +375,7 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
             {/* Image URL Input */}
             <div>
               <label className="text-xs font-medium text-zinc-300 mb-1.5 block">
-                Image Public URL <span className="text-purple-400">*</span>
+                Image Public URL / Path <span className="text-purple-400">*</span>
               </label>
               <input
                 type="text"
@@ -380,7 +384,7 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
                   setOgImage(e.target.value);
                   setImageError(false);
                 }}
-                placeholder="https://pervej.pro.bd/og-image.jpg"
+                placeholder="/og-image.jpg or https://..."
                 className="w-full bg-[#18181d] border border-zinc-700/80 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-colors font-mono"
               />
             </div>
@@ -481,42 +485,53 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
             </div>
 
             {/* Platform Mock Card Rendering */}
-            <div className="bg-[#18181d] border border-zinc-800 rounded-xl overflow-hidden shadow-inner">
-              {/* Image Preview Container */}
-              <div className="relative w-full aspect-[1.91/1] bg-zinc-900 overflow-hidden flex items-center justify-center">
-                {ogImage && !imageError ? (
-                  <img
-                    src={ogImage}
-                    alt="Social preview banner"
-                    onError={() => setImageError(true)}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="flex flex-col items-center justify-center text-zinc-500 p-4 text-center">
-                    <ImageIcon className="w-8 h-8 mb-1.5 opacity-40" />
-                    <span className="text-xs">No preview image available</span>
-                    <span className="text-[10px] text-zinc-600">Please provide a valid image URL</span>
-                  </div>
-                )}
-                <div className="absolute top-2 right-2 bg-black/70 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-mono text-zinc-300 border border-white/10">
-                  1200 × 630 (1.91:1)
-                </div>
-              </div>
+            {(() => {
+              const liveImageUrl = resolveSocialImageUrl(ogImage);
+              const liveHostname = getDisplayHostname(ogUrl);
+              const liveTitle = ogTitle || siteSettings.seoTitle || "Rashed Pervej | Senior Visualizer Portfolio";
+              const liveDescription =
+                ogDescription ||
+                siteSettings.seoDescription ||
+                "Award-winning portfolio of Rashed Pervej, Senior Visualizer specializing in Brand Identity and Packaging.";
 
-              {/* Text Container per Platform */}
-              <div className="p-3.5 space-y-1 bg-[#1e1e24]">
-                <div className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider truncate">
-                  {new URL(ogUrl || "https://pervej.pro.bd").hostname}
+              return (
+                <div className="bg-[#18181d] border border-zinc-800 rounded-xl overflow-hidden shadow-inner">
+                  {/* Image Preview Container */}
+                  <div className="relative w-full aspect-[1.91/1] bg-zinc-900 overflow-hidden flex items-center justify-center">
+                    {liveImageUrl && !imageError ? (
+                      <img
+                        src={liveImageUrl}
+                        alt="Social preview banner"
+                        onError={() => setImageError(true)}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex flex-col items-center justify-center text-zinc-500 p-4 text-center">
+                        <ImageIcon className="w-8 h-8 mb-1.5 opacity-40" />
+                        <span className="text-xs">No preview image available</span>
+                        <span className="text-[10px] text-zinc-600">Please provide a valid image URL</span>
+                      </div>
+                    )}
+                    <div className="absolute top-2 right-2 bg-black/70 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-mono text-zinc-300 border border-white/10">
+                      1200 × 630 (1.91:1)
+                    </div>
+                  </div>
+
+                  {/* Text Container per Platform */}
+                  <div className="p-3.5 space-y-1 bg-[#1e1e24]">
+                    <div className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider truncate">
+                      {liveHostname}
+                    </div>
+                    <div className="text-xs font-semibold text-white line-clamp-2 leading-snug">
+                      {liveTitle}
+                    </div>
+                    <div className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
+                      {liveDescription}
+                    </div>
+                  </div>
                 </div>
-                <div className="text-xs font-semibold text-white line-clamp-2 leading-snug">
-                  {ogTitle || "Rashed Pervej | Senior Visualizer Portfolio"}
-                </div>
-                <div className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
-                  {ogDescription ||
-                    "Award-winning portfolio of Rashed Pervej, Senior Visualizer specializing in Brand Identity and Packaging."}
-                </div>
-              </div>
-            </div>
+              );
+            })()}
 
             <p className="text-[10px] text-zinc-500 text-center">
               Simulated preview for {previewPlatform === "facebook" ? "Facebook & WhatsApp" : previewPlatform === "twitter" ? "X / Twitter Summary Large Image" : "LinkedIn & Slack"}.
@@ -586,7 +601,10 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
 
             <div className="p-3 rounded-xl bg-zinc-900/60 border border-zinc-800 text-[10px] text-zinc-500">
               💡 <strong>Tip:</strong> In the Facebook Sharing Debugger, paste{" "}
-              <code className="text-purple-300">https://pervej.pro.bd/</code> and click <strong>&quot;Scrape Again&quot;</strong> to
+              <code className="text-purple-300">
+                {resolveCanonicalUrl(ogUrl)}
+              </code>{" "}
+              and click <strong>&quot;Scrape Again&quot;</strong> to
               instantly clear Facebook &amp; Messenger&apos;s link cache.
             </div>
           </div>

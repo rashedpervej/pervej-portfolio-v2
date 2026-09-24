@@ -34,6 +34,23 @@ app.post("/api/snapshot", snapshotHandler);
 
 // Configure Vite or Static Asset Serving
 async function startServer() {
+  const distPath = path.join(process.cwd(), "dist");
+  const publicPath = path.join(process.cwd(), "public");
+
+  // Always serve static assets from dist/assets and public with correct MIME types
+  if (fs.existsSync(path.join(distPath, "assets"))) {
+    app.use(
+      "/assets",
+      express.static(path.join(distPath, "assets"), {
+        maxAge: "1y",
+        immutable: true,
+      })
+    );
+  }
+  if (fs.existsSync(publicPath)) {
+    app.use(express.static(publicPath));
+  }
+
   if (process.env.NODE_ENV !== "production") {
     // Development Mode
     const vite = await createViteServer({
@@ -60,7 +77,7 @@ async function startServer() {
           if (fs.existsSync(indexPath)) {
             let template = fs.readFileSync(indexPath, "utf-8");
             template = await vite.transformIndexHtml(url, template);
-            const finalHtml = injectSocialMeta(template);
+            const finalHtml = await injectSocialMeta(template, req);
             return res.status(200).set({ "Content-Type": "text/html" }).end(finalHtml);
           }
         } catch (e) {
@@ -91,13 +108,13 @@ async function startServer() {
         },
       })
     );
-    app.get("*", (req, res) => {
+    app.get("*", async (req, res) => {
       res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
       try {
         const indexHtmlPath = path.join(distPath, "index.html");
         if (fs.existsSync(indexHtmlPath)) {
           const rawHtml = fs.readFileSync(indexHtmlPath, "utf-8");
-          const finalHtml = injectSocialMeta(rawHtml);
+          const finalHtml = await injectSocialMeta(rawHtml, req);
           return res.status(200).set({ "Content-Type": "text/html" }).send(finalHtml);
         }
       } catch (err) {

@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "timestamp": 1790199678895,
-  "lastSyncIso": "2026-09-23T21:41:18.895Z",
+  "timestamp": 1790239205166,
+  "lastSyncIso": "2026-09-24T08:40:05.166Z",
   "source": "supabase_sync",
   "sections": [
     {
@@ -34,26 +34,26 @@
       "published_content": {
         "name": "Rashed<div><span style=\"color: rgb(212, 123, 255);\">Pervej</span></div>",
         "role": "Senior Visualizer",
-        "heroBio": "Senior Visualizer with <span style=\"color: rgb(193, 141, 236);\"><b>6+ years of premium experience.</b></span> Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.",
+        "heroBio": "<span style=\"font-size: 18px;\">Senior Visualizer with <b><span style=\"color: rgb(193, 141, 236);\">6<span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\">+</span></span></span></span><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"></span></span></span><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"> years of premium experience</span>. </span></b></span><span style=\"font-size: 18px;\">Specialize in high-impact brand identities, modern motion graphics,<span style=\"color: rgb(161, 161, 170);\"> <span style=\"color: rgb(23, 23, 23);\"><span style=\"color: rgb(161, 161, 170);\"><span style=\"color: rgb(255, 255, 255);\">and tactical food supplement packaging.</span></span></span></span><span style=\"color: rgb(23, 23, 23);\"></span></span>",
         "headline": "Brand Identity | Motion Graphics | Packaging",
         "availability": "Available for Remote & Hybrid",
         "portraitImage": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/zlw0sb7d6al-1790072232417.webp",
         "primaryCtaLink": "https://www.behance.net/rashedpervej",
         "primaryCtaText": "Explore My Work",
-        "experienceYears": "7+",
+        "experienceYears": "6+",
         "secondaryCtaLink": "https://wa.me/8801932623969",
         "secondaryCtaText": "Get In Touch"
       },
       "draft_content": {
         "name": "Rashed<div><span style=\"color: rgb(212, 123, 255);\">Pervej</span></div>",
         "role": "Senior Visualizer",
-        "heroBio": "Senior Visualizer with <span style=\"color: rgb(193, 141, 236);\"><b>6+ years of premium experience.</b></span> Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.",
+        "heroBio": "<span style=\"font-size: 18px;\">Senior Visualizer with <b><span style=\"color: rgb(193, 141, 236);\">6<span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\">+</span></span></span></span><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"></span></span></span><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"> years of premium experience</span>. </span></b></span><span style=\"font-size: 18px;\">Specialize in high-impact brand identities, modern motion graphics,<span style=\"color: rgb(161, 161, 170);\"> <span style=\"color: rgb(23, 23, 23);\"><span style=\"color: rgb(161, 161, 170);\"><span style=\"color: rgb(255, 255, 255);\">and tactical food supplement packaging.</span></span></span></span><span style=\"color: rgb(23, 23, 23);\"></span></span>",
         "headline": "Brand Identity | Motion Graphics | Packaging",
         "availability": "Available for Remote & Hybrid",
         "portraitImage": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/zlw0sb7d6al-1790072232417.webp",
         "primaryCtaLink": "https://www.behance.net/rashedpervej",
         "primaryCtaText": "Explore My Work",
-        "experienceYears": "7+",
+        "experienceYears": "6+",
         "secondaryCtaLink": "https://wa.me/8801932623969",
         "secondaryCtaText": "Get In Touch"
       },
@@ -1019,8 +1019,8 @@
     "seoKeywords": "portfolio, designer, visualizer, packaging, branding, motion graphics, bangladesh",
     "ogTitle": "Rashed Pervej | Senior Visualizer Portfolio",
     "ogDescription": "Award-winning portfolio of Rashed Pervej, Senior Visualizer & Graphic Designer specializing in brand identity, packaging, and motion graphics.",
-    "ogImage": "https://pervej.pro.bd/og-image.jpg",
-    "ogUrl": "https://pervej.pro.bd/",
+    "ogImage": "/src/assets/images/packeging-header.webp",
+    "ogUrl": "",
     "backgroundStyle": "liquid",
     "cvSource": "url",
     "cvUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/cv/Rashed%20Pervej_Resume_Jul26.pdf",
@@ -1047,6 +1047,7 @@
       "showFilterMarketing": true,
       "showProjectDuration": false,
       "showFilterInternational": true
-    }
+    },
+    "defaultTheme": "dark"
   }
 }
