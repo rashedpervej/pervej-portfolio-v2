@@ -102,7 +102,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className={`relative min-h-screen flex items-center justify-center pt-24 sm:pt-28 lg:pt-32 pb-8 sm:pb-10 lg:pb-12 overflow-hidden ${
+      className={`relative min-h-screen flex items-center justify-center pt-24 sm:pt-28 lg:pt-32 pb-14 sm:pb-16 lg:pb-28 overflow-hidden ${
         isLight ? "bg-transparent" : "bg-[#030303]"
       }`}
     >
@@ -276,10 +276,19 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Decorative Absolute Elements - Scroll Down Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 animate-bounce">
-        <span className="font-mono text-[9px] text-zinc-500 tracking-[0.2em] uppercase">Scroll Down</span>
-        <ChevronDown className="w-3.5 h-3.5 text-zinc-400" />
+      {/* Scroll Down Indicator */}
+      <div className="absolute bottom-2 sm:bottom-6 lg:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 animate-bounce">
+        <button
+          type="button"
+          onClick={() => navigateToSection("about")}
+          aria-label="Scroll down to About section"
+          className="flex flex-col items-center gap-1.5 cursor-pointer group focus:outline-hidden"
+        >
+          <span className="font-mono text-[9px] text-zinc-500 group-hover:text-purple-400 transition-colors tracking-[0.2em] uppercase">
+            Scroll Down
+          </span>
+          <ChevronDown className="w-3.5 h-3.5 text-zinc-400 group-hover:text-purple-400 transition-colors" />
+        </button>
       </div>
     </section>
   );
