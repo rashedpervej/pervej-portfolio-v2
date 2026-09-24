@@ -15,7 +15,7 @@ dotenv.config();
 
 // Initialize Express
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 // Trust reverse proxies (Cloud Run, Cloudflare, Nginx, load balancers)
 app.set("trust proxy", 1);
