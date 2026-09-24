@@ -114,7 +114,7 @@ export default function Hero() {
         isLight ? "bg-indigo-300/25" : "bg-indigo-950/15"
       }`} />
 
-      <div className="max-w-7xl mx-auto px-6 w-full relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div className="max-w-7xl mx-auto content-gutter w-full relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         {/* Left Column: Core Text */}
         <div className="lg:col-span-7 flex flex-col items-start text-left">
           {/* Tagline / Availability Indicator */}

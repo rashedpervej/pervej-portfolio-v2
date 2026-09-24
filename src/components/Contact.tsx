@@ -30,7 +30,7 @@ export default function Contact() {
         isLight ? "bg-purple-200/30" : "bg-purple-950/15"
       }`} />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto content-gutter relative z-10">
         {/* Section Title */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

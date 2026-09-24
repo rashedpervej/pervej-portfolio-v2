@@ -294,7 +294,7 @@ function MobileProjectsCarousel({
     : false;
 
   return (
-    <div ref={containerRef} className="block md:hidden -mx-6 w-[calc(100%+3rem)] overflow-hidden">
+    <div ref={containerRef} className="block md:hidden edge-to-edge-carousel-container overflow-hidden">
       <motion.div
         animate={
           isInView && !hasPlayedIntro && !prefersReducedMotion
@@ -308,7 +308,7 @@ function MobileProjectsCarousel({
         }}
         onAnimationComplete={() => setHasPlayedIntro(true)}
       >
-        <div ref={emblaRef} className="overflow-hidden cursor-grab active:cursor-grabbing touch-pan-y select-none -my-8 py-8 px-6">
+        <div ref={emblaRef} className="overflow-hidden cursor-grab active:cursor-grabbing touch-pan-y select-none -my-8 py-8 edge-to-edge-carousel-viewport">
           <div className="flex -ml-4">
             {filteredProjects.map((project) => (
               <div
@@ -401,7 +401,7 @@ export default function Projects() {
         isLight ? "bg-purple-200/25" : "bg-purple-950/5"
       }`} />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto content-gutter relative z-10">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -276,7 +276,7 @@ export default function Header() {
           isolation: 'isolate',
         }}
       >
-        <div className={`max-w-7xl mx-auto px-4 sm:px-6 transition-all duration-300 flex items-center justify-between ${
+        <div className={`max-w-7xl mx-auto content-gutter transition-all duration-300 flex items-center justify-between ${
           isScrolled ? "py-3.5" : "py-4.5"
         }`}>
           {/* Logo */}

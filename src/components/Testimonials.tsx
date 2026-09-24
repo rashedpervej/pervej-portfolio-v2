@@ -225,7 +225,7 @@ export default function Testimonials() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.6 }}
-        className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 text-center"
+        className="max-w-4xl mx-auto content-gutter relative z-10 text-center"
       >
         {/* Title */}
         <div className="flex flex-col items-center mb-6 sm:mb-8 lg:mb-10">

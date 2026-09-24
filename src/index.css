@@ -96,6 +96,64 @@ body {
   width: 100%;
 }
 
+/* Global Content Gutter: 20px on small screens (<380px), 24px on standard mobile & larger */
+.content-gutter {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+@media (min-width: 380px) {
+  .content-gutter {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+/* Edge-to-edge Logo Slider breaking out of mobile gutter into full viewport width */
+.edge-to-edge-slider {
+  margin-left: -20px;
+  margin-right: -20px;
+  width: calc(100% + 40px);
+}
+@media (min-width: 380px) {
+  .edge-to-edge-slider {
+    margin-left: -24px;
+    margin-right: -24px;
+    width: calc(100% + 48px);
+  }
+}
+@media (min-width: 640px) {
+  .edge-to-edge-slider {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+  }
+}
+
+/* Edge-to-edge Projects Carousel breaking out of mobile gutter into full viewport width */
+.edge-to-edge-carousel-container {
+  margin-left: -20px;
+  margin-right: -20px;
+  width: calc(100% + 40px);
+}
+@media (min-width: 380px) {
+  .edge-to-edge-carousel-container {
+    margin-left: -24px;
+    margin-right: -24px;
+    width: calc(100% + 48px);
+  }
+}
+
+.edge-to-edge-carousel-viewport {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+@media (min-width: 380px) {
+  .edge-to-edge-carousel-viewport {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
 /* Hero Bio Description High-Contrast Calibration */
 .hero-bio-text {
   line-height: 1.75;

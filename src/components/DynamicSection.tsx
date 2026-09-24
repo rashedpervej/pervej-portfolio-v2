@@ -93,7 +93,7 @@ export default function DynamicSection({ section, isPreview = false }: DynamicSe
         <div className="absolute inset-0 bg-gradient-to-b from-[#030303] via-purple-950/5 to-[#030303] pointer-events-none" />
       )}
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto content-gutter relative z-10">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -59,7 +59,7 @@ export default function Brands() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.6 }}
-        className="max-w-7xl mx-auto px-6 relative z-10"
+        className="max-w-7xl mx-auto content-gutter relative z-10"
       >
         <p className={`font-mono text-[10px] uppercase tracking-[0.25em] text-center mb-3 sm:mb-4 ${
           isLight ? "text-zinc-500 font-semibold" : "text-zinc-500"
@@ -68,7 +68,7 @@ export default function Brands() {
         </p>
 
         {/* Dynamic Horizontal Ticker Marquee - Edge-to-edge on mobile, contained on desktop */}
-        <div className="relative -mx-6 sm:mx-0 w-[calc(100%+3rem)] sm:w-full overflow-hidden py-2 sm:py-3">
+        <div className="relative edge-to-edge-slider overflow-hidden py-2 sm:py-3">
           {/* Marquee Track Container with two identical child tracks */}
           <div className="flex w-max items-center group/marquee">
             {/* Primary Track */}
