@@ -4,10 +4,10 @@ import { Palette, Box, Film, ShieldAlert } from "lucide-react";
 import { motion } from "motion/react";
 import FormattedText from "./FormattedText";
 import { Service } from "../data";
-import brandHeaderImage from "../assets/images/brand-header.webp";
-import packagingHeaderImage from "../assets/images/packeging-header.webp";
-import motionHeaderImage from "../assets/images/motion-header.webp";
-import mentorHeaderImage from "../assets/images/mentor-header.webp";
+const brandHeaderImage = "/brand-header.webp";
+const packagingHeaderImage = "/packeging-header.webp";
+const motionHeaderImage = "/motion-header.webp";
+const mentorHeaderImage = "/mentor-header.webp";
 
 const getFallbackImage = (title: string, index: number) => {
   const normalized = (title || "").toLowerCase();

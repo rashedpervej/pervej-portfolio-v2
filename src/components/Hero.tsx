@@ -4,7 +4,7 @@ import { ChevronDown, Zap, Paintbrush } from "lucide-react";
 import { usePortfolio } from "../context/PortfolioContext";
 import { navigateToSection } from "../utils/scroll";
 import FormattedText from "./FormattedText";
-import defaultHeaderImage from "../assets/images/Rashed Header Image.webp";
+const defaultHeaderImage = "/Rashed Header Image.webp";
 
 // Simple custom hook to handle counter animations
 function AnimatedCounter({ value, duration = 2 }: { value: string; duration?: number }) {

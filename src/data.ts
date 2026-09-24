@@ -1,8 +1,8 @@
-import defaultHeaderImage from "./assets/images/Rashed Header Image.webp";
-import brandHeaderImage from "./assets/images/brand-header.webp";
-import packagingHeaderImage from "./assets/images/packeging-header.webp";
-import motionHeaderImage from "./assets/images/motion-header.webp";
-import mentorHeaderImage from "./assets/images/mentor-header.webp";
+const defaultHeaderImage = "/Rashed Header Image.webp";
+const brandHeaderImage = "/brand-header.webp";
+const packagingHeaderImage = "/packeging-header.webp";
+const motionHeaderImage = "/motion-header.webp";
+const mentorHeaderImage = "/mentor-header.webp";
 import { DEFAULT_BRAND_SVGS } from "./utils/brandLogos";
 
 export interface Project {
