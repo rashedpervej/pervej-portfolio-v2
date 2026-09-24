@@ -235,7 +235,7 @@ export default function AdminFaqEditor({ isDemo = false }: AdminFaqEditorProps) 
       )}
 
       {/* Filter / Search Bar */}
-      <div className="bg-[#121214] border border-zinc-800 rounded-2xl p-4 flex flex-col md:flex-row gap-4 items-center">
+      <div className="bg-[#111218] border border-zinc-800/90 rounded-2xl p-3.5 sm:p-4 flex flex-col md:flex-row gap-3 sm:gap-4 items-center shadow-xs">
         <div className="relative w-full md:flex-1">
           <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-zinc-500">
             <Search className="w-4 h-4" />
@@ -244,7 +244,7 @@ export default function AdminFaqEditor({ isDemo = false }: AdminFaqEditorProps) 
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-[#18181b] border border-zinc-800 focus:border-purple-500/50 rounded-xl text-zinc-300 text-xs outline-none transition-all"
+            className="w-full pl-9 pr-4 py-2 bg-[#16171f] border border-zinc-800 focus:border-purple-500/50 rounded-xl text-zinc-200 text-xs outline-none transition-all placeholder:text-zinc-500"
             placeholder="Search questions, keywords, or answers..."
           />
         </div>
@@ -253,7 +253,7 @@ export default function AdminFaqEditor({ isDemo = false }: AdminFaqEditorProps) 
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="px-3.5 py-2 bg-[#18181b] border border-zinc-800 focus:border-purple-500/50 text-zinc-300 text-xs rounded-xl outline-none"
+            className="w-full md:w-auto px-3.5 py-2 bg-[#16171f] border border-zinc-800 focus:border-purple-500/50 text-zinc-200 text-xs rounded-xl outline-none cursor-pointer"
           >
             <option value="all">All Categories</option>
             <option value="general">General</option>
@@ -272,28 +272,28 @@ export default function AdminFaqEditor({ isDemo = false }: AdminFaqEditorProps) 
           <div className="w-8 h-8 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin" />
         </div>
       ) : filteredFaqs.length === 0 ? (
-        <div className="bg-[#121214] border border-zinc-800/80 rounded-2xl p-12 text-center">
+        <div className="bg-[#111218] border border-zinc-800/80 rounded-2xl p-8 sm:p-12 text-center shadow-xs">
           <HelpCircle className="w-10 h-10 text-zinc-600 mx-auto mb-3" />
-          <p className="text-zinc-400 font-medium text-sm">No Knowledge entries found</p>
-          <p className="text-xs text-zinc-500 mt-1">Try widening your search tags or create a new prompt entry.</p>
+          <p className="text-zinc-300 font-medium text-sm">No Knowledge entries found</p>
+          <p className="text-xs text-zinc-400 mt-1">Try widening your search tags or create a new prompt entry.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-4" id="faq-list">
+        <div className="grid grid-cols-1 gap-3.5 sm:gap-4" id="faq-list">
           {filteredFaqs.map((faq) => (
             <div
               key={faq.id}
-              className="bg-[#121214] border border-zinc-800 hover:border-zinc-700/80 rounded-2xl p-6 transition-all duration-200 group relative"
+              className="bg-[#111218] border border-zinc-800/90 hover:border-zinc-700/80 rounded-2xl p-4 sm:p-6 transition-all duration-200 group relative shadow-xs"
             >
-              <div className="flex justify-between items-start gap-4">
-                <div className="space-y-2 flex-1">
+              <div className="flex justify-between items-start gap-3 sm:gap-4">
+                <div className="space-y-2 flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="px-2.5 py-0.5 bg-purple-950/50 border border-purple-500/20 text-purple-400 text-[10px] font-mono uppercase tracking-wider rounded-full">
+                    <span className="px-2.5 py-0.5 bg-purple-950/50 border border-purple-500/20 text-purple-300 text-[10px] font-mono uppercase tracking-wider rounded-full">
                       {faq.category}
                     </span>
                     <span
                       className={`px-2.5 py-0.5 text-[10px] font-mono uppercase tracking-wider rounded-full border ${
                         faq.status === "published"
-                          ? "bg-emerald-950/40 border-emerald-500/20 text-emerald-400"
+                          ? "bg-emerald-950/40 border-emerald-500/20 text-emerald-300"
                           : "bg-zinc-800/60 border-zinc-700 text-zinc-400"
                       }`}
                     >
@@ -304,15 +304,15 @@ export default function AdminFaqEditor({ isDemo = false }: AdminFaqEditorProps) 
                   <h3 className="text-sm font-semibold text-white font-sans leading-snug">
                     {faq.question}
                   </h3>
-                  <p className="text-xs text-zinc-400 leading-relaxed max-w-4xl whitespace-pre-line">
+                  <p className="text-xs text-zinc-300 leading-relaxed max-w-4xl whitespace-pre-line">
                     {faq.answer}
                   </p>
 
                   {faq.keywords.length > 0 && (
-                    <div className="flex flex-wrap items-center gap-1.5 pt-3">
+                    <div className="flex flex-wrap items-center gap-1.5 pt-2">
                       <Sparkles className="w-3 h-3 text-purple-400 shrink-0" />
                       {faq.keywords.map((kw, i) => (
-                        <span key={i} className="text-[10px] text-zinc-500 bg-zinc-800/40 px-2 py-0.5 rounded">
+                        <span key={i} className="text-[10px] font-mono text-zinc-300 bg-zinc-800/60 border border-zinc-700/40 px-2 py-0.5 rounded-md">
                           #{kw}
                         </span>
                       ))}
@@ -320,10 +320,10 @@ export default function AdminFaqEditor({ isDemo = false }: AdminFaqEditorProps) 
                   )}
                 </div>
 
-                <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shrink-0">
+                <div className="flex gap-1.5 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200 shrink-0">
                   <button
                     onClick={() => handleOpenForm(faq)}
-                    className="p-1.5 hover:bg-zinc-800 text-zinc-400 hover:text-white rounded-lg transition-colors"
+                    className="w-8 h-8 flex items-center justify-center bg-zinc-800/60 hover:bg-zinc-700 text-zinc-300 hover:text-white rounded-lg transition-colors cursor-pointer"
                     title="Edit entry"
                   >
                     <Edit className="w-4 h-4" />
@@ -331,7 +331,7 @@ export default function AdminFaqEditor({ isDemo = false }: AdminFaqEditorProps) 
                   <button
                     type="button"
                     onClick={() => faq.id && setDeleteConfirmFaqId(faq.id)}
-                    className="p-1.5 hover:bg-red-950/40 text-zinc-400 hover:text-red-400 rounded-lg transition-colors"
+                    className="w-8 h-8 flex items-center justify-center bg-zinc-800/60 hover:bg-red-950/40 text-zinc-300 hover:text-red-400 rounded-lg transition-colors cursor-pointer"
                     title="Delete entry"
                   >
                     <Trash className="w-4 h-4" />

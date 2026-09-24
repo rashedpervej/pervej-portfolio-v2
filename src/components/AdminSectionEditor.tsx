@@ -1962,12 +1962,12 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
   };
 
   return (
-    <div className="space-y-6 animate-fade-in" id="section-editor-panel">
+    <div className="space-y-5 sm:space-y-6 animate-fade-in" id="section-editor-panel">
       {/* Panel Action Header */}
-      <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 bg-[#121214] border border-zinc-800 rounded-2xl p-6 shadow-xl">
-        <div className="space-y-1">
-          <div className="flex items-center gap-3">
-            <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+      <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 bg-[#111218] border border-zinc-800/90 rounded-2xl p-4 sm:p-6 shadow-xs">
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <h2 className="text-lg sm:text-xl font-bold text-white tracking-tight flex items-center gap-2">
               {sectionRecord?.name || (sectionKey === "educationCertifications" || sectionKey === "education_certifications" ? "Education & Certifications" : sectionKey.charAt(0).toUpperCase() + sectionKey.slice(1))} Section
             </h2>
             <button
@@ -1976,10 +1976,10 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
                 setIsVisible(nextState);
                 await saveToDatabase(draftContent, nextState, nextState ? "Section is now visible to visitors!" : "Section is now hidden from visitors!");
               }}
-              className={`px-2.5 py-1 rounded-lg border text-xs font-medium transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
+              className={`px-2.5 py-1 rounded-lg border text-xs font-semibold transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
                 isVisible
                   ? "bg-purple-950/50 border-purple-500/30 text-purple-300 hover:bg-purple-900/60"
-                  : "bg-zinc-800/60 border-zinc-700 text-zinc-400 hover:bg-zinc-800"
+                  : "bg-zinc-900 border-zinc-800 text-zinc-400 hover:bg-zinc-800"
               }`}
               title={isVisible ? "Section is currently visible on live site" : "Section is hidden from live site"}
             >
@@ -1989,7 +1989,7 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
           </div>
 
           <div className="flex items-center gap-3 text-xs text-zinc-400 flex-wrap pt-0.5">
-            <div className="flex items-center gap-1.5 text-zinc-400 font-mono">
+            <div className="flex items-center gap-1.5 text-zinc-400 font-mono text-[11px]">
               <Clock className="w-3.5 h-3.5 text-purple-400 shrink-0" />
               <span>Last published:</span>
               <span className="text-zinc-200 font-medium">{formatLastPublished(lastPublishedAt)}</span>
@@ -1998,16 +1998,16 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-3 shrink-0 flex-wrap sm:flex-nowrap">
+        <div className="flex items-center gap-2.5 shrink-0 flex-wrap sm:flex-nowrap pt-2 sm:pt-0 border-t border-zinc-800/60 sm:border-0">
           {/* Save Draft Button */}
           <button
             type="button"
             onClick={() => saveToDatabase(draftContent, isVisible)}
             disabled={isSavingDraft || isPublishing || isLoading}
-            className={`px-4 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center gap-2 border active:scale-95 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none select-none ${
+            className={`flex-1 sm:flex-initial justify-center px-4 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center gap-2 border active:scale-95 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none select-none ${
               draftSuccess
-                ? "bg-emerald-950/60 border-emerald-500/50 text-emerald-300 shadow-md shadow-emerald-950/30"
-                : "bg-zinc-800/90 hover:bg-zinc-700/90 border-zinc-700/80 hover:border-zinc-600 text-zinc-200 shadow-sm"
+                ? "bg-emerald-950/60 border-emerald-500/50 text-emerald-300 shadow-xs"
+                : "bg-zinc-800/90 hover:bg-zinc-700/90 border-zinc-700/80 hover:border-zinc-600 text-zinc-200 shadow-xs"
             }`}
           >
             {isSavingDraft ? (
@@ -2023,7 +2023,7 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
             ) : (
               <>
                 <Save className="w-3.5 h-3.5 text-zinc-400" />
-                <span>Save Draft Workspace</span>
+                <span>Save Draft</span>
               </>
             )}
           </button>
@@ -2033,12 +2033,12 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
             type="button"
             onClick={handlePublish}
             disabled={isPublishing || isSavingDraft || isLoading}
-            className={`relative px-5 py-2.5 rounded-xl text-xs font-bold text-white transition-all duration-200 flex items-center gap-2 shadow-lg active:scale-95 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none select-none ${
+            className={`flex-1 sm:flex-initial justify-center relative px-5 py-2.5 rounded-xl text-xs font-bold text-white transition-all duration-200 flex items-center gap-2 shadow-xs active:scale-95 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none select-none ${
               publishSuccess
                 ? "bg-emerald-600 hover:bg-emerald-500 shadow-emerald-600/30 ring-2 ring-emerald-400/40"
                 : isPublishing
                 ? "bg-purple-700 shadow-purple-600/20"
-                : "bg-purple-600 hover:bg-purple-500 shadow-purple-600/30 hover:shadow-purple-500/50 hover:-translate-y-0.5"
+                : "bg-purple-600 hover:bg-purple-500 shadow-purple-600/30 hover:shadow-purple-500/50"
             }`}
           >
             {isPublishing ? (
@@ -2095,7 +2095,7 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
       )}
 
       {/* Editor Body */}
-      <div className="bg-[#121214] border border-zinc-800 rounded-2xl p-6">
+      <div className="bg-[#111218] border border-zinc-800/90 rounded-2xl p-4 sm:p-6 shadow-xs">
         {sectionKey === "skills" ? (
           <form onSubmit={async (e) => { e.preventDefault(); await saveToDatabase(draftContent, isVisible, "Skills saved successfully!"); }} className="space-y-6">
             {renderSkillsEditor()}

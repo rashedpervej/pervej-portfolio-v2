@@ -71,9 +71,36 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
     downloads: 0,
     leads: 0,
   });
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.innerWidth >= 1024;
+    }
+    return false;
+  });
   const [notification, setNotification] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [isActionLoading, setIsActionLoading] = useState(false);
+
+  const handleSelectTab = (tab: string) => {
+    setActiveTab(tab);
+    if (typeof window !== "undefined" && window.innerWidth < 1024) {
+      setIsSidebarOpen(false);
+    }
+  };
+
+  const getTabTitle = (tab: string) => {
+    switch (tab) {
+      case "overview": return "Overview";
+      case "leads": return "Leads";
+      case "sections_order": return "Sections";
+      case "faqs": return "Knowledge Base";
+      case "ai_analytics": return "AI Analytics";
+      case "social_share": return "Social & SEO";
+      case "settings": return "Settings";
+      case "educationCertifications": return "Education & Certs";
+      default:
+        return tab.charAt(0).toUpperCase() + tab.slice(1);
+    }
+  };
 
   const fetchAnalyticsAndChats = async (showLoading = true) => {
     if (showLoading) setIsLoadingChats(true);
@@ -556,114 +583,122 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
   ];
 
   return (
-    <div className="h-screen w-full bg-[#070708]/90 text-zinc-100 flex overflow-hidden relative z-10 font-sans backdrop-blur-xl">
+    <div className="h-screen w-full bg-[#08090d] text-zinc-100 flex overflow-hidden relative z-10 font-sans">
       
       {/* Mobile backdrop overlay */}
-      {isSidebarOpen && (
-        <div
-          onClick={() => setIsSidebarOpen(false)}
-          className="fixed inset-0 bg-black/60 backdrop-blur-xs z-30 lg:hidden"
-        />
-      )}
+      <div
+        onClick={() => setIsSidebarOpen(false)}
+        className={`fixed inset-0 bg-black/70 z-40 lg:hidden transition-opacity duration-300 ${
+          isSidebarOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        aria-hidden={!isSidebarOpen}
+      />
 
       {/* Sidebar navigation */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 h-full bg-[#0c0c0e] border-r border-zinc-800/80 p-5 transform transition-transform duration-300 flex flex-col justify-between overflow-y-auto overscroll-contain custom-scrollbar ${
+        className={`fixed inset-y-0 left-0 z-50 w-72 max-w-[82vw] h-full bg-[#0d0e13] border-r border-zinc-800/90 transform transition-transform duration-300 ease-in-out flex flex-col justify-between overflow-hidden shadow-2xl ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 lg:static lg:shrink-0 lg:h-full`}
+        } lg:translate-x-0 lg:static lg:shrink-0 lg:w-64 xl:w-72 lg:h-full lg:shadow-none`}
       >
         <div className="flex flex-col h-full min-h-0">
           {/* Logo / Branding */}
-          <div className="flex justify-between items-center pb-3 shrink-0">
+          <div className="flex justify-between items-center px-4 py-3.5 sm:px-5 sm:py-4 border-b border-zinc-800/80 shrink-0 bg-[#0d0e13]">
             <div>
               <h1 className="text-sm font-bold tracking-tight text-white flex items-center gap-2">
-                <div className="w-2.5 h-2.5 bg-purple-500 rounded-full animate-pulse" />
+                <div className="w-2.5 h-2.5 bg-purple-500 rounded-full animate-pulse shadow-xs shadow-purple-500/50" />
                 CMS Controller
               </h1>
-              <p className="text-[10px] font-mono text-zinc-500 uppercase mt-0.5">
-                Role: {user.role}
+              <p className="text-[10px] font-mono text-zinc-400 uppercase mt-0.5">
+                Role: <span className="text-purple-300 font-semibold">{user.role}</span>
               </p>
             </div>
-            <button className="lg:hidden text-zinc-400 hover:text-white transition-colors" onClick={() => setIsSidebarOpen(false)}>
-              <X className="w-5 h-5" />
+            <button
+              className="lg:hidden w-8 h-8 flex items-center justify-center rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+              onClick={() => setIsSidebarOpen(false)}
+              aria-label="Close sidebar"
+            >
+              <X className="w-4 h-4" />
             </button>
           </div>
 
           {/* Quick Preview Sandbox Switch */}
-          <div className="bg-[#121214] border border-zinc-800 p-3.5 rounded-xl space-y-2 shrink-0 mb-3">
-            <div className="flex justify-between items-center">
-              <span className="text-[11px] font-medium text-zinc-400 uppercase tracking-wider">Preview Sandbox</span>
-              <button
-                onClick={() => setIsPreviewMode(!isPreviewMode)}
-                className={`w-9 h-5 flex items-center rounded-full p-0.5 transition-colors outline-none ${
-                  isPreviewMode ? "bg-purple-600 justify-end" : "bg-zinc-800 justify-start"
-                }`}
-              >
-                <div className="w-4 h-4 bg-white rounded-full shadow-md" />
-              </button>
+          <div className="p-3 sm:p-4 shrink-0">
+            <div className="bg-[#13141b] border border-zinc-800/90 p-3 rounded-xl space-y-1.5 shadow-xs">
+              <div className="flex justify-between items-center">
+                <span className="text-[11px] font-medium text-zinc-300 uppercase tracking-wider font-mono">Preview Drafts</span>
+                <button
+                  onClick={() => setIsPreviewMode(!isPreviewMode)}
+                  className={`w-9 h-5 flex items-center rounded-full p-0.5 transition-colors outline-none cursor-pointer ${
+                    isPreviewMode ? "bg-purple-600 justify-end" : "bg-zinc-700 justify-start"
+                  }`}
+                  aria-label="Toggle preview mode"
+                >
+                  <div className="w-4 h-4 bg-white rounded-full shadow-xs" />
+                </button>
+              </div>
+              <p className="text-[10px] text-zinc-400 leading-snug">
+                When active, your landing page displays saved drafts instead of published content.
+              </p>
             </div>
-            <p className="text-[10px] text-zinc-500 leading-snug">
-              When active, your landing page displays saved drafts instead of published content.
-            </p>
           </div>
 
           {/* Central Menu - Independently Scrollable */}
-          <nav className="flex-1 overflow-y-auto overscroll-contain custom-scrollbar space-y-1 my-1 pr-1">
+          <nav className="flex-1 overflow-y-auto overscroll-contain custom-scrollbar px-3 space-y-1 my-1">
             <button
-              onClick={() => setActiveTab("overview")}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+              onClick={() => handleSelectTab("overview")}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all group cursor-pointer ${
                 activeTab === "overview"
-                  ? "bg-[#16161a] text-purple-400 border-l-2 border-purple-500 pl-3"
-                  : "text-zinc-400 hover:bg-zinc-900/60 hover:text-zinc-200"
+                  ? "bg-purple-950/50 text-purple-200 font-semibold border-l-2 border-purple-400 pl-2.5 shadow-xs"
+                  : "text-zinc-300 hover:bg-zinc-800/50 hover:text-white"
               }`}
             >
               <span className="flex items-center gap-2.5">
-                <LayoutDashboard className="w-4 h-4" />
+                <LayoutDashboard className={`w-4 h-4 ${activeTab === "overview" ? "text-purple-300" : "text-zinc-400 group-hover:text-zinc-200"}`} />
                 Control Overview
               </span>
-              <ChevronRight className="w-3.5 h-3.5 opacity-40" />
+              <ChevronRight className={`w-3.5 h-3.5 transition-transform ${activeTab === "overview" ? "text-purple-400 translate-x-0.5" : "text-zinc-500 opacity-40 group-hover:opacity-80"}`} />
             </button>
 
             <button
-              onClick={() => setActiveTab("leads")}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+              onClick={() => handleSelectTab("leads")}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all group cursor-pointer ${
                 activeTab === "leads"
-                  ? "bg-[#16161a] text-purple-400 border-l-2 border-purple-500 pl-3"
-                  : "text-zinc-400 hover:bg-zinc-900/60 hover:text-zinc-200"
+                  ? "bg-purple-950/50 text-purple-200 font-semibold border-l-2 border-purple-400 pl-2.5 shadow-xs"
+                  : "text-zinc-300 hover:bg-zinc-800/50 hover:text-white"
               }`}
             >
               <span className="flex items-center gap-2.5">
-                <Inbox className="w-4 h-4" />
+                <Inbox className={`w-4 h-4 ${activeTab === "leads" ? "text-purple-300" : "text-zinc-400 group-hover:text-zinc-200"}`} />
                 Leads
               </span>
               <div className="flex items-center gap-1.5">
                 {leads.filter((l) => l.status === "new").length > 0 && (
-                  <span className="bg-purple-600 text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold animate-pulse">
+                  <span className="bg-purple-600 text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold">
                     {leads.filter((l) => l.status === "new").length}
                   </span>
                 )}
-                <ChevronRight className="w-3.5 h-3.5 opacity-40" />
+                <ChevronRight className={`w-3.5 h-3.5 transition-transform ${activeTab === "leads" ? "text-purple-400 translate-x-0.5" : "text-zinc-500 opacity-40 group-hover:opacity-80"}`} />
               </div>
             </button>
 
             <button
-              onClick={() => setActiveTab("sections_order")}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+              onClick={() => handleSelectTab("sections_order")}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all group cursor-pointer ${
                 activeTab === "sections_order"
-                  ? "bg-[#16161a] text-purple-400 border-l-2 border-purple-500 pl-3"
-                  : "text-zinc-400 hover:bg-zinc-900/60 hover:text-zinc-200"
+                  ? "bg-purple-950/50 text-purple-200 font-semibold border-l-2 border-purple-400 pl-2.5 shadow-xs"
+                  : "text-zinc-300 hover:bg-zinc-800/50 hover:text-white"
               }`}
             >
               <span className="flex items-center gap-2.5">
-                <Layers className="w-4 h-4" />
+                <Layers className={`w-4 h-4 ${activeTab === "sections_order" ? "text-purple-300" : "text-zinc-400 group-hover:text-zinc-200"}`} />
                 Sections Manager
               </span>
-              <ChevronRight className="w-3.5 h-3.5 opacity-40" />
+              <ChevronRight className={`w-3.5 h-3.5 transition-transform ${activeTab === "sections_order" ? "text-purple-400 translate-x-0.5" : "text-zinc-500 opacity-40 group-hover:opacity-80"}`} />
             </button>
 
             {/* Static Section Links */}
             <div className="pt-3 pb-1">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest px-3.5">Edit Page Sections</span>
+              <span className="text-[10px] font-mono text-zinc-400 font-semibold uppercase tracking-widest px-3">Edit Page Sections</span>
             </div>
 
             {[
@@ -680,100 +715,100 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
             ].map((item) => (
               <button
                 key={item.key}
-                onClick={() => setActiveTab(item.key)}
-                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+                onClick={() => handleSelectTab(item.key)}
+                className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all group cursor-pointer ${
                   activeTab === item.key
-                    ? "bg-[#16161a] text-purple-400 border-l-2 border-purple-500 pl-3"
-                    : "text-zinc-400 hover:bg-zinc-900/60 hover:text-zinc-200"
+                    ? "bg-purple-950/50 text-purple-200 font-semibold border-l-2 border-purple-400 pl-2.5 shadow-xs"
+                    : "text-zinc-300 hover:bg-zinc-800/50 hover:text-white"
                 }`}
               >
                 <span className="flex items-center gap-2.5">
-                  <span className="w-1.5 h-1.5 bg-zinc-600 rounded-full" />
+                  <span className={`w-1.5 h-1.5 rounded-full ${activeTab === item.key ? "bg-purple-400" : "bg-zinc-500 group-hover:bg-zinc-300"}`} />
                   {item.label}
                 </span>
-                <ChevronRight className="w-3.5 h-3.5 opacity-40" />
+                <ChevronRight className={`w-3.5 h-3.5 transition-transform ${activeTab === item.key ? "text-purple-400 translate-x-0.5" : "text-zinc-500 opacity-40 group-hover:opacity-80"}`} />
               </button>
             ))}
 
             <div className="pt-3 pb-1">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest px-3.5">Setup & AI</span>
+              <span className="text-[10px] font-mono text-zinc-400 font-semibold uppercase tracking-widest px-3">Setup & AI</span>
             </div>
 
             <button
-              onClick={() => setActiveTab("faqs")}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+              onClick={() => handleSelectTab("faqs")}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all group cursor-pointer ${
                 activeTab === "faqs"
-                  ? "bg-[#16161a] text-purple-400 border-l-2 border-purple-500 pl-3"
-                  : "text-zinc-400 hover:bg-zinc-900/60 hover:text-zinc-200"
+                  ? "bg-purple-950/50 text-purple-200 font-semibold border-l-2 border-purple-400 pl-2.5 shadow-xs"
+                  : "text-zinc-300 hover:bg-zinc-800/50 hover:text-white"
               }`}
             >
               <span className="flex items-center gap-2.5">
-                <HelpCircle className="w-4 h-4" />
+                <HelpCircle className={`w-4 h-4 ${activeTab === "faqs" ? "text-purple-300" : "text-zinc-400 group-hover:text-zinc-200"}`} />
                 AI Knowledge Base
               </span>
-              <ChevronRight className="w-3.5 h-3.5 opacity-40" />
+              <ChevronRight className={`w-3.5 h-3.5 transition-transform ${activeTab === "faqs" ? "text-purple-400 translate-x-0.5" : "text-zinc-500 opacity-40 group-hover:opacity-80"}`} />
             </button>
 
             <button
-              onClick={() => setActiveTab("ai_analytics")}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+              onClick={() => handleSelectTab("ai_analytics")}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all group cursor-pointer ${
                 activeTab === "ai_analytics"
-                  ? "bg-[#16161a] text-purple-400 border-l-2 border-purple-500 pl-3"
-                  : "text-zinc-400 hover:bg-zinc-900/60 hover:text-zinc-200"
+                  ? "bg-purple-950/50 text-purple-200 font-semibold border-l-2 border-purple-400 pl-2.5 shadow-xs"
+                  : "text-zinc-300 hover:bg-zinc-800/50 hover:text-white"
               }`}
             >
               <span className="flex items-center gap-2.5">
-                <Activity className="w-4 h-4" />
+                <Activity className={`w-4 h-4 ${activeTab === "ai_analytics" ? "text-purple-300" : "text-zinc-400 group-hover:text-zinc-200"}`} />
                 AI Analytics
               </span>
-              <ChevronRight className="w-3.5 h-3.5 opacity-40" />
+              <ChevronRight className={`w-3.5 h-3.5 transition-transform ${activeTab === "ai_analytics" ? "text-purple-400 translate-x-0.5" : "text-zinc-500 opacity-40 group-hover:opacity-80"}`} />
             </button>
 
             <button
-              onClick={() => setActiveTab("social_share")}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+              onClick={() => handleSelectTab("social_share")}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all group cursor-pointer ${
                 activeTab === "social_share"
-                  ? "bg-[#16161a] text-purple-400 border-l-2 border-purple-500 pl-3"
-                  : "text-zinc-400 hover:bg-zinc-900/60 hover:text-zinc-200"
+                  ? "bg-purple-950/50 text-purple-200 font-semibold border-l-2 border-purple-400 pl-2.5 shadow-xs"
+                  : "text-zinc-300 hover:bg-zinc-800/50 hover:text-white"
               }`}
             >
               <span className="flex items-center gap-2.5">
-                <Share2 className="w-4 h-4" />
+                <Share2 className={`w-4 h-4 ${activeTab === "social_share" ? "text-purple-300" : "text-zinc-400 group-hover:text-zinc-200"}`} />
                 Social Share / SEO
               </span>
-              <ChevronRight className="w-3.5 h-3.5 opacity-40" />
+              <ChevronRight className={`w-3.5 h-3.5 transition-transform ${activeTab === "social_share" ? "text-purple-400 translate-x-0.5" : "text-zinc-500 opacity-40 group-hover:opacity-80"}`} />
             </button>
 
             <button
-              onClick={() => setActiveTab("settings")}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+              onClick={() => handleSelectTab("settings")}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all group cursor-pointer ${
                 activeTab === "settings"
-                  ? "bg-[#16161a] text-purple-400 border-l-2 border-purple-500 pl-3"
-                  : "text-zinc-400 hover:bg-zinc-900/60 hover:text-zinc-200"
+                  ? "bg-purple-950/50 text-purple-200 font-semibold border-l-2 border-purple-400 pl-2.5 shadow-xs"
+                  : "text-zinc-300 hover:bg-zinc-800/50 hover:text-white"
               }`}
             >
               <span className="flex items-center gap-2.5">
-                <Settings className="w-4 h-4" />
+                <Settings className={`w-4 h-4 ${activeTab === "settings" ? "text-purple-300" : "text-zinc-400 group-hover:text-zinc-200"}`} />
                 Settings & Backup
               </span>
-              <ChevronRight className="w-3.5 h-3.5 opacity-40" />
+              <ChevronRight className={`w-3.5 h-3.5 transition-transform ${activeTab === "settings" ? "text-purple-400 translate-x-0.5" : "text-zinc-500 opacity-40 group-hover:opacity-80"}`} />
             </button>
           </nav>
 
           {/* User Info & Signout - Pinned to bottom */}
-          <div className="pt-4 mt-auto border-t border-zinc-800/60 shrink-0">
-            <div className="flex items-center gap-3 mb-3 px-2 truncate">
-              <div className="w-8 h-8 rounded-full bg-purple-950 border border-purple-500/30 flex items-center justify-center text-xs font-semibold text-purple-300">
+          <div className="p-4 border-t border-zinc-800/80 shrink-0 bg-[#0d0e13] mt-auto">
+            <div className="flex items-center gap-3 mb-3 px-1 truncate">
+              <div className="w-8 h-8 rounded-full bg-purple-900/60 border border-purple-500/40 flex items-center justify-center text-xs font-bold text-purple-200 shrink-0">
                 RP
               </div>
-              <div className="truncate">
-                <p className="text-xs font-semibold text-white truncate">{user.email}</p>
-                <p className="text-[10px] text-zinc-500 truncate">live db session</p>
+              <div className="truncate min-w-0">
+                <p className="text-xs font-semibold text-zinc-200 truncate">{user.email}</p>
+                <p className="text-[10px] text-zinc-400 font-mono truncate">Live session</p>
               </div>
             </div>
             <button
               onClick={onLogout}
-              className="w-full py-2.5 px-3 bg-[#18181b] hover:bg-red-950/20 text-zinc-400 hover:text-red-400 text-xs font-medium rounded-xl border border-zinc-800 hover:border-red-900/30 transition-all flex items-center justify-center gap-2"
+              className="w-full py-2.5 px-3 bg-[#15161d] hover:bg-red-950/30 text-zinc-300 hover:text-red-300 text-xs font-medium rounded-xl border border-zinc-800 hover:border-red-900/40 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs"
             >
               <LogOut className="w-4 h-4" />
               Close Session
@@ -786,18 +821,24 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
       <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
         
         {/* Upper Top Navbar */}
-        <header className="px-6 py-4 bg-[#0c0c0e] border-b border-zinc-800/80 flex items-center justify-between shrink-0 z-20">
-          <div className="flex items-center gap-3">
-            <button className="lg:hidden text-zinc-400 hover:text-white transition-colors" onClick={() => setIsSidebarOpen(true)}>
+        <header className="px-3.5 py-2.5 sm:px-6 sm:py-3 bg-[#0d0e13] border-b border-zinc-800/90 flex items-center justify-between shrink-0 z-20 min-h-[52px]">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <button
+              className="lg:hidden w-9 h-9 flex items-center justify-center rounded-lg text-zinc-300 hover:text-white hover:bg-zinc-800/80 transition-colors shrink-0 cursor-pointer"
+              onClick={() => setIsSidebarOpen(true)}
+              aria-label="Open menu"
+            >
               <Menu className="w-5 h-5" />
             </button>
-            <span className="text-xs text-zinc-500 font-mono flex items-center gap-1">
-              <Terminal className="w-3.5 h-3.5 text-purple-400" />
-              ROOT ~/ RASHED-PORTFOLIO-CMS
-            </span>
+            <div className="flex items-center gap-1.5 min-w-0 font-mono text-xs truncate">
+              <Terminal className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+              <span className="hidden sm:inline text-zinc-400 font-mono">ROOT ~/ RASHED-CMS /</span>
+              <span className="sm:hidden text-zinc-400 font-mono">CMS /</span>
+              <span className="text-white font-semibold truncate capitalize">{getTabTitle(activeTab)}</span>
+            </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 shrink-0">
             <a
               href="/"
               onClick={(e) => {
@@ -807,27 +848,30 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
                   window.dispatchEvent(new Event("popstate"));
                 }
               }}
-              className="inline-flex items-center gap-1 px-3.5 py-1.5 bg-[#121214] hover:bg-zinc-900 border border-zinc-800 text-xs font-semibold text-zinc-300 rounded-lg transition-all"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-1.5 bg-[#14151c] hover:bg-zinc-800 border border-zinc-700/80 hover:border-zinc-600 text-xs font-semibold text-zinc-200 hover:text-white rounded-lg transition-all shadow-xs shrink-0"
               id="return-to-site-btn"
             >
-              <Monitor className="w-3.5 h-3.5 text-purple-400" />
-              <span>Return to Site</span>
+              <Monitor className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+              <span className="hidden sm:inline">Return to Site</span>
+              <span className="sm:hidden">Site</span>
             </a>
           </div>
         </header>
 
         {/* Dynamic sub-view controller router */}
-        <main className="p-6 md:p-8 flex-1 overflow-y-auto overscroll-contain custom-scrollbar">
-          {activeTab === "overview" && renderOverviewDashboard()}
-          {activeTab === "sections_order" && renderSectionsOrderManager()}
-          {activeTab === "faqs" && <AdminFaqEditor isDemo={false} />}
-          {activeTab === "settings" && <AdminSettingsEditor isDemo={false} />}
-          {activeTab === "social_share" && <AdminSocialShareEditor isDemo={false} />}
-          {activeTab === "ai_analytics" && renderAIAnalyticsDashboard()}
-          {activeTab === "leads" && renderLeadsManager()}
-          {!["overview", "sections_order", "faqs", "settings", "social_share", "ai_analytics", "leads"].includes(activeTab) && (
-            <AdminSectionEditor sectionKey={activeTab} isDemo={false} />
-          )}
+        <main className="p-4 sm:p-6 lg:p-7 flex-1 overflow-y-auto overscroll-contain custom-scrollbar">
+          <div className="max-w-7xl mx-auto w-full">
+            {activeTab === "overview" && renderOverviewDashboard()}
+            {activeTab === "sections_order" && renderSectionsOrderManager()}
+            {activeTab === "faqs" && <AdminFaqEditor isDemo={false} />}
+            {activeTab === "settings" && <AdminSettingsEditor isDemo={false} />}
+            {activeTab === "social_share" && <AdminSocialShareEditor isDemo={false} />}
+            {activeTab === "ai_analytics" && renderAIAnalyticsDashboard()}
+            {activeTab === "leads" && renderLeadsManager()}
+            {!["overview", "sections_order", "faqs", "settings", "social_share", "ai_analytics", "leads"].includes(activeTab) && (
+              <AdminSectionEditor sectionKey={activeTab} isDemo={false} />
+            )}
+          </div>
         </main>
       </div>
     </div>
@@ -839,67 +883,78 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
 
   function renderOverviewDashboard() {
     return (
-      <div className="space-y-8 animate-fade-in" id="overview-panel">
+      <div className="space-y-6 sm:space-y-7 animate-fade-in" id="overview-panel">
         {/* Banner */}
-        <div className="bg-gradient-to-r from-purple-950/30 to-blue-950/10 border border-purple-500/10 rounded-2xl p-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl" />
-          <h2 className="text-xl font-bold text-white font-sans tracking-tight">
-            Greetings, Rashed
-          </h2>
-          <p className="text-zinc-400 text-sm mt-1 max-w-2xl leading-relaxed">
-            Welcome to your CMS administration engine. Monitor incoming visitor analytics, handle instant smart responses, and coordinate dynamic sections easily.
-          </p>
+        <div className="bg-gradient-to-r from-purple-950/40 via-[#101118] to-blue-950/20 border border-purple-500/20 rounded-2xl p-5 sm:p-6 relative overflow-hidden shadow-xs">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10">
+            <h2 className="text-lg sm:text-xl font-bold text-white font-sans tracking-tight flex items-center gap-2">
+              <span>Greetings, Rashed</span>
+              <span className="text-[11px] px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-normal">Online</span>
+            </h2>
+            <p className="text-zinc-300 text-xs sm:text-sm mt-1 max-w-2xl leading-relaxed">
+              Welcome to your CMS administration engine. Monitor incoming visitor analytics, handle instant smart responses, and coordinate dynamic sections easily.
+            </p>
+          </div>
         </div>
 
-        {/* Analytics cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          <div className="bg-[#121214] border border-zinc-800/80 p-5 rounded-2xl space-y-2">
-            <div className="flex justify-between items-center text-zinc-500">
-              <span className="text-xs font-semibold uppercase tracking-wider">Total Views</span>
-              <Activity className="w-4 h-4 text-purple-400" />
+        {/* Analytics cards: 2-column grid on mobile, 4-column on desktop matching previous visual hierarchy */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-6">
+          <div className="bg-[#111218] border border-zinc-800/90 hover:border-zinc-700/80 p-5 rounded-3xl transition-all shadow-xs flex flex-col justify-between">
+            <div className="flex justify-between items-start gap-2">
+              <span className="text-xs font-sans font-semibold uppercase tracking-wider text-zinc-400">Total Views</span>
+              <Activity className="w-5 h-5 text-purple-400 shrink-0" />
             </div>
-            <p className="text-2xl font-bold text-white">{stats.pageViews}</p>
-            <p className="text-[10px] text-zinc-500 font-mono">Past 7 days traffic metrics</p>
+            <div className="mt-4">
+              <p className="text-3xl sm:text-4xl font-bold text-white font-sans tracking-tight">{stats.pageViews}</p>
+              <p className="text-xs font-sans text-zinc-400 mt-3 leading-relaxed">Past 7 days traffic metrics</p>
+            </div>
           </div>
 
-          <div className="bg-[#121214] border border-zinc-800/80 p-5 rounded-2xl space-y-2">
-            <div className="flex justify-between items-center text-zinc-500">
-              <span className="text-xs font-semibold uppercase tracking-wider">AI Queries</span>
-              <Users className="w-4 h-4 text-blue-400" />
+          <div className="bg-[#111218] border border-zinc-800/90 hover:border-zinc-700/80 p-5 rounded-3xl transition-all shadow-xs flex flex-col justify-between">
+            <div className="flex justify-between items-start gap-2">
+              <span className="text-xs font-sans font-semibold uppercase tracking-wider text-zinc-400">AI Queries</span>
+              <Users className="w-5 h-5 text-blue-400 shrink-0" />
             </div>
-            <p className="text-2xl font-bold text-white">{stats.botInteractions}</p>
-            <p className="text-[10px] text-zinc-500 font-mono">Chatbot conversations log</p>
+            <div className="mt-4">
+              <p className="text-3xl sm:text-4xl font-bold text-white font-sans tracking-tight">{stats.botInteractions}</p>
+              <p className="text-xs font-sans text-zinc-400 mt-3 leading-relaxed">Chatbot conversations log</p>
+            </div>
           </div>
 
-          <div className="bg-[#121214] border border-zinc-800/80 p-5 rounded-2xl space-y-2">
-            <div className="flex justify-between items-center text-zinc-500">
-              <span className="text-xs font-semibold uppercase tracking-wider">CV Downloads</span>
-              <Download className="w-4 h-4 text-emerald-400" />
+          <div className="bg-[#111218] border border-zinc-800/90 hover:border-zinc-700/80 p-5 rounded-3xl transition-all shadow-xs flex flex-col justify-between">
+            <div className="flex justify-between items-start gap-2">
+              <span className="text-xs font-sans font-semibold uppercase tracking-wider text-zinc-400">CV Downloads</span>
+              <Download className="w-5 h-5 text-emerald-400 shrink-0" />
             </div>
-            <p className="text-2xl font-bold text-white">{stats.downloads}</p>
-            <p className="text-[10px] text-zinc-500 font-mono">Resume PDF fetch triggers</p>
+            <div className="mt-4">
+              <p className="text-3xl sm:text-4xl font-bold text-white font-sans tracking-tight">{stats.downloads}</p>
+              <p className="text-xs font-sans text-zinc-400 mt-3 leading-relaxed">Resume PDF fetch triggers</p>
+            </div>
           </div>
 
-          <div className="bg-[#121214] border border-zinc-800/80 p-5 rounded-2xl space-y-2">
-            <div className="flex justify-between items-center text-zinc-500">
-              <span className="text-xs font-semibold uppercase tracking-wider">Leads Formed</span>
-              <MessageSquare className="w-4 h-4 text-purple-400" />
+          <div className="bg-[#111218] border border-zinc-800/90 hover:border-zinc-700/80 p-5 rounded-3xl transition-all shadow-xs flex flex-col justify-between">
+            <div className="flex justify-between items-start gap-2">
+              <span className="text-xs font-sans font-semibold uppercase tracking-wider text-zinc-400">Leads Formed</span>
+              <MessageSquare className="w-5 h-5 text-purple-400 shrink-0" />
             </div>
-            <p className="text-2xl font-bold text-white">{stats.leads}</p>
-            <p className="text-[10px] text-zinc-500 font-mono">Contacts initiated by clients</p>
+            <div className="mt-4">
+              <p className="text-3xl sm:text-4xl font-bold text-white font-sans tracking-tight">{stats.leads}</p>
+              <p className="text-xs font-sans text-zinc-400 mt-3 leading-relaxed">Contacts initiated by clients</p>
+            </div>
           </div>
         </div>
 
         {/* Charts and logs split */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6">
           {/* Traffic chart */}
-          <div className="bg-[#121214] border border-zinc-800/80 rounded-2xl p-6 lg:col-span-2 space-y-4">
-            <div className="flex justify-between items-center">
+          <div className="bg-[#111218] border border-zinc-800/90 rounded-2xl p-5 sm:p-6 lg:col-span-2 space-y-4 shadow-xs">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
               <div>
-                <h3 className="text-sm font-semibold text-zinc-300">Activity Trends</h3>
-                <p className="text-xs text-zinc-500 mt-0.5">Interaction frequency comparison</p>
+                <h3 className="text-sm font-semibold text-zinc-200">Activity Trends</h3>
+                <p className="text-xs text-zinc-400 mt-0.5">Interaction frequency comparison</p>
               </div>
-              <div className="flex gap-4 text-xs font-mono">
+              <div className="flex items-center gap-4 text-xs font-mono">
                 <span className="flex items-center gap-1.5 text-purple-400">
                   <span className="w-2 h-2 bg-purple-500 rounded-full" /> Visitors
                 </span>
@@ -909,23 +964,23 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
               </div>
             </div>
 
-            <div className="h-64 w-full">
+            <div className="h-60 sm:h-64 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorVisitors" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.2} />
+                      <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.25} />
                       <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
                     </linearGradient>
                     <linearGradient id="colorQueries" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.2} />
+                      <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.25} />
                       <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1d1d21" />
-                  <XAxis dataKey="day" stroke="#71717a" fontSize={10} tickLine={false} />
-                  <YAxis stroke="#71717a" fontSize={10} tickLine={false} />
-                  <Tooltip contentStyle={{ backgroundColor: "#121214", border: "1px solid #27272a" }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#202129" />
+                  <XAxis dataKey="day" stroke="#9ca3af" fontSize={11} tickLine={false} />
+                  <YAxis stroke="#9ca3af" fontSize={11} tickLine={false} />
+                  <Tooltip contentStyle={{ backgroundColor: "#15161f", border: "1px solid #3f3f46", borderRadius: "8px", fontSize: "12px", color: "#f4f4f5" }} />
                   <Area type="monotone" dataKey="Visitors" stroke="#8b5cf6" strokeWidth={2} fillOpacity={1} fill="url(#colorVisitors)" />
                   <Area type="monotone" dataKey="Queries" stroke="#3b82f6" strokeWidth={2} fillOpacity={1} fill="url(#colorQueries)" />
                 </AreaChart>
@@ -934,27 +989,27 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
           </div>
 
           {/* Recent event log stream */}
-          <div className="bg-[#121214] border border-zinc-800/80 rounded-2xl p-6 space-y-4">
+          <div className="bg-[#111218] border border-zinc-800/90 rounded-2xl p-5 sm:p-6 space-y-4 shadow-xs flex flex-col justify-between">
             <div>
-              <h3 className="text-sm font-semibold text-zinc-300">Live Interaction Feed</h3>
-              <p className="text-xs text-zinc-500 mt-0.5">Real-time visitor logs from server</p>
+              <h3 className="text-sm font-semibold text-zinc-200">Live Interaction Feed</h3>
+              <p className="text-xs text-zinc-400 mt-0.5">Real-time visitor logs from server</p>
             </div>
 
-            <div className="space-y-3 max-h-64 overflow-y-auto overscroll-contain custom-scrollbar pr-1">
+            <div className="space-y-2.5 max-h-64 overflow-y-auto overscroll-contain custom-scrollbar pr-1 flex-1">
               {analytics.length === 0 ? (
                 <p className="text-xs text-zinc-500 text-center py-8">No interaction records registered yet.</p>
               ) : (
                 analytics.map((ev, i) => (
-                  <div key={i} className="p-3 bg-[#18181b] border border-zinc-800/60 rounded-xl space-y-1">
+                  <div key={i} className="p-3 bg-[#16171f] border border-zinc-800/90 rounded-xl space-y-1 hover:border-zinc-700/80 transition-colors">
                     <div className="flex justify-between items-center">
                       <span className="text-[10px] font-mono text-purple-400 font-semibold uppercase">
                         {ev.event_type.replace("_", " ")}
                       </span>
-                      <span className="text-[9px] text-zinc-500 font-mono">
+                      <span className="text-[10px] text-zinc-400 font-mono">
                         {new Date(ev.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>
-                    <p className="text-xs text-zinc-300 truncate">
+                    <p className="text-xs text-zinc-200 truncate">
                       {ev.event_details?.question || ev.event_details?.path || ev.event_details?.email || "Interaction registered"}
                     </p>
                   </div>
@@ -1000,7 +1055,7 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
           </div>
         )}
 
-        <div className="bg-[#121214] border border-zinc-800 rounded-2xl p-6 space-y-4" id="section-order-list">
+        <div className="bg-[#111218] border border-zinc-800/90 rounded-2xl p-4 sm:p-6 space-y-3" id="section-order-list">
           {sections.length === 0 ? (
             <div className="flex justify-center py-8">
               <div className="w-6 h-6 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin" />
@@ -1011,39 +1066,39 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
               .map((sec, idx, arr) => (
                 <div
                   key={sec.id}
-                  className="bg-[#18181b] border border-zinc-800/80 hover:border-zinc-700/80 rounded-xl p-4 flex items-center justify-between gap-4 transition-all"
+                  className="bg-[#16171f] border border-zinc-800/80 hover:border-zinc-700/80 rounded-xl p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 transition-all shadow-xs"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-xs font-semibold text-zinc-500 font-mono">
+                    <span className="text-xs font-semibold text-zinc-400 font-mono">
                       {(idx + 1).toString().padStart(2, '0')}
                     </span>
                     <div>
                       <h4 className="text-sm font-semibold text-white capitalize">
                         {sec.name || (sec.key === "educationCertifications" || sec.key === "education_certifications" ? "Education & Certifications" : sec.key)}
                       </h4>
-                      <p className="text-[10px] text-zinc-500 font-mono uppercase mt-0.5">Key: {sec.key}</p>
+                      <p className="text-[11px] text-zinc-400 font-mono mt-0.5">Key: <span className="text-zinc-300">{sec.key}</span></p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-between sm:justify-end gap-2.5 pt-2 sm:pt-0 border-t border-zinc-800/50 sm:border-0">
                     {/* Toggle Visibility */}
                     <button
                       onClick={() => handleToggleVisibility(sec.id, sec.is_visible)}
-                      className={`px-3 py-1.5 rounded-lg text-[10px] font-semibold tracking-wider uppercase border transition-all ${
+                      className={`px-3 py-1.5 rounded-lg text-[11px] font-semibold tracking-wider uppercase border transition-all cursor-pointer ${
                         sec.is_visible
-                          ? "bg-purple-950/40 border-purple-500/20 text-purple-400"
-                          : "bg-zinc-900 border-zinc-800 text-zinc-500"
+                          ? "bg-purple-950/50 border-purple-500/30 text-purple-300"
+                          : "bg-zinc-900 border-zinc-800 text-zinc-400"
                       }`}
                     >
                       {sec.is_visible ? "Active" : "Hidden"}
                     </button>
 
                     {/* Move Controls */}
-                    <div className="flex gap-1">
+                    <div className="flex gap-1.5">
                       <button
                         onClick={() => handleMoveSection(idx, "up")}
                         disabled={idx === 0}
-                        className="p-1.5 bg-zinc-800/60 hover:bg-zinc-700 text-zinc-400 hover:text-white disabled:opacity-20 disabled:cursor-not-allowed rounded-lg transition-colors"
+                        className="w-8 h-8 flex items-center justify-center bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white disabled:opacity-20 disabled:cursor-not-allowed rounded-lg transition-colors cursor-pointer"
                         title="Move Up"
                       >
                         <MoveUp className="w-3.5 h-3.5" />
@@ -1051,7 +1106,7 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
                       <button
                         onClick={() => handleMoveSection(idx, "down")}
                         disabled={idx === arr.length - 1}
-                        className="p-1.5 bg-zinc-800/60 hover:bg-zinc-700 text-zinc-400 hover:text-white disabled:opacity-20 disabled:cursor-not-allowed rounded-lg transition-colors"
+                        className="w-8 h-8 flex items-center justify-center bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white disabled:opacity-20 disabled:cursor-not-allowed rounded-lg transition-colors cursor-pointer"
                         title="Move Down"
                       >
                         <MoveDown className="w-3.5 h-3.5" />
@@ -1169,57 +1224,65 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
     const trendData = Object.values(trendDataMap);
 
     return (
-      <div className="space-y-8 animate-fade-in" id="ai-analytics-panel">
+      <div className="space-y-6 sm:space-y-7 animate-fade-in" id="ai-analytics-panel">
         {/* Banner */}
-        <div className="bg-gradient-to-r from-purple-950/40 via-[#0e0e12] to-blue-950/20 border border-purple-500/15 rounded-2xl p-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl" />
-          <h2 className="text-xl font-bold text-white font-sans tracking-tight flex items-center gap-2.5">
-            <Sparkles className="w-5.5 h-5.5 text-purple-400" />
-            AI Chatbot Conversation Intelligence
-          </h2>
-          <p className="text-zinc-400 text-sm mt-1 max-w-3xl leading-relaxed">
-            Real-time conversation logs stored in Supabase. Analyze user questions, measure answer latencies, and optimize the AI FAQ knowledge base dynamically based on search keywords.
-          </p>
+        <div className="bg-gradient-to-r from-purple-950/40 via-[#101118] to-blue-950/20 border border-purple-500/20 rounded-2xl p-5 sm:p-6 relative overflow-hidden shadow-xs">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10">
+            <h2 className="text-lg sm:text-xl font-bold text-white font-sans tracking-tight flex items-center gap-2.5">
+              <Sparkles className="w-5 h-5 text-purple-400" />
+              AI Chatbot Conversation Intelligence
+            </h2>
+            <p className="text-zinc-300 text-xs sm:text-sm mt-1 max-w-3xl leading-relaxed">
+              Real-time conversation logs stored in Supabase. Analyze user questions, measure answer latencies, and optimize the AI FAQ knowledge base dynamically based on search keywords.
+            </p>
+          </div>
         </div>
 
-
-
         {/* Metric Cards Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          <div className="bg-[#121214] border border-zinc-800/80 p-5 rounded-2xl space-y-2">
-            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Total Interactions</span>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5">
+          <div className="bg-[#111218] border border-zinc-800/90 hover:border-zinc-700/80 p-4 sm:p-5 rounded-2xl space-y-2 shadow-xs transition-all">
+            <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider block">Total Interactions</span>
             <div className="flex items-baseline justify-between">
-              <p className="text-2xl font-bold text-white">{chatLogs.length}</p>
-              <MessageSquare className="w-4 h-4 text-purple-400" />
+              <p className="text-2xl sm:text-3xl font-bold text-white font-mono">{chatLogs.length}</p>
+              <div className="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
+                <MessageSquare className="w-4 h-4 text-purple-400" />
+              </div>
             </div>
-            <p className="text-[10px] text-zinc-500">Every single prompt & response</p>
+            <p className="text-[11px] text-zinc-400 font-sans">Every single prompt & response</p>
           </div>
 
-          <div className="bg-[#121214] border border-zinc-800/80 p-5 rounded-2xl space-y-2">
-            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Total Sessions</span>
+          <div className="bg-[#111218] border border-zinc-800/90 hover:border-zinc-700/80 p-4 sm:p-5 rounded-2xl space-y-2 shadow-xs transition-all">
+            <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider block">Total Sessions</span>
             <div className="flex items-baseline justify-between">
-              <p className="text-2xl font-bold text-white">{totalConversations}</p>
-              <Users className="w-4 h-4 text-blue-400" />
+              <p className="text-2xl sm:text-3xl font-bold text-white font-mono">{totalConversations}</p>
+              <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+                <Users className="w-4 h-4 text-blue-400" />
+              </div>
             </div>
-            <p className="text-[10px] text-zinc-500">Unique user session identifiers</p>
+            <p className="text-[11px] text-zinc-400 font-sans">Unique user session identifiers</p>
           </div>
 
-          <div className="bg-[#121214] border border-zinc-800/80 p-5 rounded-2xl space-y-2">
-            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Avg Response Time</span>
+          <div className="bg-[#111218] border border-zinc-800/90 hover:border-zinc-700/80 p-4 sm:p-5 rounded-2xl space-y-2 shadow-xs transition-all">
+            <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider block">Avg Response Time</span>
             <div className="flex items-baseline justify-between">
-              <p className="text-2xl font-bold text-white">{avgResponseTime} <span className="text-xs text-zinc-500">ms</span></p>
-              <Activity className="w-4 h-4 text-emerald-400" />
+              <p className="text-2xl sm:text-3xl font-bold text-white font-mono">{avgResponseTime} <span className="text-xs text-zinc-400 font-normal">ms</span></p>
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                <Activity className="w-4 h-4 text-emerald-400" />
+              </div>
             </div>
-            <p className="text-[10px] text-zinc-500">Includes live Gemini & DB local paths</p>
+            <p className="text-[11px] text-zinc-400 font-sans">Includes live Gemini & DB paths</p>
           </div>
 
-          <div className="bg-[#121214] border border-zinc-800/80 p-5 rounded-2xl space-y-2">
-            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Failed Responses</span>
+          <div className="bg-[#111218] border border-zinc-800/90 hover:border-zinc-700/80 p-4 sm:p-5 rounded-2xl space-y-2 shadow-xs transition-all">
+            <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider block">Failed Responses</span>
             <div className="flex items-baseline justify-between">
-              <p className="text-2xl font-bold text-white">{failedResponsesCount}</p>
-              <Terminal className="w-4 h-4 text-red-500 animate-pulse" />
+              <p className="text-2xl sm:text-3xl font-bold text-white font-mono">{failedResponsesCount}</p>
+              <div className="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+                <Terminal className="w-4 h-4 text-red-400" />
+              </div>
             </div>
-            <p className="text-[10px] text-zinc-500">Connection hiccups or error states</p>
+            <p className="text-[11px] text-zinc-400 font-sans">Connection hiccups or error states</p>
           </div>
         </div>
 
@@ -1484,22 +1547,22 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
     });
 
     return (
-      <div className="space-y-8 animate-fade-in" id="leads-panel">
+      <div className="space-y-6 sm:space-y-7 animate-fade-in" id="leads-panel">
         {/* Header and Export */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-display font-bold text-white tracking-tight flex items-center gap-2">
-              <Inbox className="w-6 h-6 text-purple-400" />
+            <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+              <Inbox className="w-5 h-5 text-purple-400" />
               Lead Management
             </h1>
-            <p className="text-zinc-500 text-xs mt-1">
+            <p className="text-zinc-300 text-xs sm:text-sm mt-0.5">
               Track and reply to direct client proposals, project inquiries, and visualizer opportunities.
             </p>
           </div>
 
           <button
             onClick={exportLeadsCSV}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs rounded-xl transition-all self-start sm:self-auto shadow-md"
+            className="inline-flex items-center gap-2 px-3.5 py-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs rounded-xl transition-all self-start sm:self-auto shadow-xs cursor-pointer"
           >
             <FileSpreadsheet className="w-4 h-4" />
             Export CSV
@@ -1507,59 +1570,59 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
         </div>
 
         {/* Lead Stats Cards Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
           {/* Total Leads */}
-          <div className="p-4 rounded-2xl bg-[#0c0c12]/50 border border-white/5 relative overflow-hidden">
-            <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Total Leads</p>
-            <p className="text-2xl font-bold text-white mt-1">{totalLeadsCount}</p>
-            <div className="absolute right-3 bottom-3 w-8 h-8 bg-white/2 rounded-full flex items-center justify-center">
-              <Inbox className="w-4 h-4 text-zinc-600" />
+          <div className="p-4 rounded-2xl bg-[#111218] border border-zinc-800/90 relative overflow-hidden shadow-xs">
+            <p className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider">Total Leads</p>
+            <p className="text-2xl sm:text-3xl font-bold font-mono text-white mt-1.5">{totalLeadsCount}</p>
+            <div className="absolute right-3.5 bottom-3.5 w-8 h-8 bg-zinc-800/40 rounded-lg flex items-center justify-center">
+              <Inbox className="w-4 h-4 text-zinc-400" />
             </div>
           </div>
 
           {/* New Leads */}
-          <div className="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/20 relative overflow-hidden">
-            <p className="text-[10px] font-mono text-purple-400 uppercase tracking-widest">New Leads</p>
-            <p className="text-2xl font-bold text-purple-300 mt-1">{newLeadsCount}</p>
-            <div className="absolute right-3 bottom-3 w-8 h-8 bg-purple-500/5 rounded-full flex items-center justify-center">
-              <span className="w-2 h-2 bg-purple-500 rounded-full animate-ping" />
+          <div className="p-4 rounded-2xl bg-[#111218] border border-purple-500/30 relative overflow-hidden shadow-xs">
+            <p className="text-[11px] font-mono text-purple-300 uppercase tracking-wider font-semibold">New Leads</p>
+            <p className="text-2xl sm:text-3xl font-bold font-mono text-purple-200 mt-1.5">{newLeadsCount}</p>
+            <div className="absolute right-3.5 bottom-3.5 w-8 h-8 bg-purple-500/15 rounded-lg flex items-center justify-center">
+              <span className="w-2.5 h-2.5 bg-purple-400 rounded-full animate-pulse" />
             </div>
           </div>
 
           {/* Read Leads */}
-          <div className="p-4 rounded-2xl bg-blue-500/10 border border-blue-500/20 relative overflow-hidden">
-            <p className="text-[10px] font-mono text-blue-400 uppercase tracking-widest">Read</p>
-            <p className="text-2xl font-bold text-blue-300 mt-1">{readLeadsCount}</p>
-            <div className="absolute right-3 bottom-3 w-8 h-8 bg-blue-500/5 rounded-full flex items-center justify-center">
-              <Eye className="w-4 h-4 text-blue-500/40" />
+          <div className="p-4 rounded-2xl bg-[#111218] border border-blue-500/30 relative overflow-hidden shadow-xs">
+            <p className="text-[11px] font-mono text-blue-300 uppercase tracking-wider font-semibold">Read</p>
+            <p className="text-2xl sm:text-3xl font-bold font-mono text-blue-200 mt-1.5">{readLeadsCount}</p>
+            <div className="absolute right-3.5 bottom-3.5 w-8 h-8 bg-blue-500/15 rounded-lg flex items-center justify-center">
+              <Eye className="w-4 h-4 text-blue-400" />
             </div>
           </div>
 
           {/* Replied Leads */}
-          <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 relative overflow-hidden">
-            <p className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest">Replied</p>
-            <p className="text-2xl font-bold text-emerald-300 mt-1">{repliedLeadsCount}</p>
-            <div className="absolute right-3 bottom-3 w-8 h-8 bg-emerald-500/5 rounded-full flex items-center justify-center">
-              <Reply className="w-4 h-4 text-emerald-500/40" />
+          <div className="p-4 rounded-2xl bg-[#111218] border border-emerald-500/30 relative overflow-hidden shadow-xs">
+            <p className="text-[11px] font-mono text-emerald-300 uppercase tracking-wider font-semibold">Replied</p>
+            <p className="text-2xl sm:text-3xl font-bold font-mono text-emerald-200 mt-1.5">{repliedLeadsCount}</p>
+            <div className="absolute right-3.5 bottom-3.5 w-8 h-8 bg-emerald-500/15 rounded-lg flex items-center justify-center">
+              <Reply className="w-4 h-4 text-emerald-400" />
             </div>
           </div>
 
           {/* Archived Leads */}
-          <div className="p-4 rounded-2xl bg-zinc-800/20 border border-zinc-800/50 relative overflow-hidden col-span-2 lg:col-span-1">
-            <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Archived</p>
-            <p className="text-2xl font-bold text-zinc-400 mt-1">{archivedLeadsCount}</p>
-            <div className="absolute right-3 bottom-3 w-8 h-8 bg-zinc-800/5 rounded-full flex items-center justify-center">
-              <Archive className="w-4 h-4 text-zinc-600" />
+          <div className="p-4 rounded-2xl bg-[#111218] border border-zinc-800/90 relative overflow-hidden col-span-2 sm:col-span-1 shadow-xs">
+            <p className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider">Archived</p>
+            <p className="text-2xl sm:text-3xl font-bold font-mono text-zinc-300 mt-1.5">{archivedLeadsCount}</p>
+            <div className="absolute right-3.5 bottom-3.5 w-8 h-8 bg-zinc-800/40 rounded-lg flex items-center justify-center">
+              <Archive className="w-4 h-4 text-zinc-400" />
             </div>
           </div>
         </div>
 
         {/* Filters and Main Panel split */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
           
           {/* Left Column: Leads List (5 Cols) */}
           <div className="lg:col-span-5 space-y-4">
-            <div className="p-4 rounded-2xl bg-[#0c0c12]/40 border border-white/5 space-y-4">
+            <div className="p-4 sm:p-5 rounded-2xl bg-[#111218] border border-zinc-800/90 space-y-4 shadow-xs">
               
               {/* Search & Filter Controls */}
               <div className="flex flex-col gap-3">
@@ -1696,10 +1759,10 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
           {/* Right Column: Lead Detail View (7 Cols) */}
           <div className="lg:col-span-7">
             {selectedLead ? (
-              <div className="p-6 rounded-2xl bg-[#0c0c12]/40 border border-white/5 space-y-6 text-left animate-fade-in">
+              <div className="p-5 sm:p-6 rounded-2xl bg-[#111218] border border-zinc-800/90 space-y-6 text-left animate-fade-in shadow-xs">
                 
                 {/* Header Info */}
-                <div className="border-b border-white/5 pb-4 space-y-2">
+                <div className="border-b border-zinc-800/80 pb-4 space-y-2">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <div>
                       <h2 className="text-lg font-bold text-white leading-tight">
