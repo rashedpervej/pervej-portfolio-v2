@@ -5,13 +5,11 @@ import {
   Upload,
   Globe,
   RefreshCw,
-  ExternalLink,
   Check,
   AlertCircle,
   Sparkles,
   Link2,
   Eye,
-  Info,
   Layers,
   CheckCircle2,
 } from "lucide-react";
@@ -20,7 +18,6 @@ import { supabase, isSupabaseConfigured } from "../lib/supabase";
 import { savePersistentSnapshot } from "../utils/persistentSnapshot";
 import {
   resolveSocialImageUrl,
-  resolveCanonicalUrl,
   getDisplayHostname,
 } from "../utils/seo";
 
@@ -54,13 +51,17 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
   const [previewPlatform, setPreviewPlatform] = useState<"facebook" | "twitter" | "linkedin">("facebook");
   const [imageError, setImageError] = useState(false);
 
-  // Sync with context updates
+  // Sync with context updates and auto-reset image error state
   useEffect(() => {
     if (siteSettings.ogTitle) setOgTitle(siteSettings.ogTitle);
     if (siteSettings.ogDescription) setOgDescription(siteSettings.ogDescription);
     if (siteSettings.ogImage) setOgImage(siteSettings.ogImage);
     if (siteSettings.ogUrl) setOgUrl(siteSettings.ogUrl);
   }, [siteSettings.ogTitle, siteSettings.ogDescription, siteSettings.ogImage, siteSettings.ogUrl]);
+
+  useEffect(() => {
+    setImageError(false);
+  }, [ogImage]);
 
   // Handle Image File Upload to Supabase Storage with Validation
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,7 +96,7 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
 
         const { error: uploadError } = await supabase.storage
           .from("portfolio-assets")
-          .upload(filePath, file, { cacheControl: "3600", upsert: true });
+          .upload(filePath, file, { contentType: file.type || "image/jpeg", cacheControl: "3600", upsert: true });
 
         if (uploadError) {
           console.warn("Storage upload failed, attempting fallback:", uploadError);
@@ -139,7 +140,8 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
   const presetImages = [
     { label: "Default Global 1200x630 OG Banner", url: "/og-image.jpg" },
     { label: "Brand Showcase Banner", url: "/brand-header.webp" },
-    { label: "Packaging Showcase Header", url: "/src/assets/images/packeging-header.webp" },
+    { label: "Packaging Showcase Header", url: "/packeging-header.webp" },
+    { label: "Motion Graphics Showcase Header", url: "/motion-header.webp" },
   ];
 
   // Save Settings
@@ -211,10 +213,6 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
                   Global Configuration
                 </span>
               </h2>
-              <p className="text-xs text-zinc-400 mt-0.5">
-                Customize the title, description, and preview image displayed when sharing your portfolio on Facebook,
-                Messenger, WhatsApp, LinkedIn, X/Twitter, and Slack.
-              </p>
             </div>
           </div>
 
@@ -292,10 +290,6 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
                 placeholder="Rashed Pervej | Senior Visualizer Portfolio"
                 className="w-full bg-[#18181d] border border-zinc-700/80 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-colors"
               />
-              <p className="text-[11px] text-zinc-500 mt-1">
-                Headline displayed prominently on social cards. Keep between 40-70 characters for best results across all
-                platforms.
-              </p>
             </div>
 
             {/* Field 2: Social Share Description */}
@@ -319,10 +313,6 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
                 placeholder="Award-winning portfolio of Rashed Pervej, Senior Visualizer & Graphic Designer specializing in brand identity, packaging, and motion graphics."
                 className="w-full bg-[#18181d] border border-zinc-700/80 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-colors resize-none"
               />
-              <p className="text-[11px] text-zinc-500 mt-1">
-                Summary displayed beneath the title on Facebook, LinkedIn, and WhatsApp previews. Recommended 100-160
-                characters.
-              </p>
             </div>
 
             {/* Field 3: Website Canonical URL */}
@@ -340,9 +330,6 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
                   className="w-full bg-[#18181d] border border-zinc-700/80 rounded-xl pl-10 pr-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-colors"
                 />
               </div>
-              <p className="text-[11px] text-zinc-500 mt-1">
-                Canonical URL associated with your Open Graph tags (<code className="text-zinc-400">og:url</code>). Leave blank to auto-detect current domain.
-              </p>
             </div>
           </div>
 
@@ -352,25 +339,6 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
               <ImageIcon className="w-4 h-4 text-purple-400" />
               3. Social Share Image (Open Graph)
             </h3>
-
-            {/* Image Specs Banner */}
-            <div className="p-3.5 rounded-xl bg-purple-950/20 border border-purple-800/40 text-xs text-zinc-300 space-y-1">
-              <div className="font-semibold text-purple-300 flex items-center gap-1.5">
-                <Info className="w-3.5 h-3.5" />
-                Recommended Image Specifications:
-              </div>
-              <ul className="list-disc list-inside text-[11px] text-zinc-400 space-y-0.5 pl-1">
-                <li>
-                  <strong className="text-zinc-300">Dimensions:</strong> 1200 × 630 pixels (Standard 1.91:1 aspect ratio)
-                </li>
-                <li>
-                  <strong className="text-zinc-300">File Formats:</strong> JPG, PNG, or WebP (Max 5MB)
-                </li>
-                <li>
-                  <strong className="text-zinc-300">Universal:</strong> Supports relative paths (e.g. <code className="text-zinc-300 font-mono">/og-image.jpg</code>) or remote HTTPS URLs
-                </li>
-              </ul>
-            </div>
 
             {/* Image URL Input */}
             <div>
@@ -442,10 +410,10 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
           </div>
         </div>
 
-        {/* Right Column: Live Previews & Crawler Notice (5 cols) */}
+        {/* Right Column: Live Previews (5 cols) */}
         <div className="lg:col-span-5 space-y-6">
           {/* Card: Live Social Preview Card */}
-          <div className="bg-[#121216] border border-zinc-800/80 rounded-2xl p-6 shadow-xl space-y-4">
+          <div className="bg-[#121216] border border-zinc-800/80 rounded-2xl p-6 shadow-xl space-y-4 lg:sticky lg:top-6">
             <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
               <h3 className="text-sm font-semibold text-white flex items-center gap-2">
                 <Eye className="w-4 h-4 text-purple-400" />
@@ -500,16 +468,31 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
                   <div className="relative w-full aspect-[1.91/1] bg-zinc-900 overflow-hidden flex items-center justify-center">
                     {liveImageUrl && !imageError ? (
                       <img
+                        key={liveImageUrl}
                         src={liveImageUrl}
                         alt="Social preview banner"
-                        onError={() => setImageError(true)}
+                        onError={() => {
+                          console.warn("Live Preview image failed to load:", liveImageUrl);
+                          setImageError(true);
+                        }}
                         className="w-full h-full object-cover"
                       />
                     ) : (
                       <div className="flex flex-col items-center justify-center text-zinc-500 p-4 text-center">
                         <ImageIcon className="w-8 h-8 mb-1.5 opacity-40" />
                         <span className="text-xs">No preview image available</span>
-                        <span className="text-[10px] text-zinc-600">Please provide a valid image URL</span>
+                        <span className="text-[10px] text-zinc-600 max-w-[280px] truncate mt-0.5">
+                          {ogImage ? ogImage : "Please provide a valid image URL"}
+                        </span>
+                        {imageError && (
+                          <button
+                            type="button"
+                            onClick={() => setImageError(false)}
+                            className="mt-2 text-[10px] px-2.5 py-1 rounded-md bg-purple-900/60 hover:bg-purple-800 text-purple-200 transition-colors"
+                          >
+                            Retry Loading
+                          </button>
+                        )}
                       </div>
                     )}
                     <div className="absolute top-2 right-2 bg-black/70 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-mono text-zinc-300 border border-white/10">
@@ -536,77 +519,6 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
             <p className="text-[10px] text-zinc-500 text-center">
               Simulated preview for {previewPlatform === "facebook" ? "Facebook & WhatsApp" : previewPlatform === "twitter" ? "X / Twitter Summary Large Image" : "LinkedIn & Slack"}.
             </p>
-          </div>
-
-          {/* Card: Social Platform Cache Notice & Refresh Tools */}
-          <div className="bg-[#121216] border border-zinc-800/80 rounded-2xl p-6 shadow-xl space-y-4">
-            <h3 className="text-sm font-semibold text-white flex items-center gap-2 border-b border-zinc-800 pb-3">
-              <RefreshCw className="w-4 h-4 text-purple-400" />
-              Social Cache Refresh Notes
-            </h3>
-
-            <div className="text-xs text-zinc-400 space-y-2 leading-relaxed">
-              <p>
-                Major social networks (Facebook, Messenger, WhatsApp, LinkedIn, X/Twitter) aggressively cache Open Graph
-                link previews for several days.
-              </p>
-              <p>
-                If you update your image or title and share the link immediately, platforms may still show previous
-                cached previews until refreshed with their official validator tools.
-              </p>
-            </div>
-
-            <div className="space-y-2 pt-2 border-t border-zinc-800/60">
-              <div className="text-[11px] font-semibold text-zinc-300">Official Validator & Cache Refresh Links:</div>
-
-              <a
-                href="https://developers.facebook.com/tools/debug/"
-                target="_blank"
-                rel="noreferrer noopener"
-                className="flex items-center justify-between p-2.5 rounded-xl bg-[#18181d] hover:bg-[#202028] border border-zinc-800 text-xs text-zinc-300 hover:text-white transition-all group"
-              >
-                <span className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-blue-500" />
-                  Facebook Sharing Debugger
-                </span>
-                <ExternalLink className="w-3.5 h-3.5 text-zinc-500 group-hover:text-zinc-300" />
-              </a>
-
-              <a
-                href="https://www.linkedin.com/post-inspector/"
-                target="_blank"
-                rel="noreferrer noopener"
-                className="flex items-center justify-between p-2.5 rounded-xl bg-[#18181d] hover:bg-[#202028] border border-zinc-800 text-xs text-zinc-300 hover:text-white transition-all group"
-              >
-                <span className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-sky-500" />
-                  LinkedIn Post Inspector
-                </span>
-                <ExternalLink className="w-3.5 h-3.5 text-zinc-500 group-hover:text-zinc-300" />
-              </a>
-
-              <a
-                href="https://cards-dev.twitter.com/validator"
-                target="_blank"
-                rel="noreferrer noopener"
-                className="flex items-center justify-between p-2.5 rounded-xl bg-[#18181d] hover:bg-[#202028] border border-zinc-800 text-xs text-zinc-300 hover:text-white transition-all group"
-              >
-                <span className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-zinc-400" />
-                  X / Twitter Card Preview Guide
-                </span>
-                <ExternalLink className="w-3.5 h-3.5 text-zinc-500 group-hover:text-zinc-300" />
-              </a>
-            </div>
-
-            <div className="p-3 rounded-xl bg-zinc-900/60 border border-zinc-800 text-[10px] text-zinc-500">
-              💡 <strong>Tip:</strong> In the Facebook Sharing Debugger, paste{" "}
-              <code className="text-purple-300">
-                {resolveCanonicalUrl(ogUrl)}
-              </code>{" "}
-              and click <strong>&quot;Scrape Again&quot;</strong> to
-              instantly clear Facebook &amp; Messenger&apos;s link cache.
-            </div>
           </div>
         </div>
       </div>

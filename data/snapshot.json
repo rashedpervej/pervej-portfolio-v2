@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "timestamp": 1790239205166,
-  "lastSyncIso": "2026-09-24T08:40:05.166Z",
+  "timestamp": 1790240360376,
+  "lastSyncIso": "2026-09-24T08:59:20.376Z",
   "source": "supabase_sync",
   "sections": [
     {
@@ -1019,7 +1019,7 @@
     "seoKeywords": "portfolio, designer, visualizer, packaging, branding, motion graphics, bangladesh",
     "ogTitle": "Rashed Pervej | Senior Visualizer Portfolio",
     "ogDescription": "Award-winning portfolio of Rashed Pervej, Senior Visualizer & Graphic Designer specializing in brand identity, packaging, and motion graphics.",
-    "ogImage": "/src/assets/images/packeging-header.webp",
+    "ogImage": "/og-image.jpg",
     "ogUrl": "",
     "backgroundStyle": "liquid",
     "cvSource": "url",

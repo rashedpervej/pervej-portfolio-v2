@@ -41,13 +41,26 @@ export function resolveServerSocialImageUrl(rawImage?: string, origin?: string):
     return baseOrigin ? `${baseOrigin}/og-image.jpg` : "/og-image.jpg";
   }
 
-  let cleaned = rawImage.trim();
+  let cleaned = rawImage.trim().replace(/^["']|["']$/g, "");
 
   if (cleaned.includes("pervej.pro.bd")) {
     cleaned = cleaned.replace(/^https?:\/\/(www\.)?pervej\.pro\.bd\/?/, "/");
     if (!cleaned.startsWith("/")) {
       cleaned = "/" + cleaned;
     }
+  }
+
+  // Normalize legacy /src/assets/images/ paths
+  if (cleaned.startsWith("/src/assets/images/")) {
+    cleaned = cleaned.replace("/src/assets/images/", "/");
+  } else if (cleaned.startsWith("src/assets/images/")) {
+    cleaned = "/" + cleaned.replace("src/assets/images/", "");
+  }
+
+  // Support direct Supabase storage paths
+  if (cleaned.startsWith("portfolio-assets/") || cleaned.startsWith("/portfolio-assets/")) {
+    const assetPath = cleaned.replace(/^\/+/, "");
+    return `https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/${assetPath}`;
   }
 
   if (/^(https?:|\/\/|data:|blob:)/i.test(cleaned)) {
@@ -174,10 +187,14 @@ export async function injectSocialMeta(html: string, req?: Request): Promise<str
   let origin = "";
   let pathname = "/";
   if (req) {
-    const proto = (req.headers["x-forwarded-proto"] as string) || req.protocol || "http";
-    const host = (req.headers["x-forwarded-host"] as string) || req.get("host") || "";
+    const rawProto = (req.headers["x-forwarded-proto"] as string) || req.protocol || "https";
+    const proto = rawProto.split(",")[0].trim();
+    const rawHost = (req.headers["x-forwarded-host"] as string) || req.get("host") || "";
+    const host = rawHost.split(",")[0].trim();
     if (host) {
-      origin = `${proto}://${host}`;
+      const isLocal = host.includes("localhost") || host.includes("127.0.0.1");
+      const finalProto = !isLocal ? "https" : proto;
+      origin = `${finalProto}://${host}`;
     }
     pathname = req.originalUrl || "/";
   }

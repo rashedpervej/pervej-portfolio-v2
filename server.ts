@@ -17,6 +17,9 @@ dotenv.config();
 const app = express();
 const PORT = 3000;
 
+// Trust reverse proxies (Cloud Run, Cloudflare, Nginx, load balancers)
+app.set("trust proxy", 1);
+
 app.use(express.json());
 
 // API routes FIRST
@@ -51,44 +54,70 @@ async function startServer() {
     app.use(express.static(publicPath));
   }
 
+  // Transparent backward-compatibility for legacy /src/assets/images paths
+  app.get("/src/assets/images/:file", (req, res, next) => {
+    const filePath = path.join(publicPath, req.params.file);
+    if (fs.existsSync(filePath)) {
+      return res.sendFile(filePath);
+    }
+    next();
+  });
+
   if (process.env.NODE_ENV !== "production") {
     // Development Mode
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: {
+        middlewareMode: true,
+        allowedHosts: true,
+      },
+      preview: {
+        allowedHosts: true,
+      },
       appType: "spa",
     });
 
-    // Intercept HTML / crawler requests to inject live OG & Twitter meta tags
-    app.use(async (req, res, next) => {
+    // SPA HTML renderer with dynamic OG & Twitter meta tag injection
+    const serveIndexHtml = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       const url = req.originalUrl;
-      // Skip API routes, Vite HMR, and requests for assets with extensions
+      // Skip API routes and requests for assets with extensions
       if (req.method !== "GET" || url.startsWith("/api") || path.extname(url.split("?")[0])) {
         return next();
       }
 
-      const accept = req.headers.accept || "";
-      const userAgent = req.headers["user-agent"] || "";
-      const isCrawler = /facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|TelegramBot|Discordbot|Slackbot|Pinterest|Googlebot|bingbot|Applebot/i.test(userAgent);
-      const wantsHtml = accept.includes("text/html");
-
-      if (isCrawler || wantsHtml) {
+      try {
+        const indexPath = path.resolve(process.cwd(), "index.html");
+        if (fs.existsSync(indexPath)) {
+          let template = fs.readFileSync(indexPath, "utf-8");
+          template = await vite.transformIndexHtml(url, template);
+          const finalHtml = await injectSocialMeta(template, req);
+          return res.status(200).set({ "Content-Type": "text/html; charset=utf-8" }).end(finalHtml);
+        }
+      } catch (e: any) {
+        console.error("Error transforming dev index.html with OG tags:", e);
+        // Resilient fallback: serve untransformed index.html so the preview is never blank
         try {
           const indexPath = path.resolve(process.cwd(), "index.html");
           if (fs.existsSync(indexPath)) {
-            let template = fs.readFileSync(indexPath, "utf-8");
-            template = await vite.transformIndexHtml(url, template);
-            const finalHtml = await injectSocialMeta(template, req);
-            return res.status(200).set({ "Content-Type": "text/html" }).end(finalHtml);
+            const rawTemplate = fs.readFileSync(indexPath, "utf-8");
+            return res.status(200).set({ "Content-Type": "text/html; charset=utf-8" }).end(rawTemplate);
           }
-        } catch (e) {
-          console.error("Error transforming dev index.html with OG tags:", e);
+        } catch {
+          // Pass along if reading file fails
         }
       }
       next();
-    });
+    };
 
+    // 1. Intercept SPA page requests before Vite middlewares
+    app.use(serveIndexHtml);
+
+    // 2. Vite middlewares for client scripts, CSS, HMR, assets, and pre-bundled deps
     app.use(vite.middlewares);
-    console.log("Vite development server middleware loaded with dynamic OG meta injection.");
+
+    // 3. Fallback SPA route after Vite middlewares for all client-side routes (e.g. /admin)
+    app.use("*", serveIndexHtml);
+
+    console.log("Vite development server middleware loaded with allowedHosts and dynamic OG meta injection.");
   } else {
     // Production Mode
     const distPath = path.join(process.cwd(), "dist");
@@ -99,8 +128,10 @@ async function startServer() {
         immutable: true,
       })
     );
+    // Serve compiled static assets from dist without automatically intercepting index.html
     app.use(
       express.static(distPath, {
+        index: false,
         setHeaders: (res, filePath) => {
           if (filePath.endsWith("index.html")) {
             res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");

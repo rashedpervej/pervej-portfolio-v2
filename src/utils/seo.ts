@@ -25,7 +25,7 @@ export function resolveSocialImageUrl(rawImage?: string): string {
     return origin ? `${origin}/og-image.jpg` : "/og-image.jpg";
   }
 
-  let cleaned = rawImage.trim();
+  let cleaned = rawImage.trim().replace(/^["']|["']$/g, "");
 
   // Transparently migrate legacy pervej.pro.bd URL to dynamic universal path
   if (cleaned.includes("pervej.pro.bd")) {
@@ -33,6 +33,19 @@ export function resolveSocialImageUrl(rawImage?: string): string {
     if (!cleaned.startsWith("/")) {
       cleaned = "/" + cleaned;
     }
+  }
+
+  // Normalize legacy source asset paths (e.g. /src/assets/images/packeging-header.webp -> /packeging-header.webp)
+  if (cleaned.startsWith("/src/assets/images/")) {
+    cleaned = cleaned.replace("/src/assets/images/", "/");
+  } else if (cleaned.startsWith("src/assets/images/")) {
+    cleaned = "/" + cleaned.replace("src/assets/images/", "");
+  }
+
+  // Expand relative Supabase storage paths if provided without domain
+  if (cleaned.startsWith("portfolio-assets/") || cleaned.startsWith("/portfolio-assets/")) {
+    const assetPath = cleaned.replace(/^\/+/, "");
+    return `https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/${assetPath}`;
   }
 
   // Preserve absolute URLs and inline data/blob streams

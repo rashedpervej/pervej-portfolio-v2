@@ -14,11 +14,65 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import DynamicBackground from "./components/DynamicBackground";
 
-// Lazy-load heavy route-level and feature-level components to optimize initial bundle and Core Web Vitals
-const Admin = lazy(() => import("./components/Admin"));
+// Resilient lazy-load for route-level components with automatic retry on chunk loading errors
+const Admin = lazy(() =>
+  import("./components/Admin").catch((err) => {
+    console.error("Failed to load Admin module chunk, retrying once...", err);
+    return new Promise<{ default: React.ComponentType<any> }>((resolve) =>
+      setTimeout(resolve, 500)
+    ).then(() => import("./components/Admin"));
+  })
+);
 const InvoiceMaker = lazy(() => import("./components/InvoiceMaker"));
 const AIChatBot = lazy(() => import("./components/AIChatBot"));
 const DynamicSection = lazy(() => import("./components/DynamicSection"));
+
+class AdminErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean; error: Error | null }
+> {
+  override state: { hasError: boolean; error: Error | null } = { hasError: false, error: null };
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+  override componentDidCatch(error: Error, info: React.ErrorInfo) {
+    console.error("Admin portal render error caught:", error, info);
+  }
+  override render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-[#070708] text-white p-6">
+          <div className="max-w-md w-full p-8 rounded-2xl bg-[#121214] border border-red-500/30 text-center space-y-4 shadow-2xl">
+            <div className="w-12 h-12 rounded-full bg-red-950/60 border border-red-500/30 mx-auto flex items-center justify-center text-red-400">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold text-white">Admin Portal Recovery</h2>
+            <p className="text-xs text-zinc-400 leading-relaxed">
+              {this.state.error?.message || "An unexpected error occurred while loading the Admin module."}
+            </p>
+            <div className="flex gap-3 justify-center pt-2">
+              <button
+                onClick={() => window.location.reload()}
+                className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 rounded-xl text-xs font-semibold cursor-pointer transition-colors"
+              >
+                Reload Admin
+              </button>
+              <a
+                href="/"
+                className="px-5 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl text-xs font-semibold transition-colors"
+              >
+                Return to Site
+              </a>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 // Elegant lightweight route loading fallback
 function RouteLoadingFallback() {
@@ -184,15 +238,21 @@ export default function App() {
     };
   }, []);
 
+  const normalizedPath = currentPath.toLowerCase().replace(/\/+$/, "") || "/";
+  const isAdminRoute = normalizedPath === "/admin";
+  const isInvoiceRoute = normalizedPath === "/invoice-maker";
+
   return (
     <ErrorBoundary>
       <PortfolioProvider>
         <ScrollToTop currentPath={currentPath} />
-        {currentPath === "/admin" ? (
-          <Suspense fallback={<RouteLoadingFallback />}>
-            <Admin />
-          </Suspense>
-        ) : currentPath === "/invoice-maker" ? (
+        {isAdminRoute ? (
+          <AdminErrorBoundary>
+            <Suspense fallback={<RouteLoadingFallback />}>
+              <Admin />
+            </Suspense>
+          </AdminErrorBoundary>
+        ) : isInvoiceRoute ? (
           <Suspense fallback={<RouteLoadingFallback />}>
             <InvoiceMaker />
           </Suspense>
