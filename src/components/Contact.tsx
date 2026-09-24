@@ -66,8 +66,8 @@ export default function Contact() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className={`flex items-center gap-4 sm:gap-5 p-5 sm:p-6 rounded-2xl transition-all duration-300 group cursor-pointer ${
               isLight
-                ? "bg-white/65 hover:bg-white/90 border border-white/90 hover:border-purple-300 shadow-[0_8px_24px_rgba(100,100,160,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-xl"
-                : "bg-[#09090e]/80 border border-white/[0.06] hover:border-purple-500/30 hover:bg-[#0c0c16] shadow-lg shadow-black/40"
+                ? "bg-white/65 hover:bg-white/90 border border-white/90 hover:border-purple-300 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_20px_-4px_rgba(124,58,237,0.08)] hover:-translate-y-0.5 backdrop-blur-xl"
+                : "bg-[#09090e]/80 border border-white/[0.06] hover:border-purple-500/30 hover:bg-[#0c0c16] shadow-[0_4px_16px_-2px_rgba(0,0,0,0.35)] hover:shadow-[0_8px_20px_-4px_rgba(0,0,0,0.5)] hover:-translate-y-0.5"
             }`}
           >
             <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-all duration-300 ${
@@ -98,8 +98,8 @@ export default function Contact() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className={`flex items-center gap-4 sm:gap-5 p-5 sm:p-6 rounded-2xl transition-all duration-300 group cursor-pointer ${
               isLight
-                ? "bg-white/65 hover:bg-white/90 border border-white/90 hover:border-purple-300 shadow-[0_8px_24px_rgba(100,100,160,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-xl"
-                : "bg-[#09090e]/80 border border-white/[0.06] hover:border-purple-500/30 hover:bg-[#0c0c16] shadow-lg shadow-black/40"
+                ? "bg-white/65 hover:bg-white/90 border border-white/90 hover:border-purple-300 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_20px_-4px_rgba(124,58,237,0.08)] hover:-translate-y-0.5 backdrop-blur-xl"
+                : "bg-[#09090e]/80 border border-white/[0.06] hover:border-purple-500/30 hover:bg-[#0c0c16] shadow-[0_4px_16px_-2px_rgba(0,0,0,0.35)] hover:shadow-[0_8px_20px_-4px_rgba(0,0,0,0.5)] hover:-translate-y-0.5"
             }`}
           >
             <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-all duration-300 ${
@@ -127,8 +127,8 @@ export default function Contact() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className={`flex items-center gap-4 sm:gap-5 p-5 sm:p-6 rounded-2xl transition-all duration-300 group ${
               isLight
-                ? "bg-white/65 border border-white/90 shadow-[0_8px_24px_rgba(100,100,160,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-xl"
-                : "bg-[#09090e]/80 border border-white/[0.06] hover:border-purple-500/30 hover:bg-[#0c0c16] shadow-lg shadow-black/40"
+                ? "bg-white/65 border border-white/90 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.04)] backdrop-blur-xl"
+                : "bg-[#09090e]/80 border border-white/[0.06] hover:border-purple-500/30 hover:bg-[#0c0c16] shadow-[0_4px_16px_-2px_rgba(0,0,0,0.35)]"
             }`}
           >
             <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-all duration-300 ${
@@ -177,10 +177,10 @@ export default function Contact() {
             href={behanceUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-center justify-center gap-2 sm:gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl hover:-translate-y-0.5 transition-all duration-300 group shadow-lg ${
+            className={`flex items-center justify-center gap-2 sm:gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl hover:-translate-y-0.5 transition-all duration-300 group ${
               isLight
-                ? "bg-white/70 hover:bg-white/95 border border-white/90 hover:border-purple-300 shadow-[0_6px_20px_rgba(100,100,160,0.07),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-xl"
-                : "bg-[#09090e]/90 border border-white/[0.08] hover:border-purple-500/40 hover:bg-[#0c0c16]"
+                ? "bg-white/70 hover:bg-white/95 border border-white/90 hover:border-purple-300 shadow-xs hover:shadow-sm backdrop-blur-xl"
+                : "bg-[#09090e]/90 border border-white/[0.08] hover:border-purple-500/40 hover:bg-[#0c0c16] shadow-xs hover:shadow-sm"
             }`}
           >
             <span className={`font-sans font-black text-lg sm:text-xl tracking-tight ${isLight ? "text-purple-600" : "text-purple-400"}`}>
@@ -196,10 +196,10 @@ export default function Contact() {
             href={linkedinUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-center justify-center gap-2 sm:gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl hover:-translate-y-0.5 transition-all duration-300 group shadow-lg ${
+            className={`flex items-center justify-center gap-2 sm:gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl hover:-translate-y-0.5 transition-all duration-300 group ${
               isLight
-                ? "bg-white/70 hover:bg-white/95 border border-white/90 hover:border-purple-300 shadow-[0_6px_20px_rgba(100,100,160,0.07),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-xl"
-                : "bg-[#09090e]/90 border border-white/[0.08] hover:border-purple-500/40 hover:bg-[#0c0c16]"
+                ? "bg-white/70 hover:bg-white/95 border border-white/90 hover:border-purple-300 shadow-xs hover:shadow-sm backdrop-blur-xl"
+                : "bg-[#09090e]/90 border border-white/[0.08] hover:border-purple-500/40 hover:bg-[#0c0c16] shadow-xs hover:shadow-sm"
             }`}
           >
             <span className={`font-sans font-extrabold text-lg sm:text-xl tracking-tight ${isLight ? "text-purple-600" : "text-purple-400"}`}>

@@ -60,8 +60,8 @@ function ServiceCard({ service, index }: { service: Service; index: number; key?
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className={`rounded-2xl transition-all duration-500 group flex flex-col justify-between text-left overflow-hidden h-full ${
         isLight
-          ? "bg-white/65 hover:bg-white/85 border border-white/90 hover:border-purple-300 shadow-[0_10px_30px_rgba(100,100,160,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-xl hover:shadow-[0_16px_40px_rgba(147,51,234,0.1)]"
-          : "bg-[#0e0f18]/85 hover:bg-[#131422]/95 border border-white/10 hover:border-purple-500/40 backdrop-blur-xl shadow-xl shadow-black/40"
+          ? "bg-white/65 hover:bg-white/85 border border-white/90 hover:border-purple-300 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.04)] backdrop-blur-xl hover:shadow-[0_12px_28px_-4px_rgba(124,58,237,0.1)] hover:-translate-y-1"
+          : "bg-[#0e0f18]/85 hover:bg-[#131422]/95 border border-white/10 hover:border-purple-500/40 backdrop-blur-xl shadow-[0_4px_16px_-2px_rgba(0,0,0,0.35)] hover:shadow-[0_12px_28px_-4px_rgba(0,0,0,0.55),0_0_16px_-2px_rgba(168,85,247,0.15)] hover:-translate-y-1"
       }`}
     >
       <div>
@@ -78,10 +78,10 @@ function ServiceCard({ service, index }: { service: Service; index: number; key?
           />
 
           {/* Overlaid Icon (bottom-left of the image banner) */}
-          <div className={`absolute bottom-2.5 sm:bottom-3 left-3.5 sm:left-4 w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center border shadow-lg transition-all duration-300 backdrop-blur-md ${
+          <div className={`absolute bottom-2.5 sm:bottom-3 left-3.5 sm:left-4 w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center border transition-all duration-300 backdrop-blur-md ${
             isLight
-              ? "bg-white/90 border-white/90 group-hover:border-purple-300 shadow-[0_4px_12px_rgba(100,100,160,0.1)]"
-              : "bg-black/80 border-white/15 group-hover:bg-purple-600/10 group-hover:border-purple-500/30"
+              ? "bg-white/90 border-white/90 group-hover:border-purple-300 shadow-xs"
+              : "bg-black/80 border-white/15 group-hover:bg-purple-600/10 group-hover:border-purple-500/30 shadow-xs"
           }`}>
             {getServiceIcon(index)}
           </div>

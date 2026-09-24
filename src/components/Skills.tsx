@@ -88,7 +88,7 @@ export default function Skills() {
     if (norm.includes("photoshop") || norm.includes("ps")) {
       return {
         logo: (
-          <div className="w-12 h-12 rounded-xl bg-[#001e36] border-2 border-[#00c8ff] flex items-center justify-center shadow-lg shadow-[#00c8ff]/10">
+          <div className="w-12 h-12 rounded-xl bg-[#001e36] border-2 border-[#00c8ff] flex items-center justify-center shadow-xs">
             <span className="font-sans font-black text-lg text-[#00c8ff] tracking-tight">Ps</span>
           </div>
         ),
@@ -98,7 +98,7 @@ export default function Skills() {
     if (norm.includes("illustrator") || norm === "ai" || norm === "adobe ai") {
       return {
         logo: (
-          <div className="w-12 h-12 rounded-xl bg-[#261300] border-2 border-[#ff9a00] flex items-center justify-center shadow-lg shadow-[#ff9a00]/10">
+          <div className="w-12 h-12 rounded-xl bg-[#261300] border-2 border-[#ff9a00] flex items-center justify-center shadow-xs">
             <span className="font-sans font-black text-lg text-[#ff9a00] tracking-tight">Ai</span>
           </div>
         ),
@@ -108,7 +108,7 @@ export default function Skills() {
     if (norm.includes("after effects") || norm.includes("ae")) {
       return {
         logo: (
-          <div className="w-12 h-12 rounded-xl bg-[#060247] border-2 border-[#2F207E] flex items-center justify-center shadow-lg shadow-[#8a81bd]/10">
+          <div className="w-12 h-12 rounded-xl bg-[#060247] border-2 border-[#2F207E] flex items-center justify-center shadow-xs">
             <span className="font-sans font-black text-lg text-[#8A77F6] tracking-tight">Ae</span>
           </div>
         ),
@@ -118,7 +118,7 @@ export default function Skills() {
     if (norm.includes("canva")) {
       return {
         logo: (
-          <div className="w-12 h-12 rounded-xl overflow-hidden border border-white/10 flex items-center justify-center shadow-lg shadow-[#7928eb]/20">
+          <div className="w-12 h-12 rounded-xl overflow-hidden border border-white/10 flex items-center justify-center shadow-xs">
             <svg viewBox="0 0 253.43 255" className="w-full h-full">
               <defs>
                 <linearGradient id="canva-new-grad" x1="27.63" y1="11.42" x2="226.26" y2="248.14" gradientUnits="userSpaceOnUse">
@@ -138,7 +138,7 @@ export default function Skills() {
     if (norm.includes("capcut")) {
       return {
         logo: (
-          <div className="w-12 h-12 rounded-xl bg-white border border-white/10 flex items-center justify-center p-2.5 shadow-lg overflow-hidden">
+          <div className="w-12 h-12 rounded-xl bg-white border border-white/10 flex items-center justify-center p-2.5 shadow-xs overflow-hidden">
             <svg viewBox="0 0 924.47 708.98" className="w-full h-full text-black">
               <path fill="#000000" d="M4.07,125.83C11,64.89,61.15,18,122.42,15.18h521.38c37.85,3.12,72.3,23.07,93.85,54.34,9.59,14.07,16.35,29.87,19.92,46.51l153.22-75.97c3.36-1.68,7.45-.32,9.14,3.04.34.68.57,1.42.66,2.18v86.15c.12,5.89-3.39,11.25-8.84,13.49-140.96,69.91-281.94,139.9-422.95,209.98l421.99,208.77c5.51,1.91,9.36,6.91,9.8,12.73v86.28c.03,3.9-3.11,7.08-7.01,7.11-1.53.01-3.02-.48-4.25-1.38-50.27-25.45-101.24-49.44-151.12-75.4-3.35,12.06-7.83,23.77-13.36,35-17.09,31.45-46.63,54.24-81.38,62.8-11.5,2.42-23.26,3.38-35,2.86H142.53c-10.94,0-21.95,0-32.83-.83-56.44-8.45-99.94-54.13-105.63-110.91v-83.48c.94-7.1,5.9-13.03,12.73-15.21,86.66-42.82,173.14-86.03,259.93-128.66-87.43-43.52-174.92-86.92-262.47-130.19-6.08-2.68-10.02-8.69-10.05-15.33-.13-27.68-.57-55.49-.13-83.23ZM100.66,126.4c-5.22,10.5-2.8,22.65-3.25,33.98,95.44,47.15,190.19,94.55,285.44,141.39,94.13-46.66,188.3-93.32,282.52-139.99,0-8.46.38-16.93,0-25.45-2.29-15.76-15.89-27.4-31.81-27.23H129.74c-12.26-.41-23.64,6.35-29.14,17.31h.06ZM97.41,548.65c.45,11.45-2.04,23.8,3.5,34.42,5.67,10.66,16.88,17.19,28.95,16.86h504.14c11.37.09,21.91-5.97,27.55-15.84,6.36-11.14,3.44-24.5,4.07-36.71-94.36-46.58-188.6-93.92-283.15-139.99-95.32,47.09-190.36,94.17-285.13,141.26h.06Z" />
             </svg>
@@ -150,7 +150,7 @@ export default function Skills() {
     if (norm.includes("wordpress")) {
       return {
         logo: (
-          <div className="w-12 h-12 rounded-xl overflow-hidden shadow-lg border border-[#21759b]/50 flex items-center justify-center bg-[#21759b]">
+          <div className="w-12 h-12 rounded-xl overflow-hidden shadow-xs border border-[#21759b]/50 flex items-center justify-center bg-[#21759b]">
             <svg viewBox="0 0 512 512" className="w-full h-full">
               <rect width="512" height="512" fill="#21759b" rx="15%" />
               <circle cx="256" cy="256" r="190" fill="none" stroke="#ffffff" strokeWidth="20" />
@@ -164,7 +164,7 @@ export default function Skills() {
     if (norm.includes("ai")) {
       return {
         logo: (
-          <div className="w-12 h-12 rounded-xl bg-[#0a2119] border border-[#0a4a2e] flex items-center justify-center p-2 shadow-lg shadow-[#62BB46]/10 overflow-hidden">
+          <div className="w-12 h-12 rounded-xl bg-[#0a2119] border border-[#0a4a2e] flex items-center justify-center p-2 shadow-xs overflow-hidden">
             <svg viewBox="0 0 153.15 165.65" className="w-full h-full">
               <g fill="#09b26d">
                 <g>
@@ -187,7 +187,7 @@ export default function Skills() {
     }
     return {
       logo: (
-        <div className="w-12 h-12 rounded-xl bg-purple-950/40 border border-purple-500/30 flex items-center justify-center shadow-lg">
+        <div className="w-12 h-12 rounded-xl bg-purple-950/40 border border-purple-500/30 flex items-center justify-center shadow-xs">
           <span className="font-sans font-black text-lg text-purple-400 tracking-tight">
             {name.substring(0, 2).toUpperCase()}
           </span>
@@ -262,8 +262,8 @@ export default function Skills() {
           {/* Left Column: Core Competencies */}
           <div className={`lg:col-span-5 p-6 rounded-2xl transition-all duration-300 ${
             isLight
-              ? "bg-white/65 border border-white/90 shadow-[0_12px_32px_rgba(100,100,160,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-xl"
-              : "bg-[#07070a]/80 border border-white/[0.04] backdrop-blur-sm"
+              ? "bg-white/65 border border-white/90 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.04)] backdrop-blur-xl"
+              : "bg-[#07070a]/80 border border-white/[0.04] backdrop-blur-sm shadow-[0_4px_16px_-2px_rgba(0,0,0,0.3)]"
           }`}>
             <h3 className={`font-display font-bold text-xs uppercase tracking-widest mb-6 flex items-center ${
               isLight ? "text-zinc-700" : "text-zinc-300"
@@ -285,7 +285,7 @@ export default function Skills() {
                   variants={cardVariants}
                   className={`flex items-center justify-between p-2.5 rounded-xl transition-all duration-300 group cursor-pointer ${
                     isLight
-                      ? "bg-white/70 hover:bg-white/95 border border-white/90 hover:border-purple-300 shadow-[0_2px_8px_rgba(100,100,160,0.05),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-md"
+                      ? "bg-white/70 hover:bg-white/95 border border-white/90 hover:border-purple-300 shadow-xs backdrop-blur-md"
                       : "bg-[#0c0c12]/60 border border-white/[0.03] hover:border-purple-500/30 hover:bg-[#0c0c16]"
                   }`}
                 >
@@ -313,8 +313,8 @@ export default function Skills() {
           <div className="lg:col-span-7 space-y-5">
             <div className={`p-6 rounded-2xl text-left transition-all duration-300 ${
               isLight
-                ? "bg-white/65 border border-white/90 shadow-[0_12px_32px_rgba(100,100,160,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-xl"
-                : "bg-[#07070a]/80 border border-white/[0.04] backdrop-blur-sm"
+                ? "bg-white/65 border border-white/90 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.04)] backdrop-blur-xl"
+                : "bg-[#07070a]/80 border border-white/[0.04] backdrop-blur-sm shadow-[0_4px_16px_-2px_rgba(0,0,0,0.3)]"
             }`}>
               <h3 className={`font-display font-bold text-xs uppercase tracking-widest mb-5 sm:mb-6 flex items-center ${
                 isLight ? "text-zinc-700" : "text-zinc-300"
@@ -336,8 +336,8 @@ export default function Skills() {
                       transition={{ duration: 0.4, delay: idx * 0.05 }}
                       className={`${spanClass} flex flex-col items-center justify-between p-5 pt-6 pb-5 rounded-2xl hover:-translate-y-1 transition-all duration-300 text-center group cursor-pointer ${
                         isLight
-                          ? "bg-white/70 hover:bg-white/95 border border-white/90 hover:border-purple-300 shadow-[0_4px_16px_rgba(100,100,160,0.05),inset_0_1px_1px_rgba(255,255,255,0.95)] hover:shadow-[0_10px_24px_rgba(147,51,234,0.1)] backdrop-blur-md"
-                          : "bg-[#0c0c12]/60 border border-white/[0.03] hover:border-purple-500/30 hover:bg-[#0c0c16] hover:shadow-lg hover:shadow-purple-500/[0.02]"
+                          ? "bg-white/70 hover:bg-white/95 border border-white/90 hover:border-purple-300 shadow-xs hover:shadow-sm backdrop-blur-md"
+                          : "bg-[#0c0c12]/60 border border-white/[0.03] hover:border-purple-500/30 hover:bg-[#0c0c16] hover:shadow-xs"
                       }`}
                     >
                       <div className="mb-3 transform group-hover:scale-105 transition-transform duration-300">
@@ -373,11 +373,11 @@ export default function Skills() {
             {/* Bottom: Visual Artistry Principle Information Card */}
             <div className={`p-6 rounded-2xl text-left flex gap-4 items-start ${
               isLight
-                ? "bg-white/70 border border-purple-200/80 shadow-[0_8px_24px_rgba(147,51,234,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-md"
-                : "bg-gradient-to-r from-purple-950/20 to-[#07070a]/60 border border-purple-500/15 shadow-inner"
+                ? "bg-white/70 border border-purple-200/80 shadow-[0_2px_10px_-2px_rgba(0,0,0,0.03)] backdrop-blur-md"
+                : "bg-gradient-to-r from-purple-950/20 to-[#07070a]/60 border border-purple-500/15"
             }`}>
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-                isLight ? "bg-purple-100 border border-purple-200" : "bg-purple-500/10 border border-purple-500/20 shadow-lg shadow-purple-500/[0.02]"
+                isLight ? "bg-purple-100 border border-purple-200" : "bg-purple-500/10 border border-purple-500/20 shadow-xs"
               }`}>
                 <Sparkles className={`w-5 h-5 ${isLight ? "text-purple-600" : "text-purple-400"}`} />
               </div>

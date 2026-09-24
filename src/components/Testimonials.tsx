@@ -251,8 +251,8 @@ export default function Testimonials() {
                 >
                   <div className={`relative p-6 sm:p-12 rounded-3xl min-h-[260px] flex flex-col justify-between select-none h-full text-center transition-all duration-300 ${
                     isLight
-                      ? "bg-white/70 border border-white/95 shadow-[0_16px_40px_rgba(100,100,160,0.08),inset_0_1.5px_1px_rgba(255,255,255,1)] backdrop-blur-xl"
-                      : "bg-[#0e0f18]/85 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/60"
+                      ? "bg-white/70 border border-white/95 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)] backdrop-blur-xl"
+                      : "bg-[#0e0f18]/85 backdrop-blur-xl border border-white/10 shadow-[0_8px_24px_-4px_rgba(0,0,0,0.5)]"
                   }`}>
                     <div className={`absolute top-6 left-6 pointer-events-none ${
                       isLight ? "text-purple-300/30" : "text-purple-500/20"
@@ -300,7 +300,7 @@ export default function Testimonials() {
               aria-label="Previous Testimonial"
               className={`p-2.5 rounded-xl border transition-all active:scale-90 ${
                 isLight
-                  ? "bg-white/70 hover:bg-white/95 text-zinc-700 hover:text-zinc-950 border-white/90 shadow-sm backdrop-blur-md"
+                  ? "bg-white/70 hover:bg-white/95 text-zinc-700 hover:text-zinc-950 border-white/90 shadow-xs backdrop-blur-md"
                   : "bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white border-white/5"
               }`}
             >
@@ -315,7 +315,7 @@ export default function Testimonials() {
                   aria-label={`Go to testimonial ${idx + 1}`}
                   className={`h-2 rounded-full transition-all duration-300 ${
                     selectedIndex === idx
-                      ? "bg-purple-600 w-6 shadow-md shadow-purple-600/30"
+                      ? "bg-purple-600 w-6 shadow-sm shadow-purple-600/30"
                       : isLight
                       ? "bg-zinc-300 w-2 hover:bg-zinc-400"
                       : "bg-white/15 w-2 hover:bg-white/30"
@@ -329,7 +329,7 @@ export default function Testimonials() {
               aria-label="Next Testimonial"
               className={`p-2.5 rounded-xl border transition-all active:scale-90 ${
                 isLight
-                  ? "bg-white/70 hover:bg-white/95 text-zinc-700 hover:text-zinc-950 border-white/90 shadow-sm backdrop-blur-md"
+                  ? "bg-white/70 hover:bg-white/95 text-zinc-700 hover:text-zinc-950 border-white/90 shadow-xs backdrop-blur-md"
                   : "bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white border-white/5"
               }`}
             >

@@ -131,8 +131,8 @@ export default function DynamicSection({ section, isPreview = false }: DynamicSe
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
                 className={`group relative rounded-2xl p-6 transition-all duration-300 overflow-hidden ${
                   isLight
-                    ? "bg-white/65 hover:bg-white/85 border border-white/90 hover:border-purple-300 shadow-[0_8px_24px_rgba(100,100,160,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-xl"
-                    : "bg-[#070707] border border-zinc-800/60 hover:border-purple-500/40 hover:bg-zinc-900/10"
+                    ? "bg-white/65 hover:bg-white/85 border border-white/90 hover:border-purple-300 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_20px_-4px_rgba(124,58,237,0.08)] backdrop-blur-xl"
+                    : "bg-[#070707] border border-zinc-800/60 hover:border-purple-500/40 hover:bg-zinc-900/10 shadow-[0_4px_16px_-2px_rgba(0,0,0,0.35)]"
                 }`}
               >
                 {/* Image if available */}
@@ -216,8 +216,8 @@ export default function DynamicSection({ section, isPreview = false }: DynamicSe
             transition={{ duration: 0.6 }}
             className={`rounded-2xl p-8 md:p-12 ${
               isLight
-                ? "bg-white/65 border border-white/90 shadow-[0_12px_32px_rgba(100,100,160,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-xl"
-                : "bg-[#070707] border border-zinc-800/60"
+                ? "bg-white/65 border border-white/90 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.04)] backdrop-blur-xl"
+                : "bg-[#070707] border border-zinc-800/60 shadow-[0_4px_16px_-2px_rgba(0,0,0,0.35)]"
             }`}
           >
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">

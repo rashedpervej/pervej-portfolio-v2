@@ -319,7 +319,7 @@ export default function Header() {
                   {isActive && (
                     <motion.span
                       layoutId="activeNavIndicator"
-                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-purple-500 rounded-full shadow-[0_0_8px_rgba(168,85,247,0.5)]"
+                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-purple-500 rounded-full shadow-[0_0_6px_rgba(168,85,247,0.4)]"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -343,8 +343,8 @@ export default function Header() {
               aria-label="Download Curriculum Vitae"
               className={`group relative inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4.5 py-2 sm:py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 ease-out overflow-hidden active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap shrink-0 ${
                 isLight
-                  ? "bg-white/65 hover:bg-white/90 border border-white/90 hover:border-purple-400/40 text-purple-950 shadow-[0_4px_16px_rgba(100,100,160,0.08),inset_0_1px_1px_rgba(255,255,255,0.95)] hover:shadow-[0_8px_24px_rgba(168,85,247,0.18)]"
-                  : "bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 hover:shadow-[0_0_15px_rgba(168,85,247,0.15)] hover:brightness-110 text-white"
+                  ? "bg-white/65 hover:bg-white/90 border border-white/90 hover:border-purple-400/40 text-purple-950 shadow-xs hover:shadow-sm"
+                  : "bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 hover:shadow-xs hover:brightness-110 text-white"
               }`}
             >
               {/* Glossy Shine Sweep Overlay */}

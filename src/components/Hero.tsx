@@ -180,7 +180,7 @@ export default function Hero() {
               target={isExternalUrl(primaryCtaLink) ? "_blank" : undefined}
               rel={isExternalUrl(primaryCtaLink) ? "noopener noreferrer" : undefined}
               onClick={(e) => handleCtaClick(e, primaryCtaLink)}
-              className="btn-keep-white group relative px-8 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs uppercase tracking-widest font-semibold transition-all duration-300 shadow-lg shadow-purple-600/25 active:scale-95 flex items-center gap-2 border border-purple-400/30 overflow-hidden cursor-pointer"
+              className="btn-keep-white group relative px-8 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs uppercase tracking-widest font-semibold transition-all duration-300 shadow-sm shadow-purple-600/25 hover:shadow-md hover:shadow-purple-600/30 active:scale-95 flex items-center gap-2 border border-purple-400/30 overflow-hidden cursor-pointer"
             >
               <span className="absolute inset-0 pointer-events-none -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent -skew-x-12" />
               <Paintbrush className="w-4 h-4 text-purple-200" />
@@ -193,7 +193,7 @@ export default function Hero() {
               onClick={(e) => handleCtaClick(e, secondaryCtaLink)}
               className={`px-8 py-4 rounded-xl text-xs uppercase tracking-widest font-semibold transition-all duration-300 active:scale-95 cursor-pointer ${
                 isLight
-                  ? "bg-white/65 hover:bg-white/95 text-zinc-900 border border-white/90 hover:border-purple-400/40 shadow-[0_4px_16px_rgba(100,100,160,0.08),inset_0_1px_1px_rgba(255,255,255,0.95)] hover:shadow-[0_8px_24px_rgba(168,85,247,0.14)] backdrop-blur-md"
+                  ? "bg-white/65 hover:bg-white/95 text-zinc-900 border border-white/90 hover:border-purple-400/40 shadow-xs hover:shadow-sm backdrop-blur-md"
                   : "bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20"
               }`}
             >
@@ -244,10 +244,10 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className={`relative w-full max-w-sm sm:max-w-md aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl group flex flex-col justify-end transition-all duration-500 ${
+            className={`relative w-full max-w-sm sm:max-w-md aspect-[4/5] rounded-3xl overflow-hidden group flex flex-col justify-end transition-all duration-500 ${
               isLight
-                ? "border border-white/90 bg-white/40 shadow-[0_20px_50px_rgba(100,100,160,0.12),inset_0_1.5px_1px_rgba(255,255,255,1)] backdrop-blur-xl"
-                : "border border-white/10 bg-zinc-950"
+                ? "border border-white/90 bg-white/40 shadow-[0_8px_30px_-6px_rgba(0,0,0,0.06)] backdrop-blur-xl"
+                : "border border-white/10 bg-zinc-950 shadow-[0_12px_32px_-6px_rgba(0,0,0,0.5)]"
             }`}
           >
             {/* Ambient Radial Glow Behind Frame */}

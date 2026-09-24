@@ -29,8 +29,8 @@ export default function ThemeToggle({ className = "", compact = false, onToggle 
         compact ? "min-w-[44px] min-h-[44px] justify-center" : ""
       } ${
         isLight
-          ? "bg-white/75 hover:bg-white/90 border border-white/90 shadow-[0_3px_12px_rgba(100,100,160,0.08),inset_0_1px_1px_rgba(255,255,255,0.95)]"
-          : "bg-[#0d0d12]/90 hover:bg-[#15151e] border border-white/10 shadow-[0_2px_10px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.05)]"
+          ? "bg-white/75 hover:bg-white/90 border border-white/90 shadow-xs"
+          : "bg-[#0d0d12]/90 hover:bg-[#15151e] border border-white/10 shadow-xs"
       } backdrop-blur-xl ${className}`}
     >
       {/* Specular sheen effect on hover */}
@@ -68,13 +68,13 @@ export default function ThemeToggle({ className = "", compact = false, onToggle 
           >
             {/* Light Mode Thumb Layer */}
             <div
-              className={`absolute inset-0 rounded-full bg-white border border-white/90 shadow-[0_2px_8px_rgba(0,0,0,0.12),inset_0_1px_1px_rgba(255,255,255,1)] ${
+              className={`absolute inset-0 rounded-full bg-white border border-white/90 shadow-xs ${
                 isLight ? "opacity-100" : "opacity-0"
               }`}
             />
             {/* Dark Mode Thumb Layer */}
             <div
-              className={`absolute inset-0 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 border border-purple-400/30 shadow-[0_2px_12px_rgba(147,51,234,0.45)] ${
+              className={`absolute inset-0 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 border border-purple-400/30 shadow-[0_2px_8px_rgba(147,51,234,0.3)] ${
                 !isLight ? "opacity-100" : "opacity-0"
               }`}
             />

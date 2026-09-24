@@ -409,10 +409,10 @@ export default function AIChatBot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.95 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className={`w-80 sm:w-96 h-[500px] rounded-2xl shadow-2xl flex flex-col overflow-hidden mb-4 ${
+            className={`w-80 sm:w-96 h-[500px] rounded-2xl flex flex-col overflow-hidden mb-4 ${
               isLight
-                ? "bg-[#f8f9fc]/85 backdrop-blur-2xl border border-white/90 shadow-[0_20px_50px_rgba(99,102,241,0.12),inset_0_1px_1px_rgba(255,255,255,1)]"
-                : "glass-panel-heavy"
+                ? "bg-[#f8f9fc]/85 backdrop-blur-2xl border border-white/90 shadow-[0_16px_36px_-6px_rgba(99,102,241,0.12),0_4px_12px_-2px_rgba(0,0,0,0.04)]"
+                : "glass-panel-heavy shadow-[0_16px_36px_-6px_rgba(0,0,0,0.65)]"
             }`}
           >
             {/* Header */}
@@ -602,8 +602,8 @@ export default function AIChatBot() {
         aria-expanded={isOpen}
         className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 relative group cursor-pointer ${
           isLight
-            ? "bg-white/75 hover:bg-white/95 border border-white text-purple-600 shadow-[0_8px_25px_rgba(147,51,234,0.18),inset_0_1.5px_1px_rgba(255,255,255,1)] hover:shadow-[0_12px_32px_rgba(147,51,234,0.28)] backdrop-blur-xl"
-            : "bg-gradient-to-tr from-purple-600 to-indigo-600 text-white border border-white/10 shadow-xl hover:shadow-purple-500/20"
+            ? "bg-white/85 hover:bg-white border border-white text-purple-600 shadow-[0_6px_20px_-2px_rgba(147,51,234,0.18)] hover:shadow-[0_8px_24px_-2px_rgba(147,51,234,0.28)] backdrop-blur-xl"
+            : "bg-gradient-to-tr from-purple-600 to-indigo-600 text-white border border-purple-400/30 shadow-[0_6px_20px_-2px_rgba(147,51,234,0.35)] hover:shadow-[0_8px_24px_-2px_rgba(147,51,234,0.5)]"
         }`}
         whileTap={{ scale: 0.9 }}
       >
@@ -634,9 +634,9 @@ export default function AIChatBot() {
             </motion.div>
           )}
         </AnimatePresence>
-        <span className={`absolute right-16 text-xs px-2.5 py-1 rounded-md opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-300 whitespace-nowrap shadow-lg ${
+        <span className={`absolute right-16 text-xs px-2.5 py-1 rounded-md opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-300 whitespace-nowrap shadow-sm ${
           isLight
-            ? "bg-white/90 text-zinc-900 border border-white/90 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.08)]"
+            ? "bg-white/90 text-zinc-900 border border-white/90 backdrop-blur-md"
             : "bg-[#0c0c10] text-zinc-200 border border-white/10"
         }`}>
           Chat with Rashed's AI

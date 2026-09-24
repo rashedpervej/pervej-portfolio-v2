@@ -28,7 +28,7 @@ export default function Brands() {
       >
         {/* Global white background shape treatment with clean, subtle border and no heavy shadow */}
         <div
-          className="px-4 sm:px-7 py-2 sm:py-3 rounded-xl sm:rounded-2xl transition-all duration-300 flex items-center justify-center min-w-[130px] sm:min-w-[180px] md:min-w-[210px] h-[58px] sm:h-[76px] md:h-[84px] bg-white border border-zinc-200/50 shadow-[0_1px_3px_rgba(0,0,0,0.06)] hover:border-purple-300/80 hover:shadow-[0_4px_12px_rgba(168,85,247,0.12)] hover:scale-[1.02]"
+          className="px-4 sm:px-7 py-2 sm:py-3 rounded-xl sm:rounded-2xl transition-all duration-300 flex items-center justify-center min-w-[130px] sm:min-w-[180px] md:min-w-[210px] h-[58px] sm:h-[76px] md:h-[84px] bg-white border border-zinc-200/50 shadow-xs hover:border-purple-300/80 hover:shadow-sm hover:scale-[1.02]"
         >
           <img
             src={logoSrc}
@@ -91,8 +91,8 @@ export default function Brands() {
               key={i}
               className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl text-center transition-all duration-300 group ${
                 isLight
-                  ? "bg-white/70 hover:bg-white/95 border border-purple-100/90 hover:border-purple-300 shadow-[0_2px_8px_rgba(100,100,160,0.05),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-md"
-                  : "bg-[#0d0e19]/70 hover:bg-[#141627]/90 border border-white/[0.07] hover:border-purple-500/30 shadow-sm"
+                  ? "bg-white/70 hover:bg-white/95 border border-purple-100/90 hover:border-purple-300 shadow-xs backdrop-blur-md"
+                  : "bg-[#0d0e19]/70 hover:bg-[#141627]/90 border border-white/[0.07] hover:border-purple-500/30 shadow-xs"
               }`}
             >
               <p className={`font-display font-semibold text-xs sm:text-sm tracking-tight leading-snug ${

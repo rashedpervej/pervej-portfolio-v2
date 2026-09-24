@@ -92,8 +92,8 @@ export default function About() {
                     transition={{ duration: 0.5, delay: 0.15 + index * 0.1 }}
                     className={`p-4 sm:p-5 rounded-2xl flex sm:flex-col items-center sm:items-start gap-3 sm:gap-3 group transition-all duration-300 ${
                       isLight
-                        ? "bg-white/65 hover:bg-white/85 border border-white/90 hover:border-purple-300 shadow-[0_4px_16px_rgba(100,100,160,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-md"
-                        : "bg-[#0d0e17]/80 hover:bg-[#121320]/90 border border-white/10 hover:border-purple-500/30 backdrop-blur-md shadow-lg shadow-black/30"
+                        ? "bg-white/65 hover:bg-white/85 border border-white/90 hover:border-purple-300 shadow-xs hover:shadow-sm backdrop-blur-md"
+                        : "bg-[#0d0e17]/80 hover:bg-[#121320]/90 border border-white/10 hover:border-purple-500/30 backdrop-blur-md shadow-xs"
                     }`}
                   >
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
@@ -125,7 +125,7 @@ export default function About() {
             >
               <div className={`p-6 sm:p-8 rounded-2xl space-y-4 sm:space-y-6 ${
                 isLight
-                  ? "bg-white/65 backdrop-blur-xl border border-white/90 shadow-[0_12px_32px_rgba(100,100,160,0.07),inset_0_1.5px_1px_rgba(255,255,255,1)]"
+                  ? "bg-white/65 backdrop-blur-xl border border-white/90 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.04)]"
                   : "glass-panel border border-white/10"
               }`}>
                 <h4 className={`font-display font-bold text-sm sm:text-base tracking-wide uppercase flex items-center gap-2 ${
@@ -145,7 +145,7 @@ export default function About() {
                     certs.map((item, index) => (
                       <div key={index} className="flex gap-4 items-start relative group">
                         {/* Circle Bullet */}
-                        <div className="w-2.5 h-2.5 rounded-full bg-purple-500 mt-1.5 shrink-0 shadow-[0_0_10px_rgba(168,85,247,0.5)] group-hover:scale-125 transition-transform" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-purple-500 mt-1.5 shrink-0 shadow-[0_0_6px_rgba(168,85,247,0.4)] group-hover:scale-125 transition-transform" />
                         
                         <div>
                           <h5 className={`font-display font-medium text-xs sm:text-sm leading-tight ${

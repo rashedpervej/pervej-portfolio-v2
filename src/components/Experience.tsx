@@ -64,11 +64,11 @@ export default function Experience() {
                   className={`absolute -left-[16px] sm:-left-[36px] -top-1 sm:top-1 w-7 h-7 sm:w-8 sm:h-8 rounded-full border flex items-center justify-center transition-all duration-300 z-20 cursor-pointer ${
                     isExpanded
                       ? isLight
-                        ? "bg-gradient-to-tr from-purple-600 to-indigo-600 border-2 border-white text-white shadow-[0_4px_16px_rgba(147,51,234,0.45)] scale-110 ring-4 ring-purple-100"
-                        : "bg-gradient-to-tr from-purple-600 to-indigo-600 border border-purple-400 text-white shadow-[0_0_18px_rgba(168,85,247,0.6)] scale-110"
+                        ? "bg-gradient-to-tr from-purple-600 to-indigo-600 border-2 border-white text-white shadow-[0_2px_8px_rgba(147,51,234,0.3)] scale-110 ring-4 ring-purple-100"
+                        : "bg-gradient-to-tr from-purple-600 to-indigo-600 border border-purple-400 text-white shadow-[0_0_10px_rgba(168,85,247,0.4)] scale-110"
                       : isLight
-                      ? "bg-white/95 border-2 border-purple-200 text-purple-600 shadow-[0_4px_12px_rgba(100,100,160,0.12)] group-hover:border-purple-400 group-hover:text-purple-700 group-hover:scale-105"
-                      : "bg-[#0e0e18] border border-purple-500/40 text-purple-300 shadow-[0_0_12px_rgba(147,51,234,0.25)] group-hover:border-purple-400 group-hover:text-white group-hover:bg-purple-950/40"
+                      ? "bg-white/95 border-2 border-purple-200 text-purple-600 shadow-xs group-hover:border-purple-400 group-hover:text-purple-700 group-hover:scale-105"
+                      : "bg-[#0e0e18] border border-purple-500/40 text-purple-300 shadow-[0_0_6px_rgba(147,51,234,0.2)] group-hover:border-purple-400 group-hover:text-white group-hover:bg-purple-950/40"
                   }`}
                 >
                   <Briefcase className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
@@ -80,11 +80,11 @@ export default function Experience() {
                   className={`p-5 sm:p-6 rounded-2xl cursor-pointer transition-all duration-300 border text-left ${
                     isLight
                       ? isExpanded
-                        ? "bg-white/75 backdrop-blur-xl border-white/95 shadow-[0_12px_32px_rgba(100,100,160,0.08),inset_0_1.5px_1px_rgba(255,255,255,1)] ring-1 ring-purple-400/30"
-                        : "bg-white/55 hover:bg-white/75 backdrop-blur-md border-white/85 shadow-[0_6px_20px_rgba(100,100,160,0.05),inset_0_1px_1px_rgba(255,255,255,0.95)] hover:border-purple-300"
+                        ? "bg-white/75 backdrop-blur-xl border-white/95 shadow-[0_8px_20px_-4px_rgba(124,58,237,0.08)] ring-1 ring-purple-400/30"
+                        : "bg-white/55 hover:bg-white/75 backdrop-blur-md border-white/85 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_16px_-3px_rgba(124,58,237,0.06)] hover:border-purple-300"
                       : isExpanded
-                      ? "bg-[#11121d]/90 backdrop-blur-xl border-purple-500/40 shadow-xl shadow-black/50 ring-1 ring-purple-500/20"
-                      : "bg-[#090a12]/85 hover:bg-[#0f101b]/95 backdrop-blur-md border-white/10 hover:border-purple-500/30 shadow-md shadow-black/40"
+                      ? "bg-[#11121d]/90 backdrop-blur-xl border-purple-500/40 shadow-[0_8px_24px_-4px_rgba(0,0,0,0.5),0_0_12px_-2px_rgba(168,85,247,0.15)] ring-1 ring-purple-500/20"
+                      : "bg-[#090a12]/85 hover:bg-[#0f101b]/95 backdrop-blur-md border-white/10 hover:border-purple-500/30 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.35)] hover:shadow-[0_6px_16px_-3px_rgba(0,0,0,0.45)]"
                   }`}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">

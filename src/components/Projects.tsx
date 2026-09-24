@@ -23,8 +23,8 @@ function ProjectCard({ project, settings }: ProjectCardProps) {
     <div
       className={`group relative rounded-2xl transition-all duration-300 flex flex-col justify-between h-full ${
         isLight
-          ? "bg-white/80 hover:bg-white/95 border border-white/95 hover:border-purple-300 shadow-[0_4px_24px_rgba(0,0,0,0.06),0_12px_32px_rgba(124,58,237,0.08),inset_0_1px_1px_rgba(255,255,255,1)] hover:shadow-[0_16px_40px_rgba(124,58,237,0.18),0_4px_16px_rgba(0,0,0,0.06),inset_0_1px_1px_rgba(255,255,255,1)] hover:-translate-y-1.5"
-          : "bg-[#0e0f18]/90 hover:bg-[#141624]/95 border border-white/10 hover:border-purple-500/40 shadow-[0_10px_30px_rgba(0,0,0,0.7),0_2px_8px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.85),0_0_30px_rgba(168,85,247,0.22),inset_0_1px_1px_rgba(255,255,255,0.18)] hover:-translate-y-1.5"
+          ? "bg-white/80 hover:bg-white/95 border border-white/95 hover:border-purple-300 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_28px_-4px_rgba(124,58,237,0.12)] hover:-translate-y-1"
+          : "bg-[#0e0f18]/90 hover:bg-[#141624]/95 border border-white/10 hover:border-purple-500/40 shadow-[0_4px_16px_-2px_rgba(0,0,0,0.4)] hover:shadow-[0_12px_28px_-4px_rgba(0,0,0,0.6),0_0_16px_-2px_rgba(168,85,247,0.15)] hover:-translate-y-1"
       } backdrop-blur-xl`}
     >
       {/* Inner Container to isolate overflow-hidden for image & content clipping */}
@@ -332,7 +332,7 @@ function MobileProjectsCarousel({
               aria-label={`Go to slide ${index + 1}`}
               className={`h-2 rounded-full transition-all duration-300 ${
                 selectedIndex === index
-                  ? "w-7 bg-purple-600 shadow-md shadow-purple-500/40"
+                  ? "w-7 bg-purple-600 shadow-sm shadow-purple-500/30"
                   : isLight
                   ? "w-2 bg-zinc-400/50 hover:bg-zinc-600/70"
                   : "w-2 bg-white/20 hover:bg-white/40"
@@ -431,9 +431,9 @@ export default function Projects() {
                     onClick={() => setSelectedCategory(cat.id)}
                     className={`px-4 py-2 rounded-xl text-xs uppercase tracking-widest font-mono transition-all duration-300 border ${
                       isActive
-                        ? "btn-keep-white bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-purple-400/30 shadow-md shadow-purple-600/20"
+                        ? "btn-keep-white bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-purple-400/30 shadow-xs shadow-purple-600/20"
                         : isLight
-                        ? "bg-white/65 hover:bg-white/90 text-zinc-600 hover:text-zinc-900 border-white/90 shadow-[0_2px_8px_rgba(100,100,160,0.06),inset_0_1px_1px_rgba(255,255,255,0.95)] backdrop-blur-md"
+                        ? "bg-white/65 hover:bg-white/90 text-zinc-600 hover:text-zinc-900 border-white/90 shadow-xs backdrop-blur-md"
                         : "bg-white/[0.02] border-white/5 text-zinc-400 hover:text-white hover:bg-white/5"
                     }`}
                   >
@@ -481,8 +481,8 @@ export default function Projects() {
           transition={{ duration: 0.6 }}
           className={`mt-8 sm:mt-10 lg:mt-12 relative overflow-hidden rounded-2xl md:rounded-[24px] transition-colors duration-300 flex flex-col sm:flex-row items-center justify-between min-h-[120px] gap-6 p-6 sm:py-5 sm:px-6 md:px-8 group ${
             isLight
-              ? "bg-white/90 border border-purple-200/90 shadow-[0_16px_40px_rgba(168,85,247,0.1)] backdrop-blur-xl"
-              : "bg-[#0c0d16]/90 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-xl"
+              ? "bg-white/90 border border-purple-200/90 shadow-[0_8px_24px_-4px_rgba(168,85,247,0.08)] backdrop-blur-xl"
+              : "bg-[#0c0d16]/90 border border-white/10 shadow-[0_8px_28px_-4px_rgba(0,0,0,0.45)] backdrop-blur-xl"
           }`}
         >
           {/* Subtle dot pattern background / radial glow */}
@@ -526,8 +526,8 @@ export default function Projects() {
                 referrerPolicy="no-referrer"
                 className={`w-full h-full object-contain ${
                   isLight
-                    ? "drop-shadow-[0_10px_22px_rgba(168,85,247,0.22)]"
-                    : "drop-shadow-[0_12px_28px_rgba(168,85,247,0.5)]"
+                    ? "drop-shadow-[0_8px_16px_rgba(168,85,247,0.18)]"
+                    : "drop-shadow-[0_8px_20px_rgba(168,85,247,0.35)]"
                 }`}
               />
             </div>
@@ -552,8 +552,8 @@ export default function Projects() {
               rel="noopener noreferrer"
               className={`w-full sm:w-auto px-7 py-3 rounded-full font-medium text-sm sm:text-base tracking-wide transition-all duration-300 flex items-center justify-center gap-2 active:scale-95 ${
                 isLight
-                  ? "bg-purple-600 hover:bg-purple-700 text-white shadow-md shadow-purple-600/25 border border-purple-500/30"
-                  : "bg-purple-600/20 hover:bg-purple-600/35 border border-purple-500/40 hover:border-purple-400 text-white shadow-lg shadow-purple-950/40"
+                  ? "bg-purple-600 hover:bg-purple-700 text-white shadow-sm shadow-purple-600/20 hover:shadow-md hover:shadow-purple-600/30 border border-purple-500/30"
+                  : "bg-purple-600/20 hover:bg-purple-600/35 border border-purple-500/40 hover:border-purple-400 text-white shadow-sm shadow-purple-950/40 hover:shadow-md hover:shadow-purple-500/25"
               }`}
             >
               Explore
