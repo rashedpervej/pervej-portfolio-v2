@@ -8,12 +8,12 @@ export default function Brands() {
   const isLight = theme === "light";
   const brands = portfolioData.selectedBrands || [];
 
-  // Guarantee sufficient items for ultra-wide displays
-  const marqueeBrands = brands.length > 0
-    ? brands.length < 6
-      ? [...brands, ...brands, ...brands]
-      : brands
-    : [];
+  // Guarantee sufficient items for ultra-wide displays and seamless looping
+  const repeatCount = brands.length > 0 ? Math.max(2, Math.ceil(24 / brands.length)) : 0;
+  const marqueeBrands = Array.from({ length: repeatCount }, () => brands).flat();
+
+  // Calibrated constant velocity so motion is smooth, continuous, and never jumps
+  const animationDuration = Math.max(25, marqueeBrands.length * 1.6);
 
   const renderLogoItem = (brand: any, uniqueKey: string | number) => {
     const brandName = brand.brandName || brand.name || "Brand";
@@ -68,15 +68,18 @@ export default function Brands() {
         </p>
 
         {/* Dynamic Horizontal Ticker Marquee - Edge-to-edge on mobile, contained on desktop */}
-        <div className="relative edge-to-edge-slider overflow-hidden py-2 sm:py-3">
-          {/* Marquee Track Container with two identical child tracks */}
-          <div className="flex w-max items-center group/marquee">
-            {/* Primary Track */}
-            <div className="flex shrink-0 items-center gap-5 sm:gap-7 pr-5 sm:pr-7 animate-marquee-seamless group-hover/marquee:[animation-play-state:paused]">
+        <div className="relative edge-to-edge-slider overflow-hidden py-2 sm:py-3 group/marquee">
+          {/* Unified Moving Track Container: exactly translates by -50% for zero-jitter, seamless continuity */}
+          <div
+            className="flex w-max items-center animate-marquee-seamless"
+            style={{ animationDuration: `${animationDuration}s` }}
+          >
+            {/* Primary Track A */}
+            <div className="flex shrink-0 items-center gap-5 sm:gap-7 pr-5 sm:pr-7">
               {marqueeBrands.map((brand, index) => renderLogoItem(brand, `track-a-${index}`))}
             </div>
-            {/* Synchronized Seamless Clone Track */}
-            <div aria-hidden="true" className="flex shrink-0 items-center gap-5 sm:gap-7 pr-5 sm:pr-7 animate-marquee-seamless group-hover/marquee:[animation-play-state:paused]">
+            {/* Exact Synchronized Clone Track B */}
+            <div aria-hidden="true" className="flex shrink-0 items-center gap-5 sm:gap-7 pr-5 sm:pr-7">
               {marqueeBrands.map((brand, index) => renderLogoItem(brand, `track-b-${index}`))}
             </div>
           </div>
@@ -110,19 +113,34 @@ export default function Brands() {
         </div>
       </motion.div>
 
-      {/* Pure Mathematical Seamless Marquee Animation */}
+      {/* Pure Mathematical Seamless Marquee Animation with GPU Compositing */}
       <style>{`
         @keyframes marqueeSeamless {
           0% {
             transform: translate3d(0, 0, 0);
           }
           100% {
-            transform: translate3d(-100%, 0, 0);
+            transform: translate3d(-50%, 0, 0);
           }
         }
         .animate-marquee-seamless {
-          animation: marqueeSeamless 20s linear infinite;
+          animation-name: marqueeSeamless;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
           will-change: transform;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+        }
+        @media (hover: hover) and (pointer: fine) {
+          .group\\/marquee:hover .animate-marquee-seamless {
+            animation-play-state: paused;
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .animate-marquee-seamless {
+            animation-play-state: paused !important;
+          }
         }
       `}</style>
     </section>
