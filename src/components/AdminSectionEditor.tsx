@@ -3,7 +3,7 @@ import { supabase, isSupabaseConfigured } from "../lib/supabase";
 import { usePortfolio, SectionRecord } from "../context/PortfolioContext";
 import { Save, Plus, Trash, ArrowUp, ArrowDown, Upload, CheckCircle, AlertCircle, Edit, ListOrdered, Eye, Send, EyeOff, LayoutGrid, ZoomIn, ZoomOut, RotateCcw, X, Loader2, Check, Clock, Sparkles, ChevronDown, ChevronUp, Gauge } from "lucide-react";
 import RichTextControl from "./RichTextControl";
-import defaultHeaderImage from "../assets/images/Rashed Header Image.webp";
+const defaultHeaderImage = "/Rashed Header Image.webp";
 
 interface AdminSectionEditorProps {
   sectionKey: string;
