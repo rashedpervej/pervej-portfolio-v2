@@ -209,7 +209,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="grid grid-cols-3 gap-6 sm:gap-10 w-full"
+            className="grid grid-cols-3 gap-6 sm:gap-10 w-full lg:max-w-[460px] xl:max-w-[500px] lg:gap-8 xl:gap-10"
           >
             <div>
               <p className={`font-display font-medium text-3xl sm:text-4xl ${isLight ? "text-zinc-900" : "text-white"}`}>
