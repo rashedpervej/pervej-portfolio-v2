@@ -210,6 +210,7 @@ export async function injectSocialMeta(html: string, req?: Request): Promise<str
       .replace(/>/g, "&gt;");
 
   const safeTitle = escapeAttr(meta.title);
+  const pageTitle = escapeAttr(meta.siteName || meta.title);
   const safeDesc = escapeAttr(meta.description);
   const safeImage = escapeAttr(resolvedImage);
   const safeUrl = escapeAttr(resolvedUrl);
@@ -218,7 +219,7 @@ export async function injectSocialMeta(html: string, req?: Request): Promise<str
 
   // Title tag
   if (/<title>[\s\S]*?<\/title>/i.test(updated)) {
-    updated = updated.replace(/<title>[\s\S]*?<\/title>/i, `<title>${safeTitle}</title>`);
+    updated = updated.replace(/<title>[\s\S]*?<\/title>/i, `<title>${pageTitle}</title>`);
   }
 
   // Canonical tag

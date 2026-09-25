@@ -10,7 +10,7 @@ export default function Contact() {
 
   const email = info.email || "rashedpervej2011@gmail.com";
   const phone = info.phone || "+8801932623969";
-  const location = info.location || "Jashore, Bangladesh";
+  const location = info.contactLocation || info.location || "Jashore, Bangladesh";
   const linkedin = info.linkedin || "linkedin.com/in/rpervej";
   const behance = info.behance || "be.net/rashedpervej";
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { supabase, isSupabaseConfigured } from "../lib/supabase";
 import { usePortfolio, SectionRecord } from "../context/PortfolioContext";
-import { Save, Plus, Trash, ArrowUp, ArrowDown, Upload, CheckCircle, AlertCircle, Edit, ListOrdered, Eye, Send, EyeOff, LayoutGrid, ZoomIn, ZoomOut, RotateCcw, X, Loader2, Check, Clock, Sparkles, ChevronDown, ChevronUp, Gauge } from "lucide-react";
+import { Save, Plus, Trash, ArrowUp, ArrowDown, Upload, CheckCircle, AlertCircle, Edit, ListOrdered, Eye, Send, EyeOff, LayoutGrid, ZoomIn, ZoomOut, RotateCcw, X, Loader2, Check, Clock, Sparkles, ChevronDown, ChevronUp } from "lucide-react";
 import RichTextControl from "./RichTextControl";
 const defaultHeaderImage = "/Rashed Header Image.webp";
 
@@ -209,204 +209,6 @@ function ProjectGlobalToggles({ isDemo = false }: ProjectGlobalTogglesProps) {
   );
 }
 
-interface BrandMarqueeSettingsProps {
-  isDemo?: boolean;
-}
-
-function BrandMarqueeSettings({ isDemo = false }: BrandMarqueeSettingsProps) {
-  const { siteSettings, setSiteSettings } = usePortfolio();
-  const [speed, setSpeed] = useState<number>(siteSettings?.marqueeSpeed ?? 25);
-  const [isSaving, setIsSaving] = useState(false);
-  const [saveStatus, setSaveStatus] = useState<string | null>(null);
-  const [isOpen, setIsOpen] = useState(true);
-
-  // Sync if external siteSettings change
-  useEffect(() => {
-    if (siteSettings?.marqueeSpeed !== undefined) {
-      setSpeed(siteSettings.marqueeSpeed);
-    }
-  }, [siteSettings?.marqueeSpeed]);
-
-  const handleSpeedChange = async (newVal: number) => {
-    const clamped = Math.max(10, Math.min(60, Math.round(newVal)));
-    setSpeed(clamped);
-
-    setSiteSettings((prev) => ({
-      ...prev,
-      marqueeSpeed: clamped,
-    }));
-
-    if (isDemo || !isSupabaseConfigured || !supabase) {
-      setSaveStatus("Saved to preview!");
-      setTimeout(() => setSaveStatus(null), 2000);
-      return;
-    }
-
-    setIsSaving(true);
-    try {
-      const { error } = await supabase
-        .from("site_settings")
-        .upsert({ key: "marqueeSpeed", value: clamped }, { onConflict: "key" });
-      if (error) throw error;
-      setSaveStatus("Saved live!");
-      setTimeout(() => setSaveStatus(null), 2000);
-    } catch (err) {
-      console.error("Failed to save marquee speed:", err);
-      setSaveStatus("Failed to save");
-      setTimeout(() => setSaveStatus(null), 3000);
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  const speedCategory =
-    speed <= 18
-      ? { label: "Fast Dynamic", color: "text-amber-400 bg-amber-950/40 border-amber-500/30" }
-      : speed <= 32
-      ? { label: "Balanced (Recommended: 25s)", color: "text-purple-300 bg-purple-950/50 border-purple-500/30" }
-      : speed <= 45
-      ? { label: "Relaxed Motion", color: "text-sky-300 bg-sky-950/40 border-sky-500/30" }
-      : { label: "Slow & Ambient", color: "text-emerald-300 bg-emerald-950/40 border-emerald-500/30" };
-
-  return (
-    <div className="bg-zinc-900/40 border border-zinc-800 rounded-2xl mb-6 overflow-hidden transition-all duration-200" id="brand-marquee-settings">
-      <button
-        type="button"
-        onClick={() => setIsOpen((prev) => !prev)}
-        className="w-full text-left p-4 sm:p-5 flex justify-between items-center bg-zinc-900/60 hover:bg-zinc-800/40 transition-colors select-none group"
-      >
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 group-hover:bg-purple-500/20 transition-colors">
-            <Gauge className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h3 className="text-sm font-semibold text-white tracking-wide">
-                Brand Marquee Animation Speed
-              </h3>
-              <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${speedCategory.color}`}>
-                {speed}s · {speedCategory.label}
-              </span>
-            </div>
-            <p className="text-xs text-zinc-400 mt-0.5">
-              Global setting for Marquee Speed (10s to 60s, default 25s). Lower values cycle faster; higher values provide relaxed motion.
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3">
-          {saveStatus && (
-            <span className="text-[11px] text-emerald-400 font-medium flex items-center gap-1">
-              <Check className="w-3.5 h-3.5" />
-              {saveStatus}
-            </span>
-          )}
-          {isSaving && <Loader2 className="w-4 h-4 animate-spin text-purple-400" />}
-          <div className="p-1 rounded-lg text-zinc-400 group-hover:text-zinc-200">
-            {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-          </div>
-        </div>
-      </button>
-
-      {isOpen && (
-        <div className="p-4 sm:p-5 border-t border-zinc-800/80 bg-[#141416]/50 space-y-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-            {/* Slider and Numeric Input Controls */}
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <label className="text-xs font-semibold text-zinc-300 uppercase tracking-wider flex items-center gap-1.5">
-                  Marquee Speed (seconds)
-                </label>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="number"
-                    min={10}
-                    max={60}
-                    step={1}
-                    value={speed}
-                    onChange={(e) => handleSpeedChange(Number(e.target.value))}
-                    className="w-16 px-2 py-1 bg-[#18181b] border border-zinc-700 focus:border-purple-500 rounded-lg text-zinc-100 text-xs font-mono text-center outline-none"
-                  />
-                  <span className="text-xs text-zinc-400 font-mono">sec</span>
-                </div>
-              </div>
-
-              {/* Slider */}
-              <input
-                type="range"
-                min={10}
-                max={60}
-                step={1}
-                value={speed}
-                onChange={(e) => handleSpeedChange(Number(e.target.value))}
-                className="w-full accent-purple-500 h-2 bg-zinc-800 rounded-lg cursor-pointer transition-all"
-              />
-
-              <div className="flex justify-between text-[10px] text-zinc-500 font-mono">
-                <span>10s (Fast)</span>
-                <span>25s (Default)</span>
-                <span>40s (Relaxed)</span>
-                <span>60s (Slow)</span>
-              </div>
-
-              {/* Quick Preset Buttons */}
-              <div className="flex items-center gap-2 pt-2">
-                <span className="text-[10px] uppercase font-mono tracking-wider text-zinc-500">Presets:</span>
-                {[
-                  { label: "15s Fast", val: 15 },
-                  { label: "25s Default", val: 25 },
-                  { label: "35s Smooth", val: 35 },
-                  { label: "50s Slow", val: 50 },
-                ].map((preset) => (
-                  <button
-                    key={preset.val}
-                    type="button"
-                    onClick={() => handleSpeedChange(preset.val)}
-                    className={`px-2.5 py-1 text-[11px] rounded-lg border font-mono transition-all ${
-                      speed === preset.val
-                        ? "bg-purple-600/30 border-purple-500 text-purple-200"
-                        : "bg-zinc-800/60 border-zinc-700/60 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800"
-                    }`}
-                  >
-                    {preset.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Live Animation Mini-Preview */}
-            <div className="p-3.5 bg-[#18181b] border border-zinc-800/80 rounded-xl space-y-2">
-              <div className="flex justify-between items-center text-[10px] text-zinc-400 font-mono uppercase tracking-wider">
-                <span>Live Velocity Preview</span>
-                <span className="text-purple-400 font-semibold">{speed}s duration</span>
-              </div>
-
-              <div className="relative w-full overflow-hidden bg-black/40 border border-zinc-800/60 rounded-lg py-2.5 px-1">
-                <div
-                  className="flex items-center gap-6 whitespace-nowrap animate-[marquee_25s_linear_infinite]"
-                  style={{ animationDuration: `${speed}s` }}
-                >
-                  {["Chaldal", "Sheba", "Go Nature", "Basumati", "Heavens", "Zettabyte", "Chaldal", "Sheba", "Go Nature", "Basumati", "Heavens", "Zettabyte"].map((item, idx) => (
-                    <span
-                      key={idx}
-                      className="px-2.5 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/20 text-purple-300 text-[10px] font-mono shrink-0"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <p className="text-[10px] text-zinc-500 leading-tight">
-                Miniature live preview demonstrates the horizontal animation speed.
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function AdminSectionEditor({ sectionKey, isDemo = false }: AdminSectionEditorProps) {
   const { sections, setSections, portfolioData, refreshData } = usePortfolio();
   
@@ -520,7 +322,7 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
         setDraftContent({
           email: portfolioData.personalInfo.email || "",
           phone: portfolioData.personalInfo.phone || "",
-          location: portfolioData.personalInfo.location || "",
+          location: portfolioData.personalInfo.contactLocation || portfolioData.personalInfo.location || "",
           linkedin: portfolioData.personalInfo.linkedin || "",
           behance: portfolioData.personalInfo.behance || "",
         });
@@ -530,8 +332,8 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
       setIsVisible(sectionRecord.is_visible);
 
       if (sectionRecord.published_content) {
-        const ts = (sectionRecord as any).updated_at;
-        setLastPublishedAt(ts ? new Date(ts) : new Date());
+        const ts = sectionRecord.updated_at;
+        setLastPublishedAt(ts ? new Date(ts) : null);
       } else {
         setLastPublishedAt(null);
       }
@@ -540,7 +342,7 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
         setDraftContent({
           email: portfolioData.personalInfo.email || "",
           phone: portfolioData.personalInfo.phone || "",
-          location: portfolioData.personalInfo.location || "",
+          location: portfolioData.personalInfo.contactLocation || portfolioData.personalInfo.location || "",
           linkedin: portfolioData.personalInfo.linkedin || "",
           behance: portfolioData.personalInfo.behance || "",
         });
@@ -634,7 +436,7 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
         return {
           email: portfolioData?.personalInfo?.email || "",
           phone: portfolioData?.personalInfo?.phone || "",
-          location: portfolioData?.personalInfo?.location || "",
+          location: portfolioData?.personalInfo?.contactLocation || portfolioData?.personalInfo?.location || "",
           linkedin: portfolioData?.personalInfo?.linkedin || "",
           behance: portfolioData?.personalInfo?.behance || "",
         };
@@ -791,6 +593,7 @@ export default function AdminSectionEditor({ sectionKey, isDemo = false }: Admin
         draft_content: draftContent,
         is_visible: isVisible,
         order_index: sectionRecord?.order_index ?? 99,
+        updated_at: now.toISOString(),
       };
       if (idx >= 0) {
         const next = [...prev];

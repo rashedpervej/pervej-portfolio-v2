@@ -22,6 +22,7 @@ export interface SectionRecord {
   draft_content: any;
   is_visible: boolean;
   order_index: number;
+  updated_at?: string;
 }
 
 export interface ProjectSettings {
@@ -72,6 +73,7 @@ export interface SiteSettings {
   backgroundStyle?: BackgroundStyle;
   projectSettings?: ProjectSettings;
   marqueeSpeed?: number;
+  defaultTheme?: ThemeMode;
 }
 
 interface PortfolioContextType {
@@ -469,6 +471,7 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           draft_content: remoteSec.draft_content ?? fallbackSec?.draft_content ?? null,
           is_visible: remoteSec.is_visible !== false,
           order_index: remoteSec.order_index ?? 0,
+          updated_at: remoteSec.updated_at || (fallbackSec as any)?.updated_at,
         };
       });
 
@@ -533,18 +536,31 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
       switch (section.key) {
         case "personal_info":
-        case "hero":
-          // Blend hero and personal_info as they share properties
           resolvedData.personalInfo = {
             ...resolvedData.personalInfo,
             ...content,
           };
           break;
+        case "hero":
+          resolvedData.personalInfo = {
+            ...resolvedData.personalInfo,
+            ...content,
+            heroLocation: content.heroLocation || content.location || resolvedData.personalInfo.heroLocation,
+            location: resolvedData.personalInfo.contactLocation || resolvedData.personalInfo.location || content.location,
+          };
+          break;
         case "about":
+          resolvedData.personalInfo = {
+            ...resolvedData.personalInfo,
+            ...content,
+          };
+          break;
         case "contact":
           resolvedData.personalInfo = {
             ...resolvedData.personalInfo,
             ...content,
+            contactLocation: content.contactLocation || content.location || resolvedData.personalInfo.contactLocation,
+            location: content.location || content.contactLocation || resolvedData.personalInfo.location,
           };
           break;
         case "experience":

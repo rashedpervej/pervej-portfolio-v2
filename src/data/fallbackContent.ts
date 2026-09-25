@@ -49,10 +49,10 @@ export const FALLBACK_SECTIONS: SectionRecord[] = [
     "published_content": {
       "name": "Rashed<div><span style=\"color: rgb(212, 123, 255);\">Pervej</span></div>",
       "role": "Senior Visualizer",
-      "heroBio": "Senior Visualizer with <span style=\"color: rgb(193, 141, 236);\"><b>6+ years of premium experience.</b></span> Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.",
+      "heroBio": "<span style=\"font-size: 18px;\">Senior Visualizer with <b><span style=\"color: rgb(193, 141, 236);\">6<span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\">+</span></span></span></span><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"></span></span></span><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"> years of premium experience</span>. </span></b></span><span style=\"font-size: 18px;\">Specialize in high-impact brand identities, modern motion graphics,<span style=\"color: rgb(161, 161, 170);\"> <span style=\"color: rgb(23, 23, 23);\"><span style=\"color: rgb(161, 161, 170);\"><span style=\"color: rgb(255, 255, 255);\">and tactical food supplement packaging.</span></span></span></span><span style=\"color: rgb(23, 23, 23);\"></span></span>",
       "headline": "Brand Identity | Motion Graphics | Packaging",
       "availability": "Available for Remote & Hybrid",
-      "portraitImage": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/9otfdzb767s-1784670718085.jpeg",
+      "portraitImage": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/zlw0sb7d6al-1790072232417.webp",
       "primaryCtaLink": "https://www.behance.net/rashedpervej",
       "primaryCtaText": "Explore My Work",
       "experienceYears": "6+",
@@ -62,10 +62,10 @@ export const FALLBACK_SECTIONS: SectionRecord[] = [
     "draft_content": {
       "name": "Rashed<div><span style=\"color: rgb(212, 123, 255);\">Pervej</span></div>",
       "role": "Senior Visualizer",
-      "heroBio": "Senior Visualizer with <span style=\"color: rgb(193, 141, 236);\"><b>6+ years of premium experience.</b></span> Specialize in high-impact brand identities, modern motion graphics, and tactical food supplement packaging.",
+      "heroBio": "<span style=\"font-size: 18px;\">Senior Visualizer with <b><span style=\"color: rgb(193, 141, 236);\">6<span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\">+</span></span></span></span><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"></span></span></span><span style=\"color: rgb(193, 141, 236);\"><span style=\"color: rgb(193, 141, 236);\"> years of premium experience</span>. </span></b></span><span style=\"font-size: 18px;\">Specialize in high-impact brand identities, modern motion graphics,<span style=\"color: rgb(161, 161, 170);\"> <span style=\"color: rgb(23, 23, 23);\"><span style=\"color: rgb(161, 161, 170);\"><span style=\"color: rgb(255, 255, 255);\">and tactical food supplement packaging.</span></span></span></span><span style=\"color: rgb(23, 23, 23);\"></span></span>",
       "headline": "Brand Identity | Motion Graphics | Packaging",
       "availability": "Available for Remote & Hybrid",
-      "portraitImage": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/9otfdzb767s-1784670718085.jpeg",
+      "portraitImage": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/zlw0sb7d6al-1790072232417.webp",
       "primaryCtaLink": "https://www.behance.net/rashedpervej",
       "primaryCtaText": "Explore My Work",
       "experienceYears": "6+",
@@ -100,76 +100,6 @@ export const FALLBACK_SECTIONS: SectionRecord[] = [
     },
     "is_visible": true,
     "order_index": 1
-  },
-  {
-    "id": "b3e9401f-ed52-44f2-95f3-5e72d244c9aa",
-    "key": "educationCertifications",
-    "name": "Education & Certifications",
-    "type": "collection",
-    "fields_schema": [
-      {
-        "name": "title",
-        "type": "text"
-      },
-      {
-        "name": "institution",
-        "type": "text"
-      },
-      {
-        "name": "period",
-        "type": "text"
-      },
-      {
-        "name": "credentialUrl",
-        "type": "text"
-      }
-    ],
-    "published_content": [
-      {
-        "title": "BSS in Economics",
-        "institution": "National University, Bangladesh",
-        "period": "2013 – 2017"
-      },
-      {
-        "title": "Foundations of User Experience (UX) Design",
-        "institution": "Coursera | Google",
-        "period": "2023"
-      },
-      {
-        "title": "Color for Design and Art",
-        "institution": "Coursera | California Institute of the Arts",
-        "period": "2022"
-      },
-      {
-        "title": "Digital Marketing Certification",
-        "institution": "LEDP, Government of Bangladesh",
-        "period": "2020"
-      }
-    ],
-    "draft_content": [
-      {
-        "title": "BSS in Economics",
-        "institution": "National University, Bangladesh",
-        "period": "2013 – 2017"
-      },
-      {
-        "title": "Foundations of User Experience (UX) Design",
-        "institution": "Coursera | Google",
-        "period": "2023"
-      },
-      {
-        "title": "Color for Design and Art",
-        "institution": "Coursera | California Institute of the Arts",
-        "period": "2022"
-      },
-      {
-        "title": "Digital Marketing Certification",
-        "institution": "LEDP, Government of Bangladesh",
-        "period": "2020"
-      }
-    ],
-    "is_visible": true,
-    "order_index": 2
   },
   {
     "id": "e00bce95-c8e9-4cb4-93b3-09d3fd50e148",
@@ -446,174 +376,178 @@ export const FALLBACK_SECTIONS: SectionRecord[] = [
     "type": "collection",
     "fields_schema": [
       {
-        "name": "brandName",
+        "name": "name",
         "type": "text"
       },
       {
-        "name": "country",
+        "name": "logoText",
         "type": "text"
       },
       {
-        "name": "logoUrl",
-        "type": "image"
+        "name": "market",
+        "type": "text"
       }
     ],
     "published_content": [
       {
-        "name": "Chaldal",
-        "brandName": "Chaldal",
+        "name": "Chaldal PLC",
         "market": "Bangladesh",
         "country": "Bangladesh",
-        "logoUrl": DEFAULT_BRAND_SVGS["chaldal"]
+        "logoUrl": "https://www.startupbangladesh.vc/wp-content/uploads/2021/07/Chaldal-BrandID-2021.png",
+        "logoText": "Chaldal Ltd.",
+        "brandName": "Chaldal PLC"
       },
       {
-        "name": "Sheba",
-        "brandName": "Sheba",
+        "name": "Sheba PLC",
         "market": "Bangladesh",
         "country": "Bangladesh",
-        "logoUrl": DEFAULT_BRAND_SVGS["sheba"]
+        "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/3lxg0naxa7s-1790089097394.webp",
+        "logoText": "Sheba Platform Ltd.",
+        "brandName": "Sheba PLC"
       },
       {
         "name": "Go Nature",
-        "brandName": "Go Nature",
         "market": "Bangladesh",
-        "country": "Bangladesh",
-        "logoUrl": DEFAULT_BRAND_SVGS["go nature"]
+        "logoText": "Go Nature BD"
       },
       {
         "name": "Basumati Group",
-        "brandName": "Basumati Group",
         "market": "Bangladesh",
         "country": "Bangladesh",
-        "logoUrl": DEFAULT_BRAND_SVGS["basumati group"]
+        "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/u83r8ei5e6e-1790089582695.jpg",
+        "logoText": "Basumati Group",
+        "brandName": "Basumati Group"
       },
       {
         "name": "Heavens Group",
-        "brandName": "Heavens Group",
         "market": "Bangladesh",
         "country": "Bangladesh",
-        "logoUrl": DEFAULT_BRAND_SVGS["heavens group"]
+        "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/8v9n3706w4g-1790089745623.jpg",
+        "logoText": "Heavens Group",
+        "brandName": "Heavens Group"
       },
       {
         "name": "Zettabyte Technology",
-        "brandName": "Zettabyte Technology",
         "market": "Bangladesh",
         "country": "Bangladesh",
-        "logoUrl": DEFAULT_BRAND_SVGS["zettabyte technology"]
+        "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/7motfur53gp-1790088776669.png",
+        "logoText": "Zettabyte Technology Ltd.",
+        "brandName": "Zettabyte Technology"
       },
       {
         "name": "Amiras Dental",
-        "brandName": "Amiras Dental",
         "market": "Bangladesh",
         "country": "Bangladesh",
-        "logoUrl": DEFAULT_BRAND_SVGS["amiras dental"]
+        "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/srlv1oegfi-1790088671025.webp",
+        "logoText": "Amiras Dental",
+        "brandName": "Amiras Dental"
       },
       {
         "name": "Dream Advice",
-        "brandName": "Dream Advice",
         "market": "Belgium",
-        "country": "Belgium",
-        "logoUrl": DEFAULT_BRAND_SVGS["dream advice"]
+        "logoText": "Dream Advice"
       },
       {
         "name": "Lake Powell Promotions",
-        "brandName": "Lake Powell Promotions",
         "market": "USA",
         "country": "USA",
-        "logoUrl": DEFAULT_BRAND_SVGS["lake powell promotions"]
+        "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/j10bt84a3g-1790090082206.webp",
+        "logoText": "Lake Powell Promotions",
+        "brandName": "Lake Powell Promotions"
       },
       {
         "name": "Page Party Bounce Co.",
-        "brandName": "Page Party Bounce Co.",
         "market": "USA",
         "country": "USA",
-        "logoUrl": DEFAULT_BRAND_SVGS["page party bounce co."]
+        "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/iigoud0ipfq-1790089960303.webp",
+        "logoText": "Page Party Bounce Co.",
+        "brandName": "Page Party Bounce Co."
       },
       {
         "name": "Food Collection",
-        "brandName": "Food Collection",
         "market": "Bangladesh",
-        "country": "Bangladesh",
-        "logoUrl": DEFAULT_BRAND_SVGS["food collection"]
+        "logoText": "Food Collection Ltd."
       }
     ],
     "draft_content": [
       {
-        "name": "Chaldal",
-        "brandName": "Chaldal",
+        "name": "Chaldal PLC",
         "market": "Bangladesh",
         "country": "Bangladesh",
-        "logoUrl": DEFAULT_BRAND_SVGS["chaldal"]
+        "logoUrl": "https://www.startupbangladesh.vc/wp-content/uploads/2021/07/Chaldal-BrandID-2021.png",
+        "logoText": "Chaldal Ltd.",
+        "brandName": "Chaldal PLC"
       },
       {
-        "name": "Sheba",
-        "brandName": "Sheba",
+        "name": "Sheba PLC",
         "market": "Bangladesh",
         "country": "Bangladesh",
-        "logoUrl": DEFAULT_BRAND_SVGS["sheba"]
+        "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/3lxg0naxa7s-1790089097394.webp",
+        "logoText": "Sheba Platform Ltd.",
+        "brandName": "Sheba PLC"
       },
       {
         "name": "Go Nature",
-        "brandName": "Go Nature",
         "market": "Bangladesh",
-        "country": "Bangladesh",
-        "logoUrl": DEFAULT_BRAND_SVGS["go nature"]
+        "logoText": "Go Nature BD"
       },
       {
         "name": "Basumati Group",
-        "brandName": "Basumati Group",
         "market": "Bangladesh",
         "country": "Bangladesh",
-        "logoUrl": DEFAULT_BRAND_SVGS["basumati group"]
+        "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/u83r8ei5e6e-1790089582695.jpg",
+        "logoText": "Basumati Group",
+        "brandName": "Basumati Group"
       },
       {
         "name": "Heavens Group",
-        "brandName": "Heavens Group",
         "market": "Bangladesh",
         "country": "Bangladesh",
-        "logoUrl": DEFAULT_BRAND_SVGS["heavens group"]
+        "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/8v9n3706w4g-1790089745623.jpg",
+        "logoText": "Heavens Group",
+        "brandName": "Heavens Group"
       },
       {
         "name": "Zettabyte Technology",
-        "brandName": "Zettabyte Technology",
         "market": "Bangladesh",
         "country": "Bangladesh",
-        "logoUrl": DEFAULT_BRAND_SVGS["zettabyte technology"]
+        "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/7motfur53gp-1790088776669.png",
+        "logoText": "Zettabyte Technology Ltd.",
+        "brandName": "Zettabyte Technology"
       },
       {
         "name": "Amiras Dental",
-        "brandName": "Amiras Dental",
         "market": "Bangladesh",
         "country": "Bangladesh",
-        "logoUrl": DEFAULT_BRAND_SVGS["amiras dental"]
+        "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/srlv1oegfi-1790088671025.webp",
+        "logoText": "Amiras Dental",
+        "brandName": "Amiras Dental"
       },
       {
         "name": "Dream Advice",
-        "brandName": "Dream Advice",
         "market": "Belgium",
-        "country": "Belgium",
-        "logoUrl": DEFAULT_BRAND_SVGS["dream advice"]
+        "logoText": "Dream Advice"
       },
       {
         "name": "Lake Powell Promotions",
-        "brandName": "Lake Powell Promotions",
         "market": "USA",
         "country": "USA",
-        "logoUrl": DEFAULT_BRAND_SVGS["lake powell promotions"]
+        "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/j10bt84a3g-1790090082206.webp",
+        "logoText": "Lake Powell Promotions",
+        "brandName": "Lake Powell Promotions"
       },
       {
         "name": "Page Party Bounce Co.",
-        "brandName": "Page Party Bounce Co.",
         "market": "USA",
         "country": "USA",
-        "logoUrl": DEFAULT_BRAND_SVGS["page party bounce co."]
+        "logoUrl": "https://ngeaqabzlerwjxvcyucd.supabase.co/storage/v1/object/public/portfolio-assets/portfolio/iigoud0ipfq-1790089960303.webp",
+        "logoText": "Page Party Bounce Co.",
+        "brandName": "Page Party Bounce Co."
       },
       {
         "name": "Food Collection",
-        "brandName": "Food Collection",
         "market": "Bangladesh",
-        "country": "Bangladesh",
-        "logoUrl": DEFAULT_BRAND_SVGS["food collection"]
+        "logoText": "Food Collection Ltd."
       }
     ],
     "is_visible": true,
@@ -972,6 +906,84 @@ export const FALLBACK_SECTIONS: SectionRecord[] = [
     "order_index": 7
   },
   {
+    "id": "68b757af-7b49-42fb-95b4-a896110221a2",
+    "key": "educationCertifications",
+    "name": "Education & Certifications",
+    "type": "collection",
+    "fields_schema": [
+      {
+        "name": "title",
+        "type": "text"
+      },
+      {
+        "name": "institution",
+        "type": "text"
+      },
+      {
+        "name": "period",
+        "type": "text"
+      },
+      {
+        "name": "credentialUrl",
+        "type": "text"
+      }
+    ],
+    "published_content": [
+      {
+        "title": "BSS in Economics",
+        "period": " ",
+        "institution": "National University, Bangladesh",
+        "credentialUrl": ""
+      },
+      {
+        "title": "Foundations of User Experience (UX) Design",
+        "period": " ",
+        "institution": "Coursera | Google",
+        "credentialUrl": ""
+      },
+      {
+        "title": "Color for Design and Art",
+        "period": " ",
+        "institution": "Coursera | California Institute of the Arts",
+        "credentialUrl": ""
+      },
+      {
+        "title": "Digital Marketing Certification",
+        "period": " ",
+        "institution": "LEDP, Government of Bangladesh",
+        "credentialUrl": ""
+      }
+    ],
+    "draft_content": [
+      {
+        "title": "BSS in Economics",
+        "period": " ",
+        "institution": "National University, Bangladesh",
+        "credentialUrl": ""
+      },
+      {
+        "title": "Foundations of User Experience (UX) Design",
+        "period": " ",
+        "institution": "Coursera | Google",
+        "credentialUrl": ""
+      },
+      {
+        "title": "Color for Design and Art",
+        "period": " ",
+        "institution": "Coursera | California Institute of the Arts",
+        "credentialUrl": ""
+      },
+      {
+        "title": "Digital Marketing Certification",
+        "period": " ",
+        "institution": "LEDP, Government of Bangladesh",
+        "credentialUrl": ""
+      }
+    ],
+    "is_visible": true,
+    "order_index": 8
+  },
+  {
     "id": "17ad89d3-42a1-46d9-b7fa-2ad3e2349ed0",
     "key": "contact",
     "name": "Contact Details Section",
@@ -1051,7 +1063,8 @@ export const FALLBACK_SITE_SETTINGS: SiteSettings = {
     "showFilterMarketing": true,
     "showProjectDuration": false,
     "showFilterInternational": true
-  }
+  },
+  "defaultTheme": "dark"
 };
 
 export const FALLBACK_FAQS: FaqFallbackItem[] = [

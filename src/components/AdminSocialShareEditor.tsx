@@ -53,11 +53,19 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
 
   // Sync with context updates and auto-reset image error state
   useEffect(() => {
-    if (siteSettings.ogTitle) setOgTitle(siteSettings.ogTitle);
-    if (siteSettings.ogDescription) setOgDescription(siteSettings.ogDescription);
+    if (siteSettings.ogTitle) {
+      setOgTitle(siteSettings.ogTitle);
+    } else if (siteSettings.seoTitle) {
+      setOgTitle(siteSettings.seoTitle);
+    }
+    if (siteSettings.ogDescription) {
+      setOgDescription(siteSettings.ogDescription);
+    } else if (siteSettings.seoDescription) {
+      setOgDescription(siteSettings.seoDescription);
+    }
     if (siteSettings.ogImage) setOgImage(siteSettings.ogImage);
     if (siteSettings.ogUrl) setOgUrl(siteSettings.ogUrl);
-  }, [siteSettings.ogTitle, siteSettings.ogDescription, siteSettings.ogImage, siteSettings.ogUrl]);
+  }, [siteSettings.ogTitle, siteSettings.ogDescription, siteSettings.seoTitle, siteSettings.seoDescription, siteSettings.ogImage, siteSettings.ogUrl]);
 
   useEffect(() => {
     setImageError(false);
@@ -272,9 +280,22 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
             {/* Field 1: Social Share Title */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-medium text-zinc-300">
-                  1. Social Share Title <span className="text-purple-400">*</span>
-                </label>
+                <div className="flex items-center gap-2">
+                  <label className="text-xs font-medium text-zinc-300">
+                    1. Social Share Title <span className="text-purple-400">*</span>
+                  </label>
+                  {siteSettings.seoTitle && siteSettings.seoTitle !== ogTitle && (
+                    <button
+                      type="button"
+                      onClick={() => setOgTitle(siteSettings.seoTitle || "")}
+                      className="text-[10px] text-purple-400 hover:text-purple-300 font-medium flex items-center gap-1 cursor-pointer transition-colors"
+                      title="Sync with Meta Title"
+                    >
+                      <RefreshCw className="w-2.5 h-2.5" />
+                      <span>Sync with Meta Title</span>
+                    </button>
+                  )}
+                </div>
                 <span
                   className={`text-[11px] font-mono ${
                     ogTitle.length > 70 ? "text-amber-400" : "text-zinc-500"
@@ -287,7 +308,7 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
                 type="text"
                 value={ogTitle}
                 onChange={(e) => setOgTitle(e.target.value)}
-                placeholder="Rashed Pervej | Senior Visualizer Portfolio"
+                placeholder={siteSettings.seoTitle || "Rashed Pervej | Senior Visualizer Portfolio"}
                 className="w-full bg-[#18181d] border border-zinc-700/80 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-colors"
               />
             </div>
@@ -295,9 +316,22 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
             {/* Field 2: Social Share Description */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-medium text-zinc-300">
-                  2. Social Share Description <span className="text-purple-400">*</span>
-                </label>
+                <div className="flex items-center gap-2">
+                  <label className="text-xs font-medium text-zinc-300">
+                    2. Social Share Description <span className="text-purple-400">*</span>
+                  </label>
+                  {siteSettings.seoDescription && siteSettings.seoDescription !== ogDescription && (
+                    <button
+                      type="button"
+                      onClick={() => setOgDescription(siteSettings.seoDescription || "")}
+                      className="text-[10px] text-purple-400 hover:text-purple-300 font-medium flex items-center gap-1 cursor-pointer transition-colors"
+                      title="Sync with Meta Description"
+                    >
+                      <RefreshCw className="w-2.5 h-2.5" />
+                      <span>Sync with Meta Description</span>
+                    </button>
+                  )}
+                </div>
                 <span
                   className={`text-[11px] font-mono ${
                     ogDescription.length > 165 ? "text-amber-400" : "text-zinc-500"
@@ -310,7 +344,7 @@ export const AdminSocialShareEditor: React.FC<AdminSocialShareEditorProps> = ({ 
                 rows={3}
                 value={ogDescription}
                 onChange={(e) => setOgDescription(e.target.value)}
-                placeholder="Award-winning portfolio of Rashed Pervej, Senior Visualizer & Graphic Designer specializing in brand identity, packaging, and motion graphics."
+                placeholder={siteSettings.seoDescription || "Award-winning portfolio of Rashed Pervej, Senior Visualizer & Graphic Designer specializing in brand identity, packaging, and motion graphics."}
                 className="w-full bg-[#18181d] border border-zinc-700/80 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-colors resize-none"
               />
             </div>

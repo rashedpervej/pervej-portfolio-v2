@@ -157,6 +157,10 @@ export default function AdminSettingsEditor({ isDemo = false }: AdminSettingsEdi
     setIsSaving(true);
     setSaveStatus(null);
 
+    // Auto-sync OG title & description with primary SEO title & description if not uniquely customized
+    const isOgTitleSynced = !siteSettings.ogTitle || siteSettings.ogTitle === siteSettings.seoTitle || siteSettings.ogTitle.trim() === "";
+    const isOgDescSynced = !siteSettings.ogDescription || siteSettings.ogDescription === siteSettings.seoDescription || siteSettings.ogDescription.trim() === "";
+
     const payload: { key: string; value: any }[] = [
       { key: "seoTitle", value: seoTitle },
       { key: "seoDescription", value: seoDescription },
@@ -169,6 +173,13 @@ export default function AdminSettingsEditor({ isDemo = false }: AdminSettingsEdi
       { key: "enableChatbot", value: enableChatbot },
     ];
 
+    if (isOgTitleSynced && seoTitle) {
+      payload.push({ key: "ogTitle", value: seoTitle });
+    }
+    if (isOgDescSynced && seoDescription) {
+      payload.push({ key: "ogDescription", value: seoDescription });
+    }
+
     const updatedSettings = {
       seoTitle,
       seoDescription,
@@ -179,6 +190,8 @@ export default function AdminSettingsEditor({ isDemo = false }: AdminSettingsEdi
       primaryColor,
       customCss,
       enableChatbot,
+      ...(isOgTitleSynced && seoTitle ? { ogTitle: seoTitle } : {}),
+      ...(isOgDescSynced && seoDescription ? { ogDescription: seoDescription } : {}),
     };
 
     setSiteSettings((prev) => {

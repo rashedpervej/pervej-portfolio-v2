@@ -58,6 +58,8 @@ export interface PersonalInfo {
   role?: string;
   headline?: string;
   location?: string;
+  heroLocation?: string;
+  contactLocation?: string;
   availability?: string;
   experienceYears?: string;
   yearsLabel?: string;

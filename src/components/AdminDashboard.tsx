@@ -488,21 +488,43 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
     setTimeout(() => setNotification(null), 3000);
   };
 
-  // Handle reordering sections in Database
-  const handleMoveSection = async (index: number, direction: "up" | "down") => {
-    const targetIdx = direction === "up" ? index - 1 : index + 1;
-    if (targetIdx < 0 || targetIdx >= sections.length) return;
+  // Handle reordering sections in Database & Local State based on section id/key
+  const handleMoveSection = async (secIdOrKey: string, direction: "up" | "down") => {
+    const manageableKeys = ["personal_info", "site_settings", "seo", "footer", "navigation"];
+    const filtered = sections.filter((s) => !manageableKeys.includes(s.key));
+
+    const currentFilteredIdx = filtered.findIndex((s) => s.id === secIdOrKey || s.key === secIdOrKey);
+    if (currentFilteredIdx === -1) return;
+
+    const targetFilteredIdx = direction === "up" ? currentFilteredIdx - 1 : currentFilteredIdx + 1;
+    if (targetFilteredIdx < 0 || targetFilteredIdx >= filtered.length) return;
+
+    const currentItem = filtered[currentFilteredIdx];
+    const targetItem = filtered[targetFilteredIdx];
+
+    // Find their indices in the master sections array
+    const masterIdxA = sections.findIndex((s) => s.id === currentItem.id || s.key === currentItem.key);
+    const masterIdxB = sections.findIndex((s) => s.id === targetItem.id || s.key === targetItem.key);
+
+    if (masterIdxA === -1 || masterIdxB === -1) return;
 
     const reorderedSections = [...sections];
-    const temp = reorderedSections[index];
-    reorderedSections[index] = reorderedSections[targetIdx];
-    reorderedSections[targetIdx] = temp;
+    const temp = reorderedSections[masterIdxA];
+    reorderedSections[masterIdxA] = reorderedSections[masterIdxB];
+    reorderedSections[masterIdxB] = temp;
+
+    // Normalize order_index values sequentially
+    reorderedSections.forEach((sec, idx) => {
+      sec.order_index = idx;
+    });
+
+    // Update local state immediately
+    setSections(reorderedSections);
 
     setIsActionLoading(true);
     setNotification(null);
 
     if (!isSupabaseConfigured || !supabase) {
-      // Just refresh context if not configured
       setTimeout(() => {
         setIsActionLoading(false);
         setNotification({ type: "success", text: "Sections reordered locally (Sandbox Mode)!" });
@@ -1125,7 +1147,7 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
                     {/* Move Controls */}
                     <div className="flex gap-1.5">
                       <button
-                        onClick={() => handleMoveSection(idx, "up")}
+                        onClick={() => handleMoveSection(sec.id, "up")}
                         disabled={idx === 0}
                         className="w-8 h-8 flex items-center justify-center bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white disabled:opacity-20 disabled:cursor-not-allowed rounded-lg transition-colors cursor-pointer"
                         title="Move Up"
@@ -1133,7 +1155,7 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
                         <MoveUp className="w-3.5 h-3.5" />
                       </button>
                       <button
-                        onClick={() => handleMoveSection(idx, "down")}
+                        onClick={() => handleMoveSection(sec.id, "down")}
                         disabled={idx === arr.length - 1}
                         className="w-8 h-8 flex items-center justify-center bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white disabled:opacity-20 disabled:cursor-not-allowed rounded-lg transition-colors cursor-pointer"
                         title="Move Down"

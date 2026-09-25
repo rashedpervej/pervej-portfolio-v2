@@ -139,6 +139,11 @@ function MainPortfolio() {
         isLight ? "portfolio-canvas bg-[#f0f3fa] text-zinc-900" : "bg-[#090a0f] text-zinc-100"
       }`}
     >
+      {/* Dynamic Custom CSS from Site Settings */}
+      {siteSettings.customCss && (
+        <style id="portfolio-custom-css" dangerouslySetInnerHTML={{ __html: siteSettings.customCss }} />
+      )}
+
       {/* Responsive Dynamic Atmospheric Background Stage */}
       <DynamicBackground />
 
