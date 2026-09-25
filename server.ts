@@ -74,7 +74,7 @@ async function startServer() {
       preview: {
         allowedHosts: true,
       },
-      appType: "spa",
+      appType: "custom",
     });
 
     // SPA HTML renderer with dynamic OG & Twitter meta tag injection

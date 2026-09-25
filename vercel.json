@@ -7,6 +7,17 @@
     },
     {
       "source": "/(.*)",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(.*(bot|crawler|spider|facebook|twitter|whatsapp|telegram|discord|slack|linkedin|preview|meta-tag-checker|nuxtseo|google|bing|yahoo|duckduckgo|curl|wget).*)"
+        }
+      ],
+      "destination": "/api/socialMeta"
+    },
+    {
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ],

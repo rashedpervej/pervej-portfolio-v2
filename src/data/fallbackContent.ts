@@ -1030,11 +1030,11 @@ export const FALLBACK_SECTIONS: SectionRecord[] = [
 ];
 
 export const FALLBACK_SITE_SETTINGS: SiteSettings = {
-  "seoTitle": "Rashed Pervej | Senior Visualizer Portfolio",
-  "seoDescription": "Portfolio of Rashed Pervej, Senior Visualizer specializing in Brand Identity, Packaging, and Motion Design.",
+  "seoTitle": "Rashed Pervej | Senior Visualizer & Graphic Designer | 7+ years",
+  "seoDescription": "Rashed Pervej (7+ years in Design) Senior Visualizer & Graphic Designer. Previously at Chaldal & Sheba.xyz. Specializing in Branding, Packaging and Visual design.",
   "seoKeywords": "portfolio, designer, visualizer, packaging, branding, motion graphics, bangladesh",
-  "ogTitle": "Rashed Pervej | Senior Visualizer Portfolio",
-  "ogDescription": "Award-winning portfolio of Rashed Pervej, Senior Visualizer & Graphic Designer specializing in brand identity, packaging, and motion graphics.",
+  "ogTitle": "Rashed Pervej | Senior Visualizer & Graphic Designer | 7+ years",
+  "ogDescription": "Rashed Pervej (7+ years in Design) Senior Visualizer & Graphic Designer. Previously at Chaldal & Sheba.xyz. Specializing in Branding, Packaging and Visual design.",
   "ogImage": "/og-image.jpg",
   "ogUrl": "",
   "backgroundStyle": "liquid",

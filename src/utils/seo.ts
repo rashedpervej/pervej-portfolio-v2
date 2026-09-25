@@ -105,9 +105,9 @@ export function getDisplayHostname(rawUrl?: string): string {
 export function syncDocumentSeo(settings: Partial<SiteSettings>): void {
   if (typeof document === "undefined") return;
 
-  const defaultTitle = "Rashed Pervej | Senior Visualizer Portfolio";
+  const defaultTitle = "Rashed Pervej | Senior Visualizer & Graphic Designer | 7+ years";
   const defaultDesc =
-    "Award-winning portfolio of Rashed Pervej, Senior Visualizer & Graphic Designer specializing in brand identity, packaging, and motion graphics.";
+    "Rashed Pervej (7+ years in Design) Senior Visualizer & Graphic Designer. Previously at Chaldal & Sheba.xyz. Specializing in Branding, Packaging and Visual design.";
 
   // 1. Primary SEO (Single Source of Truth)
   const primaryTitle = settings.seoTitle || defaultTitle;
