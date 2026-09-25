@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect, Suspense, lazy } from "react";
+import React, { useState, useEffect, useLayoutEffect, Suspense, lazy, Component, ReactNode, ErrorInfo } from "react";
 import { PortfolioProvider, usePortfolio } from "./context/PortfolioContext";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Header from "./components/Header";
@@ -27,15 +27,15 @@ const InvoiceMaker = lazy(() => import("./components/InvoiceMaker"));
 const AIChatBot = lazy(() => import("./components/AIChatBot"));
 const DynamicSection = lazy(() => import("./components/DynamicSection"));
 
-class AdminErrorBoundary extends React.Component<
-  { children: React.ReactNode },
+class AdminErrorBoundary extends Component<
+  { children: ReactNode },
   { hasError: boolean; error: Error | null }
 > {
   override state: { hasError: boolean; error: Error | null } = { hasError: false, error: null };
   static getDerivedStateFromError(error: Error) {
     return { hasError: true, error };
   }
-  override componentDidCatch(error: Error, info: React.ErrorInfo) {
+  override componentDidCatch(error: Error, info: ErrorInfo) {
     console.error("Admin portal render error caught:", error, info);
   }
   override render() {

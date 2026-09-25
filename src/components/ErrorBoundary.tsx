@@ -1,8 +1,8 @@
-import React from "react";
+import React, { Component, ReactNode, ErrorInfo } from "react";
 
 interface Props {
-  children: React.ReactNode;
-  fallback?: React.ReactNode;
+  children: ReactNode;
+  fallback?: ReactNode;
 }
 
 interface State {
@@ -10,7 +10,7 @@ interface State {
   error: Error | null;
 }
 
-export default class ErrorBoundary extends React.Component<Props, State> {
+export default class ErrorBoundary extends Component<Props, State> {
   public override state: State = {
     hasError: false,
     error: null,
