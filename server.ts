@@ -1,7 +1,19 @@
+import dotenv from "dotenv";
+// Load environment variables immediately before any routes or handlers are imported
+dotenv.config({ override: true });
+
+// If GEMINI_API_KEY has the container placeholder "MY_GEMINI_API_KEY", clean it up
+if (process.env.GEMINI_API_KEY === "MY_GEMINI_API_KEY") {
+  delete process.env.GEMINI_API_KEY;
+}
+if (process.env.VITE_GEMINI_API_KEY === "MY_GEMINI_API_KEY") {
+  delete process.env.VITE_GEMINI_API_KEY;
+}
+dotenv.config({ override: true });
+
 import fs from "fs";
 import express from "express";
 import path from "path";
-import dotenv from "dotenv";
 import { createServer as createViteServer } from "vite";
 import chatHandler from "./api/chat";
 import contactHandler from "./api/contact";
@@ -9,9 +21,6 @@ import { getLeads, updateLead, deleteLead } from "./api/leads";
 import healthHandler from "./api/health";
 import snapshotHandler from "./api/snapshot";
 import { injectSocialMeta } from "./api/socialMeta";
-
-// Load environment variables
-dotenv.config();
 
 // Initialize Express
 const app = express();

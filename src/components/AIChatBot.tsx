@@ -169,151 +169,60 @@ export default function AIChatBot() {
 
     const lowercaseText = cleanText.toLowerCase();
 
-    // 1. Check live published database FAQs/Knowledge Base from Supabase first
-    let dbFaqs: any[] | null = null;
-    if (isSupabaseConfigured && supabase) {
-      try {
-        const { data } = await supabase
-          .from("faq_knowledge_base")
-          .select("*")
-          .eq("status", "published");
+    // 1. If it is an explicit preset suggestion click, use fast FAQ lookup
+    const isExactPreset = initialSuggestions.includes(cleanText) || isPresetClick;
+    if (isExactPreset) {
+      let dbFaqs: any[] | null = null;
+      if (isSupabaseConfigured && supabase) {
+        try {
+          const { data } = await supabase
+            .from("faq_knowledge_base")
+            .select("*")
+            .eq("status", "published");
 
-        if (data && data.length > 0) {
-          dbFaqs = data;
-        }
-      } catch (err) {
-        console.warn("Failed checking dynamic database FAQs, using fallback FAQs:", err);
-      }
-    }
-
-    // Fallback to local persistent snapshot if DB is offline or returned empty
-    const availableFaqs = (dbFaqs && dbFaqs.length > 0)
-      ? dbFaqs
-      : getInitialFaqs().filter((f) => f.status === "published");
-
-    if (availableFaqs && availableFaqs.length > 0) {
-      let matchedFaq: any = null;
-      for (const faq of availableFaqs) {
-        const faqQuestion = (faq.question || "").toLowerCase();
-        const keywords: string[] = Array.isArray(faq.keywords)
-          ? faq.keywords
-          : typeof faq.keywords === "string"
-            ? JSON.parse(faq.keywords || "[]")
-            : [];
-
-        // Direct check: query is in the FAQ question or vice versa
-        if (lowercaseText.includes(faqQuestion) || faqQuestion.includes(lowercaseText)) {
-          matchedFaq = faq;
-          break;
-        }
-
-        // Keyword check
-        if (keywords.length > 0) {
-          const hasKeyword = keywords.find(kw => kw && lowercaseText.includes(kw.toLowerCase()));
-          if (hasKeyword) {
-            matchedFaq = faq;
-            break;
+          if (data && data.length > 0) {
+            dbFaqs = data;
           }
+        } catch (err) {
+          console.warn("Failed checking dynamic database FAQs, using fallback FAQs:", err);
         }
       }
 
-      if (matchedFaq) {
-        setIsLoading(true);
-        const responseTime = Date.now() - startTime;
-        setTimeout(() => {
-          const botMessage: Message = {
-            id: Math.random().toString(36).substring(7),
-            role: "model",
-            content: matchedFaq.answer,
-            timestamp: new Date()
-          };
-          setMessages((prev) => [...prev, botMessage]);
-          setIsLoading(false);
+      const availableFaqs = (dbFaqs && dbFaqs.length > 0)
+        ? dbFaqs
+        : getInitialFaqs().filter((f) => f.status === "published");
 
-          // Log interaction as Knowledge Base
-          logInteraction({
-            question: text,
-            answer: matchedFaq.answer,
-            source: "Knowledge Base",
-            responseTimeMs: responseTime,
-            tokenUsage: null
-          });
-        }, 100);
-        return;
+      if (availableFaqs && availableFaqs.length > 0) {
+        const matchedFaq = availableFaqs.find(
+          (f) => f.question && f.question.toLowerCase() === lowercaseText
+        );
+        if (matchedFaq) {
+          setIsLoading(true);
+          const responseTime = Date.now() - startTime;
+          setTimeout(() => {
+            const botMessage: Message = {
+              id: Math.random().toString(36).substring(7),
+              role: "model",
+              content: matchedFaq.answer,
+              timestamp: new Date()
+            };
+            setMessages((prev) => [...prev, botMessage]);
+            setIsLoading(false);
+
+            logInteraction({
+              question: text,
+              answer: matchedFaq.answer,
+              source: "Knowledge Base",
+              responseTimeMs: responseTime,
+              tokenUsage: null
+            });
+          }, 80);
+          return;
+        }
       }
     }
 
-    // 2. Check predefined local backup instant answers
-    let localResponse = "";
-    const isExactPreset = initialSuggestions.includes(cleanText);
-    const isFirstMessage = messages.length === 1;
-
-    if (isExactPreset || isFirstMessage) {
-      if (lowercaseText.includes("brands") && lowercaseText.includes("worked")) {
-        localResponse = "Rashed has partnered with prominent companies including **Chaldal Ltd.** (groceries & logistics), **Sheba Platform Ltd.** (FinTech & consumer services), and **Go Nature BD** (premium health & wellness). He also collaborates with international brands across the **USA** and **Belgium**.";
-      } else if (lowercaseText.includes("packaging")) {
-        localResponse = "Rashed excels in premium **Product Packaging** and **3D Dieline Renders**, especially for healthcare and supplements. At **Go Nature BD**, he established their visual identity, leading structure designs, print-ready artwork, and pre-press prep with print vendors.";
-      } else if (lowercaseText.includes("based")) {
-        localResponse = "Rashed is based in **Jashore, Bangladesh**. He works with clients locally and globally, offering flexible **Remote** and **Hybrid** creative collaboration tailored to different time zones.";
-      } else if (lowercaseText.includes("contact") || lowercaseText.includes("hire")) {
-        localResponse = "You can reach Rashed directly via email at **rashedpervej2011@gmail.com** or via WhatsApp/Phone at **+8801932623969**. You can also connect on **linkedin.com/in/rpervej** or view his full portfolio at **be.net/rashedpervej**.";
-      } else if (lowercaseText.includes("tools") || lowercaseText.includes("specialize")) {
-        localResponse = "His primary creative toolkit features **Adobe Photoshop**, **Adobe Illustrator**, and **Adobe After Effects** for premium visual layouts and motion design. He also incorporates **AI-Assisted Design** workflows to speed up production.";
-      }
-    }
-
-    if (localResponse) {
-      setIsLoading(true);
-      const responseTime = Date.now() - startTime;
-      setTimeout(() => {
-        const botMessage: Message = {
-          id: Math.random().toString(36).substring(7),
-          role: "model",
-          content: localResponse,
-          timestamp: new Date()
-        };
-        setMessages((prev) => [...prev, botMessage]);
-        setIsLoading(false);
-
-        // Log interaction as FAQ
-        logInteraction({
-          question: text,
-          answer: localResponse,
-          source: "FAQ",
-          responseTimeMs: responseTime,
-          tokenUsage: null
-        });
-      }, 80);
-      return;
-    }
-
-    // 3. Check client-side query cache to prevent redundant Gemini API calls
-    if (queryCache.current[lowercaseText]) {
-      setIsLoading(true);
-      const responseTime = Date.now() - startTime;
-      setTimeout(() => {
-        const botMessage: Message = {
-          id: Math.random().toString(36).substring(7),
-          role: "model",
-          content: queryCache.current[lowercaseText],
-          timestamp: new Date()
-        };
-        setMessages((prev) => [...prev, botMessage]);
-        setIsLoading(false);
-
-        // Log interaction as Gemini (cached)
-        logInteraction({
-          question: text,
-          answer: queryCache.current[lowercaseText],
-          source: "Gemini",
-          responseTimeMs: responseTime,
-          tokenUsage: null
-        });
-      }, 150);
-      return;
-    }
-
-    // 4. Contact Gemini Live API
+    // 2. Contact Backend AI Chat API
     setIsLoading(true);
 
     try {
@@ -335,8 +244,6 @@ export default function AIChatBot() {
       const data = await res.json();
       const responseText = data.text || "I'm sorry, I encountered an issue processing that request. Please try again.";
       const responseTime = Date.now() - startTime;
-
-      queryCache.current[lowercaseText] = responseText;
 
       const botMessage: Message = {
         id: Math.random().toString(36).substring(7),
